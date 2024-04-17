@@ -27,9 +27,11 @@ func HTTPWrappersForConfig(config *Config, rt http.RoundTripper) (http.RoundTrip
 
 type basicAuthRoundTripper struct {
 	username string
-	password string `datapolicy:"password"`
+	password string
 	rt       http.RoundTripper
 }
+
+var _ RoundTripperWrapper = &basicAuthRoundTripper{}
 
 func NewBasicAuthRoundTripper(username, password string, rt http.RoundTripper) http.RoundTripper {
 	return &basicAuthRoundTripper{username: username, password: password, rt: rt}
@@ -40,6 +42,7 @@ func (rt *basicAuthRoundTripper) RoundTrip(req *http.Request) (*http.Response, e
 		return rt.rt.RoundTrip(req)
 	}
 	req = CloneRequest(req)
+
 	req.SetBasicAuth(rt.username, rt.password)
 	return rt.rt.RoundTrip(req)
 }
@@ -84,6 +87,29 @@ func (rt *bearerAuthRoundTripper) RoundTrip(req *http.Request) (*http.Response, 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 	return rt.rt.RoundTrip(req)
 }
+
+//func (rt *bearerAuthRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+//	if len(req.Header.Get("Authorization")) != 0 {
+//		return rt.rt.RoundTrip(req)
+//	}
+//
+//	// 创建一个新的请求
+//	newReq, err := http.NewRequest(req.Method, req.URL.String(), req.Body)
+//	if err != nil {
+//		return nil, err
+//	}
+//	newReq.Header = req.Header.Clone()
+//	token := rt.bearer
+//
+//	if rt.source != nil {
+//		if refreshedToken, err := rt.source.Token(); err == nil {
+//			token = refreshedToken.AccessToken
+//		}
+//	}
+//	newReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+//	fmt.Println(token)
+//	return rt.rt.RoundTrip(newReq)
+//}
 
 func NewBearerAuthWithRefreshRoundTripper(bearer string, tokenFile string, rt http.RoundTripper) (http.RoundTripper, error) {
 	if len(tokenFile) == 0 {

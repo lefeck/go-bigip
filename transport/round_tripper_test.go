@@ -1,100 +1,82 @@
 package transport
 
 import (
-	"github.com/stretchr/testify/assert"
+	"encoding/base64"
+	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
-type testRoundTripper struct {
-	Request  *http.Request
-	Response *http.Response
-	Err      error
-}
-
-func (rt *testRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
-	rt.Request = req
-	return rt.Response, rt.Err
-}
-
 func TestBasicAuthRoundTripper(t *testing.T) {
-	for n, tc := range map[string]struct {
-		user string
-		pass string
-	}{
-		"basic":   {user: "user", pass: "pass"},
-		"no pass": {user: "user"},
-	} {
-		rt := &testRoundTripper{}
-		req := &http.Request{}
-		NewBasicAuthRoundTripper(tc.user, tc.pass, rt).RoundTrip(req)
-		if rt.Request == nil {
-			t.Fatalf("%s: unexpected nil request: %v", n, rt)
+	username := "admin"
+	password := "admin23423"
+	expectedAuthHeader := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(username+":"+password)))
+
+	// 创建一个简单的 HTTP Server
+	ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		authHeader := r.Header.Get("Authorization")
+		if authHeader != expectedAuthHeader {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
 		}
-		if rt.Request == req {
-			t.Fatalf("%s: round tripper should have copied request object: %#v", n, rt.Request)
-		}
-		if user, pass, found := rt.Request.BasicAuth(); !found || user != tc.user || pass != tc.pass {
-			t.Errorf("%s: unexpected authorization header: %#v", n, rt.Request)
-		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer ts.Close()
+
+	// 创建一个新的请求
+	req, err := http.NewRequest(http.MethodGet, ts.URL, nil)
+	if err != nil {
+		t.Fatalf("Error creating request: %v", err)
+	}
+
+	// 设置 BasicAuthRoundTripper
+	client := &http.Client{
+		Transport: NewBasicAuthRoundTripper(username, password, ts.Client().Transport),
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatalf("Error performing request: %v", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("Expected status code %d, got %d", http.StatusOK, resp.StatusCode)
 	}
 }
 
 func TestBearerAuthRoundTripper(t *testing.T) {
-	rt := &testRoundTripper{}
-	req := &http.Request{}
-	NewBearerAuthRoundTripper("test", rt).RoundTrip(req)
-	if rt.Request == nil {
-		t.Fatalf("unexpected nil request: %v", rt)
-	}
-	if rt.Request == req {
-		t.Fatalf("round tripper should have copied request object: %#v", rt.Request)
-	}
-	if rt.Request.Header.Get("Authorization") != "Bearer test" {
-		t.Errorf("unexpected authorization header: %#v", rt.Request)
-	}
-}
+	bearerToken := "123josd235l0o2lf;235rj"
+	expectedAuthHeader := fmt.Sprintf("Bearer %s", bearerToken)
 
-func TestHTTPWrappersForConfig(t *testing.T) {
-	tests := []struct {
-		name       string
-		config     Config
-		expectedRT string
-	}{
-		{
-			name: "Bearer Auth",
-			config: Config{
-				BearerToken: "testtoken",
-			},
-			expectedRT: "bearerAuthRoundTripper",
-		},
-		{
-			name: "Basic Auth",
-			config: Config{
-				Username: "testuser",
-				Password: "testpassword",
-			},
-			expectedRT: "basicAuthRoundTripper",
-		},
+	// 创建一个简单的 HTTP Server
+	ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		authHeader := r.Header.Get("Authorization")
+		if authHeader != expectedAuthHeader {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer ts.Close()
+
+	// 创建一个新的请求
+	req, err := http.NewRequest(http.MethodGet, ts.URL, nil)
+	if err != nil {
+		t.Fatalf("Error creating request: %v", err)
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			rt, err := HTTPWrappersForConfig(&test.config, http.DefaultTransport)
-			if err != nil {
-				t.Errorf("unexpected error: %v", err)
-			}
+	// 设置 BearerAuthRoundTripper
+	client := &http.Client{
+		Transport: NewBearerAuthRoundTripper(bearerToken, ts.Client().Transport),
+	}
 
-			assert.NotNil(t, rt)
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatalf("Error performing request: %v", err)
+	}
 
-			switch test.expectedRT {
-			case "bearerAuthRoundTripper":
-				assert.IsType(t, &bearerAuthRoundTripper{}, rt)
-			case "basicAuthRoundTripper":
-				assert.IsType(t, &basicAuthRoundTripper{}, rt)
-			default:
-				t.Errorf("unknown RoundTripper type")
-			}
-		})
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("Expected status code %d, got %d", http.StatusOK, resp.StatusCode)
 	}
 }

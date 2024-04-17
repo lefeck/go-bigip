@@ -6,13 +6,12 @@ import (
 
 // Config holds various options for establishing a transport.
 type Config struct {
-
 	// Username and password for basic authentication
 	Username string
-	Password string `datapolicy:"password"`
+	Password string
 
 	// Bearer token for authentication
-	BearerToken string `datapolicy:"token"`
+	BearerToken string
 
 	// Path to a file containing a BearerToken.
 	// If set, the contents are periodically read.

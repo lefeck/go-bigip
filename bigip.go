@@ -18,7 +18,6 @@ func NewSession(host, username, password string) (*BigIP, error) {
 			AcceptContentTypes: "application/json",
 			ContentType:        "application/json",
 		},
-		Timeout: 10 * time.Second,
 	}
 
 	restClient, err := restClientFor(config)
@@ -55,11 +54,18 @@ func NewToken(host, token string) (*BigIP, error) {
 func restClientFor(config *rest.Config) (*rest.RESTClient, error) {
 	// Setup HTTP client with authentication and custom transport
 	httpClient, err := rest.HTTPClientFor(config)
-	//rt := http.DefaultTransport
-	//httpClient, err := rest.HTTPWrappersForConfig(config, rt)
 	if err != nil {
 		return nil, err
 	}
 
 	return rest.RESTClientForConfigAndClient(config, httpClient)
 }
+
+//type TLSTransport struct {
+//	transport *http.Transport
+//}
+//
+//func (tlst *TLSTransport) DisableCertCheck() {
+//	// 我想添加https登陆不检查证书， 在之前的http.RoundTripper实现这个功能，给出代码
+//	tlst.transport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+//}

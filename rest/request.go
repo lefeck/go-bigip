@@ -3,19 +3,21 @@ package rest
 import (
 	"bytes"
 	"context"
-	"encoding/json"
-	"errors"
+	"encoding/hex"
 	"fmt"
 	"io"
+	"k8s.io/klog/v2"
+
 	"net/http"
 	"net/url"
+	"os"
 	"path"
 	"strings"
 	"time"
 )
 
 type Request struct {
-	C            *RESTClient
+	c            *RESTClient
 	timeout      time.Duration
 	maxRetries   int
 	verb         string
@@ -45,7 +47,7 @@ func NewRequest(c *RESTClient) *Request {
 		timeout = c.Client.Timeout
 	}
 	r := Request{
-		C:          c,
+		c:          c,
 		timeout:    timeout,
 		maxRetries: 10,
 		PathPrefix: pathPrefix,
@@ -175,8 +177,8 @@ func (r *Request) AbsPath(segments ...string) *Request {
 	if r.err != nil {
 		return r
 	}
-	r.PathPrefix = path.Join(r.C.Base.Path, path.Join(segments...))
-	if len(segments) == 1 && (len(r.C.Base.Path) > 1 || len(segments) > 1) && strings.HasSuffix(segments[0], "/") {
+	r.PathPrefix = path.Join(r.c.Base.Path, path.Join(segments...))
+	if len(segments) == 1 && (len(r.c.Base.Path) > 1 || len(segments) > 1) && strings.HasSuffix(segments[0], "/") {
 		r.PathPrefix += "/"
 	}
 	return r
@@ -273,52 +275,33 @@ func ValidatePathSegmentName(name string, prefix bool) []string {
 	return IsValidPathSegmentName(name)
 }
 
-func (r *Request) Partition(partition string) *Request {
-	if r.err != nil {
-		return r
-	}
-	if r.partitionSet {
-		r.err = fmt.Errorf("partition already set to %q, cannot change to %q", r.partitionSet, partition)
-		return r
-	}
-	if msgs := IsValidPathSegmentName(partition); len(msgs) != 0 {
-		r.err = fmt.Errorf("invalid namespace %q: %v", partition, msgs)
-		return r
-	}
-	r.partitionSet = true
-	r.partition = partition
-	return r
-}
+//func (r *Request) Partition(partition string) *Request {
+//	if r.err != nil {
+//		return r
+//	}
+//	if r.partitionSet {
+//		fmt.Errorf("partition already set to %q, cannot change to %q", r.partitionSet, partition)
+//		return r
+//	}
+//	if msgs := IsValidPathSegmentName(partition); len(msgs) != 0 {
+//		r.err = fmt.Errorf("invalid namespace %q: %v", partition, msgs)
+//		return r
+//	}
+//	r.partitionSet = true
+//	r.partition = partition
+//	return r
+//}
+//
+//// NamespaceIfScoped is a convenience function to set a namespace if scoped is true
+//func (r *Request) PartitionIfScoped(partition string, scoped bool) *Request {
+//	if scoped {
+//		return r.Partition(partition)
+//	}
+//	return r
+//}
 
-// NamespaceIfScoped is a convenience function to set a namespace if scoped is true
-func (r *Request) PartitionIfScoped(partition string, scoped bool) *Request {
-	if scoped {
-		return r.Partition(partition)
-	}
-	return r
-}
-
-func (r *Request) requestPreflightCheck() error {
-	if !r.partitionSet {
-		return nil
-	}
-	if len(r.partition) > 0 {
-		return nil
-	}
-
-	switch r.verb {
-	case "POST":
-		return fmt.Errorf("an empty partition may not be set during creation")
-	case "GET", "PUT", "DELETE":
-		if len(r.resourceName) > 0 {
-			return fmt.Errorf("an empty partition may not be set when a resource name is provided")
-		}
-	}
-	return nil
-}
-
-func (r *Request) Request(ctx context.Context, data interface{}) (*http.Response, error) {
-	client := r.C.Client
+func (r *Request) request(ctx context.Context, fn func(req *http.Request, resp *http.Response)) error {
+	client := r.c.Client
 	if client == nil {
 		client = http.DefaultClient
 	}
@@ -328,47 +311,201 @@ func (r *Request) Request(ctx context.Context, data interface{}) (*http.Response
 		defer cancel()
 	}
 
-	if err := r.requestPreflightCheck(); err != nil {
-		return nil, err
-	}
-
-	req, err := r.newHTTPRequest(data)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode >= 400 {
-		defer resp.Body.Close()
-		responseBody, err := io.ReadAll(resp.Body)
+	//if err := r.requestPreflightCheck(); err != nil {
+	//	return nil, err
+	//}
+	for {
+		req, err := r.newHTTPRequest(ctx)
 		if err != nil {
-			return nil, err
+			return err
+		}
+		resp, err := client.Do(req)
+		if err != nil {
+			return err
 		}
 
-		if strings.HasPrefix(resp.Header.Get("Content-Type"), "application/json") {
-			return nil, r.checkError(responseBody)
-		}
-		return nil, fmt.Errorf("HTTP %d :: %s", resp.StatusCode, string(responseBody))
-	}
-	return resp, nil
-}
+		done := func() bool {
 
-func (r *Request) checkError(resp []byte) error {
-	if len(resp) == 0 {
+			// if the server returns an error in err, the response will be nil.
+			f := func(req *http.Request, resp *http.Response) {
+				if resp == nil {
+					return
+				}
+				fn(req, resp)
+			}
+
+			f(req, resp)
+			return true
+		}()
+		if done {
+			return fmt.Errorf("http connect timeout %s", err)
+		}
 		return nil
 	}
+}
 
-	var reqError RequestInfo
-
-	err := json.Unmarshal(resp, &reqError)
-	if err != nil {
-		return fmt.Errorf("%s\n%s", err.Error(), string(resp[:]))
+// Body makes the request use obj as the body. Optional.
+// If obj is a string, try to read a file of that name.
+// If obj is a []byte, send it directly.
+// If obj is an io.Reader, use it directly.
+// Otherwise, set an error.
+func (r *Request) Body(obj interface{}) *Request {
+	if r.err != nil {
+		return r
 	}
-	return nil
+	switch t := obj.(type) {
+	case string:
+		data, err := os.ReadFile(t)
+		if err != nil {
+			r.err = err
+			return r
+		}
+		glogBody("Request Body", data)
+		r.body = nil
+		r.bodyBytes = data
+	case []byte:
+		glogBody("Request Body", t)
+		r.body = nil
+		r.bodyBytes = t
+	case io.Reader:
+		r.body = t
+		r.bodyBytes = nil
+	default:
+		r.err = fmt.Errorf("unknown type used for body: %+v", obj)
+	}
+	return r
+}
+
+func (r *Request) Do(ctx context.Context) Result {
+	var result Result
+	err := r.request(ctx, func(req *http.Request, resp *http.Response) {
+		result = r.transformResponse(resp, req)
+	})
+	if err != nil {
+		return Result{err: err}
+	}
+	if result.err == nil || len(result.body) > 0 {
+		return Result{err: err}
+	}
+	return result
+}
+
+// DoRaw executes the request but does not process the response body.
+func (r *Request) DoRaw(ctx context.Context) ([]byte, error) {
+	var result Result
+	err := r.request(ctx, func(req *http.Request, resp *http.Response) {
+		fmt.Println(req.URL, req.Method)
+		result.body, result.err = io.ReadAll(resp.Body)
+		glogBody("Response Body", result.body)
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return result.body, result.err
+}
+
+// transformResponse converts an API response into a structured API object
+func (r *Request) transformResponse(resp *http.Response, req *http.Request) Result {
+	var body []byte
+	if resp.Body != nil {
+		data, err := io.ReadAll(resp.Body)
+		switch err.(type) {
+		case nil:
+			body = data
+		default:
+			klog.Errorf("Unexpected error when reading response body: %v", err)
+			unexpectedErr := fmt.Errorf("unexpected error when reading response body. Please retry. Original error: %w", err)
+			return Result{
+				err: unexpectedErr,
+			}
+		}
+	}
+
+	glogBody("Response Body", body)
+
+	contentType := resp.Header.Get("Content-Type")
+	if len(contentType) == 0 {
+		contentType = r.c.content.ContentType
+	}
+	if len(contentType) > 0 {
+		var err error
+		if err != nil {
+			// if we fail to negotiate a decoder, treat this as an unstructured error
+			switch {
+			case resp.StatusCode == http.StatusSwitchingProtocols:
+				// no-op, we've been upgraded
+			case resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent:
+				return Result{}
+			}
+			return Result{
+				body:        body,
+				contentType: contentType,
+				statusCode:  resp.StatusCode,
+			}
+		}
+	}
+
+	switch {
+	case resp.StatusCode == http.StatusSwitchingProtocols:
+		// no-op, we've been upgraded
+	case resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent:
+
+		return Result{
+			body:        body,
+			contentType: contentType,
+			statusCode:  resp.StatusCode,
+		}
+	}
+
+	return Result{
+		body:        body,
+		contentType: contentType,
+		statusCode:  resp.StatusCode,
+	}
+}
+
+// Result contains the result of calling Request.Do().
+type Result struct {
+	body        []byte
+	contentType string
+	err         error
+	statusCode  int
+}
+
+// truncateBody decides if the body should be truncated, based on the glog Verbosity.
+// truncateBody 会根据 glog Verbosity（语义强度）决定是否截断正文。
+func truncateBody(body string) string {
+	max := 0
+	switch {
+	case bool(klog.V(10).Enabled()):
+		return body
+	case bool(klog.V(9).Enabled()):
+		max = 10240
+	case bool(klog.V(8).Enabled()):
+		max = 1024
+	}
+
+	if len(body) <= max {
+		return body
+	}
+
+	return body[:max] + fmt.Sprintf(" [truncated %d chars]", len(body)-max)
+}
+
+// glogBody logs a body output that could be either JSON or protobuf. It explicitly guards against
+// allocating a new string for the body output unless necessary. Uses a simple heuristic to determine
+// whether the body is printable.
+func glogBody(prefix string, body []byte) {
+	if klogV := klog.V(8); klogV.Enabled() {
+		if bytes.IndexFunc(body, func(r rune) bool {
+			return r < 0x0a
+		}) != -1 {
+			klog.Infof("%s:\n%s", prefix, truncateBody(hex.Dump(body)))
+		} else {
+			klog.Infof("%s: %s", prefix, truncateBody(string(body)))
+		}
+	}
 }
 
 // URL returns the current working URL. Check the result of Error() to ensure
@@ -387,8 +524,8 @@ func (r *Request) URL() *url.URL {
 	}
 
 	finalURL := &url.URL{}
-	if r.C.Base != nil {
-		*finalURL = *r.C.Base
+	if r.c.Base != nil {
+		*finalURL = *r.c.Base
 	}
 	finalURL.Path = p
 
@@ -407,7 +544,7 @@ func (r *Request) URL() *url.URL {
 	return finalURL
 }
 
-func (r *Request) newHTTPRequest(data interface{}) (*http.Request, error) {
+func (r *Request) newHTTPRequest(ctx context.Context) (*http.Request, error) {
 	var body io.Reader
 	switch {
 	case r.body != nil && r.bodyBytes != nil:
@@ -418,78 +555,13 @@ func (r *Request) newHTTPRequest(data interface{}) (*http.Request, error) {
 		// Create a new reader specifically for this request.
 		// Giving each request a dedicated reader allows retries to avoid races resetting the request body.
 		body = bytes.NewReader(r.bodyBytes)
-	default:
-		if data != nil {
-			bodyBytes, err := json.Marshal(data)
-			if err != nil {
-				return nil, err
-			}
-			body = bytes.NewReader(bodyBytes)
-		}
 	}
-
 	url := r.URL().String()
-	req, err := http.NewRequest(r.verb, url, body)
+	fmt.Println(body)
+	req, err := http.NewRequestWithContext(ctx, r.verb, url, body)
 	if err != nil {
 		return nil, err
 	}
 	req.Header = r.headers
 	return req, nil
-}
-
-//func (r *Request) Do(req *http.Request) (*http.Response, error) {
-//	resp, err := r.c.Client.Do(req)
-//	if err != nil {
-//		return nil, err
-//	}
-//	if resp.StatusCode == 401 {
-//		if err := c.authType(req); err != nil {
-//			return nil, fmt.Errorf("cannot re-authenticate after 401: %v", err)
-//		}
-//	}
-//	return resp, err
-//}
-
-// todo: otherwise remove, waiting for....
-func (r *Request) Errors(resp *http.Response) error {
-	if resp.StatusCode >= 400 {
-		if contentType := resp.Header.Get("Content-Type"); !strings.Contains(contentType, "application/json") {
-			return errors.New("http response error: " + resp.Status)
-		}
-		errResp, err := NewRequestError(resp.Body)
-		if err != nil {
-			return errors.New("cannot read error message from response body: " + err.Error())
-		}
-		return errResp
-	}
-	return nil
-}
-
-type RequestInfo struct {
-	Code     int      `json:"code,omitempty"`
-	Message  string   `json:"message,omitempty"`
-	ErrStack []string `json:"errorStack,omitempty"`
-}
-
-// NewRequestError unmarshal a RequestError from a HTTP response body.
-func NewRequestError(body io.Reader) (*RequestInfo, error) {
-	var reqErr RequestInfo
-	dec := json.NewDecoder(body)
-	if err := dec.Decode(&reqErr); err != nil {
-		return nil, fmt.Errorf("failed to decode request error: %v", err)
-	}
-	return &reqErr, nil
-}
-
-// Error implements the errors.Error interface
-func (err RequestInfo) Error() string {
-	return fmt.Sprintf("%s (code: %d)", err.Message, err.Code)
-}
-
-func (err RequestInfo) String() string {
-	buf := bytes.NewBufferString(err.Error())
-	for _, es := range err.ErrStack {
-		buf.WriteString("\n   " + es)
-	}
-	return buf.String()
 }

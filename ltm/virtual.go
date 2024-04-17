@@ -5,12 +5,7 @@
 package ltm
 
 import (
-	"context"
-	"encoding/json"
-	"github.com/e-XpertSolutions/f5-rest-client/f5"
 	"github.com/lefeck/bigip"
-	"net/http"
-	"net/url"
 )
 
 type Persistence struct {
@@ -104,203 +99,165 @@ type VirtualResource struct {
 	c *bigip.BigIP
 }
 
-// ListAll lists all the virtual server urations.
-func (vr *VirtualResource) List() (*VirtualServerList, error) {
-	resp, err := vr.c.RestClient.Get().Request(context.Background(), nil)
-	//resp, err := vr.doRequest("GET", "", nil)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return nil, err
-	}
-	var vsc VirtualServerList
-	dec := json.NewDecoder(resp.Body)
-	if err := dec.Decode(&vsc); err != nil {
-		return nil, err
-	}
-	return &vsc, nil
-}
-
-// ListAllWithParams lists all the virtual server urations.
-func (vr *VirtualResource) ListAllWithParams(v url.Values) (*VirtualServerList, error) {
-	params := v.Encode()
-
-	resp, err := vr.doRequest("GET", "?"+params, nil)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return nil, err
-	}
-	var vsc VirtualServerList
-	dec := json.NewDecoder(resp.Body)
-	if err := dec.Decode(&vsc); err != nil {
-		return nil, err
-	}
-	return &vsc, nil
-}
-
-// Get a single virtual server uration identified by id.
-func (vr *VirtualResource) Get(id string) (*VirtualServer, error) {
-	resp, err := vr.doRequest("GET", id, nil)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return nil, err
-	}
-	var vsci VirtualServer
-	dec := json.NewDecoder(resp.Body)
-	if err := dec.Decode(&vsci); err != nil {
-		return nil, err
-	}
-	return &vsci, nil
-}
+//
+//// ListAll lists all the virtual server urations.
+//func (vr *VirtualResource) List() (*VirtualServerList, error) {
+//	resp, err := vr.c.RestClient.Get().Request(context.Background(), nil)
+//	//resp, err := vr.doRequest("GET", "", nil)
+//	if err != nil {
+//		return nil, err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return nil, err
+//	}
+//	var vsc VirtualServerList
+//	dec := json.NewDecoder(resp.Body)
+//	if err := dec.Decode(&vsc); err != nil {
+//		return nil, err
+//	}
+//	return &vsc, nil
+//}
+//
+//// ListAllWithParams lists all the virtual server urations.
+//func (vr *VirtualResource) ListAllWithParams(v url.Values) (*VirtualServerList, error) {
+//	params := v.Encode()
+//
+//	resp, err := vr.doRequest("GET", "?"+params, nil)
+//	if err != nil {
+//		return nil, err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return nil, err
+//	}
+//	var vsc VirtualServerList
+//	dec := json.NewDecoder(resp.Body)
+//	if err := dec.Decode(&vsc); err != nil {
+//		return nil, err
+//	}
+//	return &vsc, nil
+//}
+//
+//// Get a single virtual server uration identified by id.
+//func (vr *VirtualResource) Get(id string) (*VirtualServer, error) {
+//	resp, err := vr.doRequest("GET", id, nil)
+//	if err != nil {
+//		return nil, err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return nil, err
+//	}
+//	var vsci VirtualServer
+//	dec := json.NewDecoder(resp.Body)
+//	if err := dec.Decode(&vsci); err != nil {
+//		return nil, err
+//	}
+//	return &vsci, nil
+//}
 
 // Create a new virtual server uration.
-func (vr *VirtualResource) Create(item VirtualServer) error {
-	if err := vr.c.ModQuery("POST", BasePath+VirtualEndpoint, item); err != nil {
-		return err
-	}
-	return nil
-}
+//func (vr *VirtualResource) Create(item VirtualServer) error {
+//	if err := vr.c.ModQuery("POST", BasePath+VirtualEndpoint, item); err != nil {
+//		return err
+//	}
+//	return nil
+//}
 
 // Edit a virtual server uration identified by id.
-func (vr *VirtualResource) Edit(id string, item VirtualServer) error {
-	resp, err := vr.doRequest("PUT", id, item)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return err
-	}
-	return nil
-}
-
-// Enabling a virtual server item identified by id.
-func (vr *VirtualResource) Enable(id string) error {
-	item := VirtualServer{Enabled: true}
-	resp, err := vr.doRequest("PATCH", id, item)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return err
-	}
-	return nil
-}
-
-// Disabling a virtual server item identified by id.
-func (vr *VirtualResource) Disable(id string) error {
-	item := VirtualServer{Disabled: true}
-	resp, err := vr.doRequest("PATCH", id, item)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return err
-	}
-	return nil
-}
-
-// Delete a single server uration identified by id.
-func (vr *VirtualResource) Delete(id string) error {
-
-	resp, err := vr.doRequest("DELETE", id, nil)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return err
-	}
-	return nil
-}
-
-// Rules gets the iRules uration for a virtual server identified by id.
-func (vr *VirtualResource) Rules(id string) ([]Rule, error) {
-	resp, err := vr.doRequest("GET", id+"/rule", nil)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return nil, err
-	}
-	var rules []Rule
-	dec := json.NewDecoder(resp.Body)
-	if err := dec.Decode(&rules); err != nil {
-		return nil, err
-	}
-	return rules, nil
-}
-
-// AddRule adds an iRule to the virtual server identified by id.
-func (vr *VirtualResource) AddRule(id string, rule Rule) error {
-	resp, err := vr.doRequest("POST", id+"/rule", rule)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return err
-	}
-	return nil
-}
-
-// RemoveRule removes a single  iRule from the virtual server identified by id.
-func (vr *VirtualResource) RemoveRule(vsID, ruleID string) error {
-	resp, err := vr.doRequest("DELETE", vsID+"/rule/"+ruleID, nil)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	if err := vr.readError(resp); err != nil {
-		return err
-	}
-	return nil
-}
-
-// doRequest creates and send HTTP request using the F5 client.
+//func (vr *VirtualResource) Edit(id string, item VirtualServer) error {
+//	resp, err := vr.doRequest("PUT", id, item)
+//	if err != nil {
+//		return err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return err
+//	}
+//	return nil
+//}
 //
-// TODO(gilliek): decorate errors
-func (vr *VirtualResource) doRequest(method, id string, data interface{}) (*http.Response, error) {
-	req, err := vr.c.MakeRequest(method, BasePath+VirtualEndpoint+"/"+id, data)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := vr.c.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-
-// readError reads request error object from a HTTP response.
+//// Enabling a virtual server item identified by id.
+//func (vr *VirtualResource) Enable(id string) error {
+//	item := VirtualServer{Enabled: true}
+//	resp, err := vr.doRequest("PATCH", id, item)
+//	if err != nil {
+//		return err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return err
+//	}
+//	return nil
+//}
 //
-// TODO(gilliek): move this function into F5 package.
-func (vr *VirtualResource) readError(resp *http.Response) error {
-	if resp.StatusCode >= 400 {
-		errResp, err := f5.NewRequestError(resp.Body)
-		if err != nil {
-			return err
-		}
-		return errResp
-	}
-	return nil
-}
-
-func (vr *VirtualResource) ShowStats(id string) (*VirtualStatsList, error) {
-	var item VirtualStatsList
-	if err := vr.c.ReadQuery(BasePath+VirtualEndpoint+"/"+id+"/stats", &item); err != nil {
-		return nil, err
-	}
-	return &item, nil
-}
+//// Disabling a virtual server item identified by id.
+//func (vr *VirtualResource) Disable(id string) error {
+//	item := VirtualServer{Disabled: true}
+//	resp, err := vr.doRequest("PATCH", id, item)
+//	if err != nil {
+//		return err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return err
+//	}
+//	return nil
+//}
+//
+//// Delete a single server uration identified by id.
+//func (vr *VirtualResource) Delete(id string) error {
+//
+//	resp, err := vr.doRequest("DELETE", id, nil)
+//	if err != nil {
+//		return err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return err
+//	}
+//	return nil
+//}
+//
+//// RemoveRule removes a single  iRule from the virtual server identified by id.
+//func (vr *VirtualResource) RemoveRule(vsID, ruleID string) error {
+//	resp, err := vr.doRequest("DELETE", vsID+"/rule/"+ruleID, nil)
+//	if err != nil {
+//		return err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return err
+//	}
+//	return nil
+//}
+//
+//// doRequest creates and send HTTP request using the F5 client.
+////
+//// TODO(gilliek): decorate errors
+//func (vr *VirtualResource) doRequest(method, id string, data interface{}) (*http.Response, error) {
+//	req, err := vr.c.MakeRequest(method, BasePath+VirtualEndpoint+"/"+id, data)
+//	if err != nil {
+//		return nil, err
+//	}
+//	resp, err := vr.c.Do(req)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return resp, nil
+//}
+//
+//// readError reads request error object from a HTTP response.
+////
+//// TODO(gilliek): move this function into F5 package.
+//func (vr *VirtualResource) readError(resp *http.Response) error {
+//	if resp.StatusCode >= 400 {
+//		errResp, err := f5.NewRequestError(resp.Body)
+//		if err != nil {
+//			return err
+//		}
+//		return errResp
+//	}
+//	return nil
+//}

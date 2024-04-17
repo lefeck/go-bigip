@@ -2,6 +2,7 @@ package transport
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net/http"
 )
@@ -10,13 +11,12 @@ func New(config *Config) (http.RoundTripper, error) {
 	if config.Transport != nil {
 		return nil, fmt.Errorf("using a custom transport with TLS certificate options or the insecure flag is not allowed")
 	}
-	var rt http.RoundTripper
 
-	if config.Transport != nil {
-		rt = config.Transport
-	}
+	// clone a new http.Transport connect, and settting InsecureSkipVerify is true.
+	customTransport := http.DefaultTransport.(*http.Transport).Clone()
+	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
-	return HTTPWrappersForConfig(config, rt)
+	return HTTPWrappersForConfig(config, http.DefaultTransport)
 }
 
 // WrapperFunc wraps an http.RoundTripper when a new transport
