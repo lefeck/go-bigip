@@ -60,12 +60,3 @@ func restClientFor(config *rest.Config) (*rest.RESTClient, error) {
 
 	return rest.RESTClientForConfigAndClient(config, httpClient)
 }
-
-//type TLSTransport struct {
-//	transport *http.Transport
-//}
-//
-//func (tlst *TLSTransport) DisableCertCheck() {
-//	// 我想添加https登陆不检查证书， 在之前的http.RoundTripper实现这个功能，给出代码
-//	tlst.transport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-//}
