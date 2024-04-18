@@ -5,72 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/ltm/const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bigip.go" beforeDir="false" afterPath="$PROJECT_DIR$/bigip.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errors.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/datagroup_internal.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/example_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/ifile.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/ltm.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ltm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_diameter.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_dns.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_external.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_firepass.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_ftp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_gateway_icmp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_http.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_https.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_icmp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_imap.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_inband.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_ldap.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_module_score.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_mssql.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_mysql.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_nntp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_oracle.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_pop3.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_postgresql.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_radius.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_radius_accounting.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_realserver.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_rpc.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_sasp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_scripted.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_sip.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_smb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_smtp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_snmp_dca.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_snmp_dca_base.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_soap.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_tcp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_tcp_echo.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_tcp_half_open.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_udp.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_virtual_location.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_wap.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor_wmi.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/node.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/node_stats.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/pool.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/pool_members.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/pool_stats.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile_client_ssl.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile_client_ssl_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/rule.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/virtual.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/virtual_address.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual_stats.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rest/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rest/request_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/bigip.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/bigip.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/url.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/round_tripper.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/round_tripper_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest/url_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/url_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/bigip.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/url.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/transport/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/transport.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -142,7 +88,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.go build github.com/lefeck/bigip/example">
+  <component name="RunManager" selected="Go 构建.go build main.go">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -150,15 +96,6 @@
       <package value="github.com/lefeck/go-bigip" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build bigip.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="bigip" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/bigip.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build github.com/lefeck/bigip/example" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -179,24 +116,6 @@
       <filePath value="$PROJECT_DIR$/example/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go build request.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="bigip" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/rest/request.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build virtual_address.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="bigip" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/ltm/virtual_address.go" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -207,13 +126,49 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <configuration name="github.com/lefeck/bigip/rest 中的 TestAbsPath" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bigip" />
+      <working_directory value="$PROJECT_DIR$/rest" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/bigip/rest" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestAbsPath\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="github.com/lefeck/bigip/rest 中的 TestDefaultServerURL" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bigip" />
+      <working_directory value="$PROJECT_DIR$/rest" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/bigip/rest" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDefaultServerURL\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="github.com/lefeck/bigip/rest 中的 TestDefaultServerURL/Missing_host" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bigip" />
+      <working_directory value="$PROJECT_DIR$/rest" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/bigip/rest" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDefaultServerURL\E$/^\QMissing_host\E$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go 构建.go build github.com/lefeck/bigip/example" />
-        <item itemvalue="Go 构建.go build virtual_address.go" />
         <item itemvalue="Go 构建.go build main.go" />
-        <item itemvalue="Go 构建.go build request.go" />
-        <item itemvalue="Go 构建.go build bigip.go" />
+        <item itemvalue="Go 测试.github.com/lefeck/bigip/rest 中的 TestAbsPath" />
+        <item itemvalue="Go 构建.go build github.com/lefeck/bigip/example" />
+        <item itemvalue="Go 测试.github.com/lefeck/bigip/rest 中的 TestDefaultServerURL" />
+        <item itemvalue="Go 测试.github.com/lefeck/bigip/rest 中的 TestDefaultServerURL/Missing_host" />
       </list>
     </recent_temporary>
   </component>
@@ -221,19 +176,14 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="v0.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2" />
+  </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/test/bigip.go</url>
-          <line>528</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="GoApplicationRunConfiguration">
         <watch expression="*(*&quot;string&quot;)(824635048264)" />

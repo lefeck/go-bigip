@@ -13,10 +13,12 @@ func New(config *Config) (http.RoundTripper, error) {
 	}
 
 	// clone a new http.Transport connect, and settting InsecureSkipVerify is true.
+
 	customTransport := http.DefaultTransport.(*http.Transport).Clone()
 	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
-	return HTTPWrappersForConfig(config, http.DefaultTransport)
+	// Use customTransport instead of http.DefaultTransport
+	return HTTPWrappersForConfig(config, customTransport)
 }
 
 // WrapperFunc wraps an http.RoundTripper when a new transport

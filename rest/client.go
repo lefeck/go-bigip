@@ -18,14 +18,8 @@ type Interface interface {
 
 // ClientContentConfig controls how RESTClient communicates with the server.
 type ClientContentConfig struct {
-	// AcceptContentTypes specifies the types the client will accept and is optional.
-	// If not set, ContentType will be used to define the Accept header
 	AcceptContentTypes string
-	// ContentType specifies the wire format used to communicate with the server.
-	// This value will be set as the Accept header on requests made to the server if
-	// AcceptContentTypes is not set, and as the default content type on any object
-	// sent to the server. If not set, "application/json" is used.
-	ContentType string
+	ContentType        string
 }
 
 type RESTClient struct {

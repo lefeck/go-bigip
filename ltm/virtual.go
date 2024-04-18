@@ -1,10 +1,9 @@
-// Copyright 2016 e-Xpert Solutions SA. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package ltm
 
 import (
+	"bytes"
+	"context"
+	"encoding/json"
 	"github.com/lefeck/bigip"
 )
 
@@ -85,39 +84,27 @@ type Profile struct {
 	Context string `json:"context,omitempty"`
 }
 
-// VirtualEndpoint represents the REST resource for managing virtual server.
-const VirtualEndpoint = "/virtual"
-
-// VirtualResponse provide a simple mechanism to read paginated results.
-//
-// TODO(gilliek): use VirtualResponse object where pagination is needed.
-type VirtualResponse struct {
-}
-
 // VirtualResource provides an API to manage virtual server urations.
 type VirtualResource struct {
-	c *bigip.BigIP
+	b *bigip.BigIP
 }
 
-//
-//// ListAll lists all the virtual server urations.
-//func (vr *VirtualResource) List() (*VirtualServerList, error) {
-//	resp, err := vr.c.RestClient.Get().Request(context.Background(), nil)
-//	//resp, err := vr.doRequest("GET", "", nil)
-//	if err != nil {
-//		return nil, err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return nil, err
-//	}
-//	var vsc VirtualServerList
-//	dec := json.NewDecoder(resp.Body)
-//	if err := dec.Decode(&vsc); err != nil {
-//		return nil, err
-//	}
-//	return &vsc, nil
-//}
+// ListAll lists all the virtual server urations.
+func (vr *VirtualResource) List() (*VirtualServerList, error) {
+	resp, err := vr.b.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualEndpoint).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	var vsl VirtualServerList
+	reader := bytes.NewReader(resp)
+	dec := json.NewDecoder(reader)
+	if err := dec.Decode(&vsl); err != nil {
+		return nil, err
+	}
+	return &vsl, nil
+}
+
 //
 //// ListAllWithParams lists all the virtual server urations.
 //func (vr *VirtualResource) ListAllWithParams(v url.Values) (*VirtualServerList, error) {
@@ -138,24 +125,22 @@ type VirtualResource struct {
 //	}
 //	return &vsc, nil
 //}
-//
-//// Get a single virtual server uration identified by id.
-//func (vr *VirtualResource) Get(id string) (*VirtualServer, error) {
-//	resp, err := vr.doRequest("GET", id, nil)
-//	if err != nil {
-//		return nil, err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return nil, err
-//	}
-//	var vsci VirtualServer
-//	dec := json.NewDecoder(resp.Body)
-//	if err := dec.Decode(&vsci); err != nil {
-//		return nil, err
-//	}
-//	return &vsci, nil
-//}
+
+// Get a single virtual server uration identified by id.
+func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
+	resp, err := vr.b.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualEndpoint).Suffix(Suffix).ResourceNameFullPath(fullPathName).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	var vs VirtualServer
+	reader := bytes.NewReader(resp)
+	dec := json.NewDecoder(reader)
+	if err := dec.Decode(&vs); err != nil {
+		return nil, err
+	}
+	return &vs, nil
+}
 
 // Create a new virtual server uration.
 //func (vr *VirtualResource) Create(item VirtualServer) error {

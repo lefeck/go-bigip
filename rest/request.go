@@ -3,7 +3,6 @@ package rest
 import (
 	"bytes"
 	"context"
-	"encoding/hex"
 	"fmt"
 	"io"
 	"k8s.io/klog/v2"
@@ -17,22 +16,21 @@ import (
 )
 
 type Request struct {
-	c            *RESTClient
-	timeout      time.Duration
-	maxRetries   int
-	verb         string
-	PathPrefix   string
-	subpath      string
-	params       url.Values
-	headers      http.Header
-	partition    string
-	partitionSet bool
-	resource     string
-	subResource  string
-	resourceName string
-	body         io.Reader
-	bodyBytes    []byte
-	err          error
+	c           *RESTClient
+	timeout     time.Duration
+	maxRetries  int
+	verb        string
+	pathPrefix  string
+	subpath     string
+	params      url.Values
+	headers     http.Header
+	fullPath    string
+	resource    string
+	subResource string
+	managerName string
+	body        io.Reader
+	bodyBytes   []byte
+	err         error
 }
 
 func NewRequest(c *RESTClient) *Request {
@@ -50,7 +48,7 @@ func NewRequest(c *RESTClient) *Request {
 		c:          c,
 		timeout:    timeout,
 		maxRetries: 10,
-		PathPrefix: pathPrefix,
+		pathPrefix: pathPrefix,
 	}
 	switch {
 	case len(c.content.AcceptContentTypes) > 0:
@@ -89,7 +87,7 @@ func (r *Request) Prefix(segments ...string) *Request {
 	if r.err != nil {
 		return r
 	}
-	r.PathPrefix = path.Join(r.PathPrefix, path.Join(segments...))
+	r.pathPrefix = path.Join(r.pathPrefix, path.Join(segments...))
 	return r
 }
 
@@ -135,41 +133,48 @@ func (r *Request) SubResource(subResources ...string) *Request {
 	r.subResource = subResource
 	return r
 }
-func (r *Request) SubResourcePath(parts []string) string {
-	var buffer bytes.Buffer
-	var lastPath int
-	if strings.HasPrefix(parts[len(parts)-1], "?") {
-		lastPath = len(parts) - 2
-	} else {
-		lastPath = len(parts) - 1
-	}
-	for i, p := range parts {
-		buffer.WriteString(strings.Replace(p, "/", "~", -1))
-		if i < lastPath {
-			buffer.WriteString("/")
-		}
-	}
-	return buffer.String()
-}
 
-// Name sets the name of a resource to access (<resource>/[ns/<namespace>/]<name>)
-func (r *Request) Name(resourceName string) *Request {
+func (r *Request) ResourceNameFullPath(fullPaths ...string) *Request {
 	if r.err != nil {
 		return r
 	}
-	if len(resourceName) == 0 {
+	fullPath := path.Join(fullPaths...)
+	if len(r.fullPath) != 0 {
+		fmt.Errorf("fullPath already set to %q, cannot change to %q", r.fullPath, fullPath)
+		return r
+	}
+	newfullPath := replaceSlashInSubPath(fullPath)
+	r.fullPath = newfullPath
+
+	return r
+}
+
+func replaceSlashInSubPath(path string) string {
+	parts := strings.Split(path, "/")
+	for i := 1; i < len(parts); i++ {
+		parts[i] = strings.ReplaceAll(parts[i], "/", "~")
+	}
+	return strings.Join(parts, "~")
+}
+
+// Name sets the name of a resource to access (<resource>/[ns/<namespace>/]<name>)
+func (r *Request) ManagerName(managerName string) *Request {
+	if r.err != nil {
+		return r
+	}
+	if len(managerName) == 0 {
 		r.err = fmt.Errorf("resource name may not be empty")
 		return r
 	}
-	if len(r.resourceName) != 0 {
-		r.err = fmt.Errorf("resource name already set to %q, cannot change to %q", r.resourceName, resourceName)
+	if len(r.managerName) != 0 {
+		r.err = fmt.Errorf("resource name already set to %q, cannot change to %q", r.managerName, managerName)
 		return r
 	}
-	if msgs := IsValidPathSegmentName(resourceName); len(msgs) != 0 {
-		r.err = fmt.Errorf("invalid resource name %q: %v", resourceName, msgs)
+	if msgs := IsValidPathSegmentName(managerName); len(msgs) != 0 {
+		r.err = fmt.Errorf("invalid resource name %q: %v", managerName, msgs)
 		return r
 	}
-	r.resourceName = resourceName
+	r.managerName = managerName
 	return r
 }
 
@@ -177,9 +182,9 @@ func (r *Request) AbsPath(segments ...string) *Request {
 	if r.err != nil {
 		return r
 	}
-	r.PathPrefix = path.Join(r.c.Base.Path, path.Join(segments...))
+	r.pathPrefix = path.Join(r.c.Base.Path, path.Join(segments...))
 	if len(segments) == 1 && (len(r.c.Base.Path) > 1 || len(segments) > 1) && strings.HasSuffix(segments[0], "/") {
-		r.PathPrefix += "/"
+		r.pathPrefix += "/"
 	}
 	return r
 }
@@ -275,22 +280,6 @@ func ValidatePathSegmentName(name string, prefix bool) []string {
 	return IsValidPathSegmentName(name)
 }
 
-//func (r *Request) Partition(partition string) *Request {
-//	if r.err != nil {
-//		return r
-//	}
-//	if r.partitionSet {
-//		fmt.Errorf("partition already set to %q, cannot change to %q", r.partitionSet, partition)
-//		return r
-//	}
-//	if msgs := IsValidPathSegmentName(partition); len(msgs) != 0 {
-//		r.err = fmt.Errorf("invalid namespace %q: %v", partition, msgs)
-//		return r
-//	}
-//	r.partitionSet = true
-//	r.partition = partition
-//	return r
-//}
 //
 //// NamespaceIfScoped is a convenience function to set a namespace if scoped is true
 //func (r *Request) PartitionIfScoped(partition string, scoped bool) *Request {
@@ -314,34 +303,21 @@ func (r *Request) request(ctx context.Context, fn func(req *http.Request, resp *
 	//if err := r.requestPreflightCheck(); err != nil {
 	//	return nil, err
 	//}
-	for {
-		req, err := r.newHTTPRequest(ctx)
-		if err != nil {
-			return err
-		}
-		resp, err := client.Do(req)
-		if err != nil {
-			return err
-		}
 
-		done := func() bool {
-
-			// if the server returns an error in err, the response will be nil.
-			f := func(req *http.Request, resp *http.Response) {
-				if resp == nil {
-					return
-				}
-				fn(req, resp)
-			}
-
-			f(req, resp)
-			return true
-		}()
-		if done {
-			return fmt.Errorf("http connect timeout %s", err)
-		}
-		return nil
+	req, err := r.newHTTPRequest(ctx)
+	if err != nil {
+		return err
 	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	fn(req, resp)
+
+	return nil
 }
 
 // Body makes the request use obj as the body. Optional.
@@ -360,11 +336,9 @@ func (r *Request) Body(obj interface{}) *Request {
 			r.err = err
 			return r
 		}
-		glogBody("Request Body", data)
 		r.body = nil
 		r.bodyBytes = data
 	case []byte:
-		glogBody("Request Body", t)
 		r.body = nil
 		r.bodyBytes = t
 	case io.Reader:
@@ -394,9 +368,7 @@ func (r *Request) Do(ctx context.Context) Result {
 func (r *Request) DoRaw(ctx context.Context) ([]byte, error) {
 	var result Result
 	err := r.request(ctx, func(req *http.Request, resp *http.Response) {
-		fmt.Println(req.URL, req.Method)
 		result.body, result.err = io.ReadAll(resp.Body)
-		glogBody("Response Body", result.body)
 	})
 	if err != nil {
 		return nil, err
@@ -422,7 +394,7 @@ func (r *Request) transformResponse(resp *http.Response, req *http.Request) Resu
 		}
 	}
 
-	glogBody("Response Body", body)
+	//glogBody("Response Body", body)
 
 	contentType := resp.Header.Get("Content-Type")
 	if len(contentType) == 0 {
@@ -473,56 +445,19 @@ type Result struct {
 	statusCode  int
 }
 
-// truncateBody decides if the body should be truncated, based on the glog Verbosity.
-// truncateBody 会根据 glog Verbosity（语义强度）决定是否截断正文。
-func truncateBody(body string) string {
-	max := 0
-	switch {
-	case bool(klog.V(10).Enabled()):
-		return body
-	case bool(klog.V(9).Enabled()):
-		max = 10240
-	case bool(klog.V(8).Enabled()):
-		max = 1024
-	}
-
-	if len(body) <= max {
-		return body
-	}
-
-	return body[:max] + fmt.Sprintf(" [truncated %d chars]", len(body)-max)
-}
-
-// glogBody logs a body output that could be either JSON or protobuf. It explicitly guards against
-// allocating a new string for the body output unless necessary. Uses a simple heuristic to determine
-// whether the body is printable.
-func glogBody(prefix string, body []byte) {
-	if klogV := klog.V(8); klogV.Enabled() {
-		if bytes.IndexFunc(body, func(r rune) bool {
-			return r < 0x0a
-		}) != -1 {
-			klog.Infof("%s:\n%s", prefix, truncateBody(hex.Dump(body)))
-		} else {
-			klog.Infof("%s: %s", prefix, truncateBody(string(body)))
-		}
-	}
-}
-
 // URL returns the current working URL. Check the result of Error() to ensure
 // that the returned URL is valid.
 func (r *Request) URL() *url.URL {
-	p := r.PathPrefix
-	if r.partitionSet && len(r.partition) > 0 {
-		p = path.Join(p, "partition", r.partition)
-	}
-	if len(r.resource) != 0 {
-		p = path.Join(p, strings.ToLower(r.resource))
+	p := r.pathPrefix
+
+	if len(r.managerName) != 0 {
+		p = path.Join(p, strings.ToLower(r.managerName))
 	}
 	// Join trims trailing slashes, so preserve r.pathPrefix's trailing slash for backwards compatibility if nothing was changed
-	if len(r.resourceName) != 0 || len(r.subpath) != 0 || len(r.subResource) != 0 {
-		p = path.Join(p, r.resourceName, r.subResource, r.subpath)
+	// TODO: anything else
+	if len(r.resource) != 0 || len(r.subpath) != 0 || len(r.subResource) != 0 {
+		p = path.Join(p, r.resource, r.fullPath)
 	}
-
 	finalURL := &url.URL{}
 	if r.c.Base != nil {
 		*finalURL = *r.c.Base
@@ -555,9 +490,10 @@ func (r *Request) newHTTPRequest(ctx context.Context) (*http.Request, error) {
 		// Create a new reader specifically for this request.
 		// Giving each request a dedicated reader allows retries to avoid races resetting the request body.
 		body = bytes.NewReader(r.bodyBytes)
+	default:
+		body = nil
 	}
 	url := r.URL().String()
-	fmt.Println(body)
 	req, err := http.NewRequestWithContext(ctx, r.verb, url, body)
 	if err != nil {
 		return nil, err

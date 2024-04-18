@@ -20,11 +20,11 @@ type LTM struct {
 }
 
 // New creates a new LTM client.
-func New(c *bigip.BigIP) LTM {
+func New(b *bigip.BigIP) LTM {
 	return LTM{
-		b:              c,
-		virtual:        VirtualResource{c: c},
-		virtualAddress: VirtualAddressResource{c: c},
+		b:              b,
+		virtual:        VirtualResource{b: b},
+		virtualAddress: VirtualAddressResource{c: b},
 	}
 }
 

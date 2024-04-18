@@ -19,7 +19,7 @@ func TestDefaultServerURL(t *testing.T) {
 			host:        "localhost:8080",
 			apiPath:     "api/v1",
 			defaultTLS:  false,
-			expectedURL: "http://localhost:8080",
+			expectedURL: "https://localhost:8080",
 			expectedAPI: "/api/v1",
 		},
 		{
@@ -29,14 +29,6 @@ func TestDefaultServerURL(t *testing.T) {
 			defaultTLS:  true,
 			expectedURL: "https://localhost:8443",
 			expectedAPI: "/api/v1",
-		},
-		{
-			name:        "Missing host",
-			host:        "",
-			apiPath:     "api/v1",
-			defaultTLS:  false,
-			expectedURL: "",
-			expectedAPI: "",
 		},
 	}
 

@@ -1,8 +1,9 @@
 package ltm
 
 import (
+	"bytes"
 	"context"
-	"fmt"
+	"encoding/json"
 	"github.com/lefeck/bigip"
 )
 
@@ -38,70 +39,38 @@ type VirtualAddress struct {
 	Unit int `json:"unit,omitempty"`
 }
 
-const (
-	BasePath               = "/mgmt/tm/"
-	LTMResource            = "ltm"
-	VirtualAddressEndpoint = "virtual-address"
-)
-
 type VirtualAddressResource struct {
 	c *bigip.BigIP
 }
 
-func (vsr *VirtualAddressResource) List() (*VirtualAddressList, error) {
-	var vas VirtualAddressList
+func (vasr *VirtualAddressResource) List() (*VirtualAddressList, error) {
+	var val VirtualAddressList
+	result, err := vasr.c.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualAddressEndpoint).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
 
-	//byResult, err := vsr.c.RestClient.Get().Prefix(BasePath).DoRaw(context.Background())
-	byResult := vsr.c.RestClient.Get().Prefix(BasePath).Resource(LTMResource).SubResource(VirtualAddressEndpoint).Do(context.Background())
-	//if err != nil {
-	//	return nil, err
-	//}
-	fmt.Println(byResult)
+	reader := bytes.NewReader(result)
+	dec := json.NewDecoder(reader)
+	if err := dec.Decode(&val); err != nil {
+		return nil, err
+	}
 
-	//reader := bytes.NewReader(byResult)
-	//dec := json.NewDecoder(byResult)
-	//if err := dec.Decode(&vas); err != nil {
-	//	return nil, err
-	//}
-
-	return &vas, nil
+	return &val, nil
 }
 
-//
-//func (vsr *VirtualAddressResource) Lists() (*VirtualAddressList, error) {
-//	var vsc VirtualAddressList
-//
-//	resp, err := vsr.doRequest("GET", "", nil)
-//	if err != nil {
-//		return nil, err
-//	}
-//	fmt.Println(resp.Header)
-//	defer resp.Body.Close()
-//	if err := vsr.readError(resp); err != nil {
-//		return nil, err
-//	}
-//	//var vsc VirtualAddressResource
-//	dec := json.NewDecoder(resp.Body)
-//	if err := dec.Decode(&vsc); err != nil {
-//		return nil, err
-//	}
-//
-//	return &vsc, nil
-//}
+func (vasr *VirtualAddressResource) GetAddressByVirtualServerName(name string) (string, error) {
+	var va VirtualAddress
 
-//func (vsr *VirtualAddressResource) GetAddressByVirtualServerName(name string) (string, error) {
-//
-//	var va VirtualAddress
-//
-//	resp, err := vsr.c.RestClient.Get().Prefix("/mgmt/tm").Resource("ltm").SubResource("virtual-address").Request(context.Background(), name)
-//
-//	if err != nil {
-//		return "", err
-//	}
-//	dec := json.NewDecoder(resp.Body)
-//	if err := dec.Decode(&va); err != nil {
-//		return "", err
-//	}
-//
-//	return va.Address, nil
-//}
+	result, err := vasr.c.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualAddressEndpoint).Suffix(Suffix).ResourceNameFullPath(name).DoRaw(context.Background())
+	if err != nil {
+		return "", err
+	}
+	//fmt.Println(result)
+	reader := bytes.NewReader(result)
+	dec := json.NewDecoder(reader)
+	if err := dec.Decode(&va); err != nil {
+		return "", err
+	}
+	return va.Address, nil
+}
