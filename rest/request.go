@@ -16,21 +16,22 @@ import (
 )
 
 type Request struct {
-	c           *RESTClient
-	timeout     time.Duration
-	maxRetries  int
-	verb        string
-	pathPrefix  string
-	subpath     string
-	params      url.Values
-	headers     http.Header
-	fullPath    string
-	resource    string
-	subResource string
-	managerName string
-	body        io.Reader
-	bodyBytes   []byte
-	err         error
+	c                *RESTClient
+	timeout          time.Duration
+	maxRetries       int
+	verb             string
+	pathPrefix       string
+	subpath          string
+	params           url.Values
+	headers          http.Header
+	fullPath         string
+	resource         string
+	resourceCategory string
+	subResource      string
+	managerName      string
+	body             io.Reader
+	bodyBytes        []byte
+	err              error
 }
 
 func NewRequest(c *RESTClient) *Request {
@@ -74,14 +75,14 @@ func (r *Request) Verb(verb string) *Request {
 }
 
 /*
-	{
-	   "link": "https://localhost/mgmt/tm/ltm/persistence/sip"
-	 },
-	 {
-	   "link": "https://localhost/mgmt/tm/sys/restricted-module"
-	 },
+		{
+		   "link": "https://localhost/mgmt/tm/ltm/persistence/sip"
+		 },
+		 {
+		   "link": "https://localhost/mgmt/tm/sys/restricted-module"
+		 },
 
-https://IP/mgmt/tm/<module name>/<subresource>
+	     https://IP/mgmt/tm/<module name>/<subresource>
 */
 func (r *Request) Prefix(segments ...string) *Request {
 	if r.err != nil {
@@ -99,6 +100,25 @@ func (r *Request) Suffix(segments ...string) *Request {
 	return r
 }
 
+func (r *Request) ResourceCategory(resourceCategory string) *Request {
+	if r.err != nil {
+		return r
+	}
+	if len(r.resourceCategory) != 0 {
+		r.err = fmt.Errorf("resourceCategory already set to %q, cannot change to %q", r.resourceCategory, resourceCategory)
+		return r
+	}
+	if msgs := IsValidPathSegmentName(resourceCategory); len(msgs) != 0 {
+		r.err = fmt.Errorf("invalid resourceCategory %q: %v", resourceCategory, msgs)
+		return r
+	}
+	r.resourceCategory = resourceCategory
+	return r
+}
+
+/*
+/<api-prefix>/<resource-category>/<manager>/<resource-type>/<resource-instance>
+*/
 func (r *Request) Resource(resource string) *Request {
 	if r.err != nil {
 		return r
@@ -112,6 +132,21 @@ func (r *Request) Resource(resource string) *Request {
 		return r
 	}
 	r.resource = resource
+	return r
+}
+
+func (r *Request) ResourceInstance(fullPaths ...string) *Request {
+	if r.err != nil {
+		return r
+	}
+	fullPath := path.Join(fullPaths...)
+	if len(r.fullPath) != 0 {
+		fmt.Errorf("fullPath already set to %q, cannot change to %q", r.fullPath, fullPath)
+		return r
+	}
+	newfullPath := replaceSlashInSubPath(fullPath)
+	r.fullPath = newfullPath
+
 	return r
 }
 
@@ -131,21 +166,6 @@ func (r *Request) SubResource(subResources ...string) *Request {
 		}
 	}
 	r.subResource = subResource
-	return r
-}
-
-func (r *Request) ResourceNameFullPath(fullPaths ...string) *Request {
-	if r.err != nil {
-		return r
-	}
-	fullPath := path.Join(fullPaths...)
-	if len(r.fullPath) != 0 {
-		fmt.Errorf("fullPath already set to %q, cannot change to %q", r.fullPath, fullPath)
-		return r
-	}
-	newfullPath := replaceSlashInSubPath(fullPath)
-	r.fullPath = newfullPath
-
 	return r
 }
 
@@ -280,15 +300,6 @@ func ValidatePathSegmentName(name string, prefix bool) []string {
 	return IsValidPathSegmentName(name)
 }
 
-//
-//// NamespaceIfScoped is a convenience function to set a namespace if scoped is true
-//func (r *Request) PartitionIfScoped(partition string, scoped bool) *Request {
-//	if scoped {
-//		return r.Partition(partition)
-//	}
-//	return r
-//}
-
 func (r *Request) request(ctx context.Context, fn func(req *http.Request, resp *http.Response)) error {
 	client := r.c.Client
 	if client == nil {
@@ -299,10 +310,6 @@ func (r *Request) request(ctx context.Context, fn func(req *http.Request, resp *
 		ctx, cancel = context.WithTimeout(ctx, r.timeout)
 		defer cancel()
 	}
-
-	//if err := r.requestPreflightCheck(); err != nil {
-	//	return nil, err
-	//}
 
 	req, err := r.newHTTPRequest(ctx)
 	if err != nil {
@@ -356,10 +363,7 @@ func (r *Request) Do(ctx context.Context) Result {
 		result = r.transformResponse(resp, req)
 	})
 	if err != nil {
-		return Result{err: err}
-	}
-	if result.err == nil || len(result.body) > 0 {
-		return Result{err: err}
+		return Result{Err: err}
 	}
 	return result
 }
@@ -368,13 +372,20 @@ func (r *Request) Do(ctx context.Context) Result {
 func (r *Request) DoRaw(ctx context.Context) ([]byte, error) {
 	var result Result
 	err := r.request(ctx, func(req *http.Request, resp *http.Response) {
-		result.body, result.err = io.ReadAll(resp.Body)
+		result.Body, result.Err = io.ReadAll(resp.Body)
+		fmt.Println(string(result.Body))
+		// {"code":404,"message":"01020036:3: The requested Virtual Server (/Common/hello-vs) was not found.","errorStack":[],"apiError":3} <nil> 0
+		fmt.Println(string(result.Body), result.Err, result.Code)
+		// status core less than 200 and gather than 206
+		if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent {
+			result.Code = resp.StatusCode
+		}
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return result.body, result.err
+	return result.Body, result.Err
 }
 
 // transformResponse converts an API response into a structured API object
@@ -389,12 +400,10 @@ func (r *Request) transformResponse(resp *http.Response, req *http.Request) Resu
 			klog.Errorf("Unexpected error when reading response body: %v", err)
 			unexpectedErr := fmt.Errorf("unexpected error when reading response body. Please retry. Original error: %w", err)
 			return Result{
-				err: unexpectedErr,
+				Err: unexpectedErr,
 			}
 		}
 	}
-
-	//glogBody("Response Body", body)
 
 	contentType := resp.Header.Get("Content-Type")
 	if len(contentType) == 0 {
@@ -411,9 +420,9 @@ func (r *Request) transformResponse(resp *http.Response, req *http.Request) Resu
 				return Result{}
 			}
 			return Result{
-				body:        body,
-				contentType: contentType,
-				statusCode:  resp.StatusCode,
+				Body:        body,
+				ContentType: contentType,
+				Code:        resp.StatusCode,
 			}
 		}
 	}
@@ -424,25 +433,35 @@ func (r *Request) transformResponse(resp *http.Response, req *http.Request) Resu
 	case resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent:
 
 		return Result{
-			body:        body,
-			contentType: contentType,
-			statusCode:  resp.StatusCode,
+			Body:        body,
+			ContentType: contentType,
+			Code:        resp.StatusCode,
 		}
 	}
 
 	return Result{
-		body:        body,
-		contentType: contentType,
-		statusCode:  resp.StatusCode,
+		Body:        body,
+		ContentType: contentType,
+		Code:        resp.StatusCode,
 	}
 }
 
+/*
+retrun reuslt
+{
+  "code": 404,
+  "message": "01020036:3: The requested Virtual Server (/Common/hello-vs) was not found.",
+  "errorStack": [],
+  "apiError": 3
+}
+*/
+
 // Result contains the result of calling Request.Do().
 type Result struct {
-	body        []byte
-	contentType string
-	err         error
-	statusCode  int
+	Body        []byte
+	ContentType string
+	Err         error
+	Code        int
 }
 
 // URL returns the current working URL. Check the result of Error() to ensure
@@ -450,14 +469,12 @@ type Result struct {
 func (r *Request) URL() *url.URL {
 	p := r.pathPrefix
 
-	if len(r.managerName) != 0 {
-		p = path.Join(p, strings.ToLower(r.managerName))
-	}
 	// Join trims trailing slashes, so preserve r.pathPrefix's trailing slash for backwards compatibility if nothing was changed
 	// TODO: anything else
-	if len(r.resource) != 0 || len(r.subpath) != 0 || len(r.subResource) != 0 {
-		p = path.Join(p, r.resource, r.fullPath)
+	if len(r.resourceCategory) != 0 || len(r.managerName) != 0 || len(r.resource) != 0 || len(r.subpath) != 0 || len(r.subResource) != 0 {
+		p = path.Join(p, r.resourceCategory, r.managerName, r.resource, r.fullPath)
 	}
+
 	finalURL := &url.URL{}
 	if r.c.Base != nil {
 		*finalURL = *r.c.Base

@@ -21,9 +21,6 @@ type Config struct {
 }
 
 type ContentConfig struct {
-	// AcceptContentTypes specifies the types the client will accept and is optional.
-	// If not set, ContentType will be used to define the Accept header
-	AcceptContentTypes string
 	// ContentType specifies the wire format used to communicate with the server.
 	// This value will be set as the Accept header on requests made to the server, and
 	// as the default content type on any object sent to the server. If not set,
@@ -39,8 +36,7 @@ func RESTClientForConfigAndClient(config *Config, httpClient *http.Client) (*RES
 	}
 	//添加content
 	clientContent := ClientContentConfig{
-		AcceptContentTypes: config.AcceptContentTypes,
-		ContentType:        config.ContentType,
+		ContentType: config.ContentType,
 	}
 	// 初始化http工作,为下一步做处理
 	restClient, err := NewRESTClient(baseURL, baseAPIPath, clientContent, httpClient)

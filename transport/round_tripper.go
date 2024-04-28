@@ -74,7 +74,7 @@ func NewBearerAuthRoundTripper(bearer string, rt http.RoundTripper) http.RoundTr
 }
 
 func (rt *bearerAuthRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
-	if len(req.Header.Get("Authorization")) != 0 {
+	if len(req.Header.Get("X-F5-Auth-Token")) != 0 {
 		return rt.rt.RoundTrip(req)
 	}
 	req = CloneRequest(req)
@@ -84,7 +84,7 @@ func (rt *bearerAuthRoundTripper) RoundTrip(req *http.Request) (*http.Response, 
 			token = refreshedToken.AccessToken
 		}
 	}
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Set("X-F5-Auth-Token", token)
 	return rt.rt.RoundTrip(req)
 }
 

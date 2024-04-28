@@ -1,7 +1,6 @@
 package ltm
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"github.com/lefeck/bigip"
@@ -40,37 +39,34 @@ type VirtualAddress struct {
 }
 
 type VirtualAddressResource struct {
-	c *bigip.BigIP
+	b *bigip.BigIP
 }
 
-func (vasr *VirtualAddressResource) List() (*VirtualAddressList, error) {
-	var val VirtualAddressList
-	result, err := vasr.c.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualAddressEndpoint).DoRaw(context.Background())
+func (vars *VirtualAddressResource) List() (*VirtualAddressList, error) {
+	val := &VirtualAddressList{}
+	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualAddressEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
 
-	reader := bytes.NewReader(result)
-	dec := json.NewDecoder(reader)
-	if err := dec.Decode(&val); err != nil {
-		return nil, err
+	if err := json.Unmarshal(res, val); err != nil {
+		panic(err)
 	}
-
-	return &val, nil
+	return val, nil
 }
 
-func (vasr *VirtualAddressResource) GetAddressByVirtualServerName(name string) (string, error) {
+func (vars *VirtualAddressResource) GetAddressByVirtualServerName(name string) (string, error) {
 	var va VirtualAddress
 
-	result, err := vasr.c.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualAddressEndpoint).Suffix(Suffix).ResourceNameFullPath(name).DoRaw(context.Background())
+	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualAddressEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return "", err
 	}
-	//fmt.Println(result)
-	reader := bytes.NewReader(result)
-	dec := json.NewDecoder(reader)
-	if err := dec.Decode(&va); err != nil {
-		return "", err
+	if err := json.Unmarshal(res, &va); err != nil {
+		panic(err)
 	}
+
 	return va.Address, nil
 }

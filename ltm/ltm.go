@@ -24,7 +24,7 @@ func New(b *bigip.BigIP) LTM {
 	return LTM{
 		b:              b,
 		virtual:        VirtualResource{b: b},
-		virtualAddress: VirtualAddressResource{c: b},
+		virtualAddress: VirtualAddressResource{b: b},
 	}
 }
 

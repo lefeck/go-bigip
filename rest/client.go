@@ -80,9 +80,13 @@ func (c *RESTClient) Put() *Request {
 }
 
 // Patch begins a PATCH request. Short for c.Verb("Patch").
-func (c *RESTClient) Patch(pt PatchType) *Request {
-	return c.Verb(http.MethodPatch).SetHeader("Content-Type", string(pt))
+func (c *RESTClient) Patch() *Request {
+	return c.Verb(http.MethodPatch)
 }
+
+//func (c *RESTClient) Patch(pt PatchType) *Request {
+//	return c.Verb(http.MethodPatch).SetHeader("Content-Type", string(pt))
+//}
 
 // Get begins a GET request. Short for c.Verb("GET").
 func (c *RESTClient) Get() *Request {

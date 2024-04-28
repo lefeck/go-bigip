@@ -2,7 +2,6 @@ package bigip
 
 import (
 	"github.com/lefeck/bigip/rest"
-	"time"
 )
 
 type BigIP struct {
@@ -15,8 +14,7 @@ func NewSession(host, username, password string) (*BigIP, error) {
 		Username: username,
 		Password: password,
 		ContentConfig: rest.ContentConfig{
-			AcceptContentTypes: "application/json",
-			ContentType:        "application/json",
+			ContentType: "application/json",
 		},
 	}
 
@@ -34,11 +32,10 @@ func NewToken(host, token string) (*BigIP, error) {
 	config := &rest.Config{
 		Host: host,
 		ContentConfig: rest.ContentConfig{
-			AcceptContentTypes: "application/json",
-			ContentType:        "application/json",
+			ContentType: "application/json",
 		},
 		BearerToken: token,
-		Timeout:     10 * time.Second,
+		//Timeout:     10 * time.Second,
 	}
 
 	restClient, err := restClientFor(config)

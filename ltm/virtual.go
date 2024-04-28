@@ -1,10 +1,13 @@
 package ltm
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/lefeck/bigip"
+	"github.com/lefeck/bigip/rest"
+	"net/http"
+	"strings"
 )
 
 type Persistence struct {
@@ -28,7 +31,6 @@ type VirtualServer struct {
 	ConnectionLimit     int64         `json:"connectionLimit,omitempty"`
 	Description         string        `json:"description,omitempty"`
 	Destination         string        `json:"destination,omitempty"`
-	Disabled            bool          `json:"disabled,omitempty"`
 	Enabled             bool          `json:"enabled,omitempty"`
 	FallbackPersistence string        `json:"fallbackPersistence,omitempty"`
 	FullPath            string        `json:"fullPath,omitempty" pretty:",expanded"`
@@ -91,16 +93,15 @@ type VirtualResource struct {
 
 // ListAll lists all the virtual server urations.
 func (vr *VirtualResource) List() (*VirtualServerList, error) {
-	resp, err := vr.b.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualEndpoint).DoRaw(context.Background())
+	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
 
 	var vsl VirtualServerList
-	reader := bytes.NewReader(resp)
-	dec := json.NewDecoder(reader)
-	if err := dec.Decode(&vsl); err != nil {
-		return nil, err
+	if err := json.Unmarshal(res, &vsl); err != nil {
+		panic(err)
 	}
 	return &vsl, nil
 }
@@ -126,86 +127,152 @@ func (vr *VirtualResource) List() (*VirtualServerList, error) {
 //	return &vsc, nil
 //}
 
+/*
+
+retrun reuslt
+{
+  "code": 404,
+  "message": "01020036:3: The requested Virtual Server (/Common/hello-vs) was not found.",
+  "errorStack": [],
+  "apiError": 3
+}
+*/
 // Get a single virtual server uration identified by id.
 func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
-	resp, err := vr.b.RestClient.Get().Prefix(BasePath).ManagerName(LTMManager).Resource(VirtualEndpoint).Suffix(Suffix).ResourceNameFullPath(fullPathName).DoRaw(context.Background())
+	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
+	rt := rest.Result{Body: res}
 
+	if rt.Code == http.StatusUnauthorized {
+		return nil, rt.Err
+	}
+
+	//http.NotFound(*http.ResponseWriter,*rest.Request{}) {
+	//
+	//}
+
+	// code 返回404 ，直接退出， 返回错误不存在
 	var vs VirtualServer
-	reader := bytes.NewReader(resp)
-	dec := json.NewDecoder(reader)
-	if err := dec.Decode(&vs); err != nil {
-		return nil, err
+	if err := json.Unmarshal(rt.Body, &vs); err != nil {
+		panic(err)
 	}
 	return &vs, nil
 }
 
-// Create a new virtual server uration.
-//func (vr *VirtualResource) Create(item VirtualServer) error {
-//	if err := vr.c.ModQuery("POST", BasePath+VirtualEndpoint, item); err != nil {
+// Create a new virtual server instance
+func (vr *VirtualResource) Create(item VirtualServer) error {
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	res, err := vr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+
+	var vs VirtualServer
+	if err := json.Unmarshal(res, &vs); err != nil {
+		panic(err)
+	}
+	return nil
+}
+
+// Edit the virtual server identified by the virtual server name.
+func (vr *VirtualResource) Edit(name string, item VirtualServer) error {
+	res, err := vr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualEndpoint).ResourceInstance(name).Body(item).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+
+	var vs VirtualServer
+	if err := json.Unmarshal(res, &vs); err != nil {
+		panic(err)
+	}
+	return nil
+}
+
+// Enabling a virtual server item identified by the virtual server name.
+func (vr *VirtualResource) Enable(name string) error {
+	item := VirtualServer{Enabled: true}
+	res, err := vr.b.RestClient.Patch().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualEndpoint).ResourceInstance(name).Body(item).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+
+	var vs VirtualServer
+	if err := json.Unmarshal(res, &vs); err != nil {
+		panic(err)
+	}
+	return nil
+}
+
+// Delete a single server uration identified by the virtual server nam.
+// for example: https://192.168.13.91/mgmt/tm/ltm/virtual/~Common~go-test
+func (vr *VirtualResource) Delete(name string) error {
+	_, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//
+//// RemoveRule removes a single  iRule from the virtual server identified by id.
+//func (vr *VirtualResource) RemoveRule(vsID, ruleID string) error {
+//	res, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+//		Resource(VirtualEndpoint).ResourceInstance(name).Body(name).DoRaw(context.Background())
+//	if err != nil {
+//		return err
+//	}
+//
+//	var vs VirtualServer
+//	if err := json.Unmarshal(res, &vs); err != nil {
+//		panic(err)
+//	}
+//	return nil
+//}
+
+//// Rules gets the iRules uration for a virtual server identified by id.
+//func (vr *VirtualResource) Rules(id string) ([]Rule, error) {
+//	resp, err := vr.doRequest("GET", id+"/rule", nil)
+//	if err != nil {
+//		return nil, err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
+//		return nil, err
+//	}
+//	var rules []Rule
+//	dec := json.NewDecoder(resp.Body)
+//	if err := dec.Decode(&rules); err != nil {
+//		return nil, err
+//	}
+//	return rules, nil
+//}
+//
+//// AddRule adds an iRule to the virtual server identified by id.
+//func (vr *VirtualResource) AddRule(id string, rule Rule) error {
+//	resp, err := vr.doRequest("POST", id+"/rule", rule)
+//	if err != nil {
+//		return err
+//	}
+//	defer resp.Body.Close()
+//	if err := vr.readError(resp); err != nil {
 //		return err
 //	}
 //	return nil
 //}
 
-// Edit a virtual server uration identified by id.
-//func (vr *VirtualResource) Edit(id string, item VirtualServer) error {
-//	resp, err := vr.doRequest("PUT", id, item)
-//	if err != nil {
-//		return err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//// Enabling a virtual server item identified by id.
-//func (vr *VirtualResource) Enable(id string) error {
-//	item := VirtualServer{Enabled: true}
-//	resp, err := vr.doRequest("PATCH", id, item)
-//	if err != nil {
-//		return err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//// Disabling a virtual server item identified by id.
-//func (vr *VirtualResource) Disable(id string) error {
-//	item := VirtualServer{Disabled: true}
-//	resp, err := vr.doRequest("PATCH", id, item)
-//	if err != nil {
-//		return err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//// Delete a single server uration identified by id.
-//func (vr *VirtualResource) Delete(id string) error {
-//
-//	resp, err := vr.doRequest("DELETE", id, nil)
-//	if err != nil {
-//		return err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//// RemoveRule removes a single  iRule from the virtual server identified by id.
+// RemoveRule removes a single  iRule from the virtual server identified by id.
+
 //func (vr *VirtualResource) RemoveRule(vsID, ruleID string) error {
 //	resp, err := vr.doRequest("DELETE", vsID+"/rule/"+ruleID, nil)
 //	if err != nil {
@@ -214,35 +281,6 @@ func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
 //	defer resp.Body.Close()
 //	if err := vr.readError(resp); err != nil {
 //		return err
-//	}
-//	return nil
-//}
-//
-//// doRequest creates and send HTTP request using the F5 client.
-////
-//// TODO(gilliek): decorate errors
-//func (vr *VirtualResource) doRequest(method, id string, data interface{}) (*http.Response, error) {
-//	req, err := vr.c.MakeRequest(method, BasePath+VirtualEndpoint+"/"+id, data)
-//	if err != nil {
-//		return nil, err
-//	}
-//	resp, err := vr.c.Do(req)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return resp, nil
-//}
-//
-//// readError reads request error object from a HTTP response.
-////
-//// TODO(gilliek): move this function into F5 package.
-//func (vr *VirtualResource) readError(resp *http.Response) error {
-//	if resp.StatusCode >= 400 {
-//		errResp, err := f5.NewRequestError(resp.Body)
-//		if err != nil {
-//			return err
-//		}
-//		return errResp
 //	}
 //	return nil
 //}

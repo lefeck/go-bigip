@@ -5,19 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/ltm/const.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth/users.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cli/version.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/bash.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/util.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigip.go" beforeDir="false" afterPath="$PROJECT_DIR$/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ltm/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/ltm.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ltm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/virtual.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/virtual_address.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_address.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rest/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rest/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/request_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/url_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/url_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/bigip.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/url.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/transport.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/round_tripper.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +38,7 @@
   </component>
   <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -107,6 +113,24 @@
       <filePath value="$PROJECT_DIR$/example/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="go build github.com/lefeck/bigip/test" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/bigip/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/test/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/lefeck/go-bigip" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/test/main.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -114,6 +138,15 @@
       <package value="github.com/lefeck/go-bigip" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/example/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build virtual.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/lefeck/go-bigip" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/ltm/virtual.go" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -126,49 +159,13 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="github.com/lefeck/bigip/rest 中的 TestAbsPath" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bigip" />
-      <working_directory value="$PROJECT_DIR$/rest" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/bigip/rest" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestAbsPath\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="github.com/lefeck/bigip/rest 中的 TestDefaultServerURL" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bigip" />
-      <working_directory value="$PROJECT_DIR$/rest" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/bigip/rest" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDefaultServerURL\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="github.com/lefeck/bigip/rest 中的 TestDefaultServerURL/Missing_host" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bigip" />
-      <working_directory value="$PROJECT_DIR$/rest" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/bigip/rest" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDefaultServerURL\E$/^\QMissing_host\E$" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go 构建.go build main.go" />
-        <item itemvalue="Go 测试.github.com/lefeck/bigip/rest 中的 TestAbsPath" />
+        <item itemvalue="Go 构建.go build main.go (1)" />
+        <item itemvalue="Go 构建.go build github.com/lefeck/bigip/test" />
+        <item itemvalue="Go 构建.go build virtual.go" />
         <item itemvalue="Go 构建.go build github.com/lefeck/bigip/example" />
-        <item itemvalue="Go 测试.github.com/lefeck/bigip/rest 中的 TestDefaultServerURL" />
-        <item itemvalue="Go 测试.github.com/lefeck/bigip/rest 中的 TestDefaultServerURL/Missing_host" />
       </list>
     </recent_temporary>
   </component>
@@ -178,7 +175,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.2" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2" />
+    <MESSAGE value="v0.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.3" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -188,6 +186,7 @@
       <configuration name="GoApplicationRunConfiguration">
         <watch expression="*(*&quot;string&quot;)(824635048264)" />
         <watch expression="*(*&quot;string&quot;)(824635408392)" language="go" />
+        <watch expression="*(*&quot;net/http.Request&quot;)(824634893728)" />
       </configuration>
     </watches-manager>
   </component>
