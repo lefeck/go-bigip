@@ -8,6 +8,7 @@ import (
 	"github.com/lefeck/bigip/cli"
 	"github.com/lefeck/bigip/ltm"
 	"github.com/lefeck/bigip/util"
+	"log"
 	"os"
 )
 
@@ -23,8 +24,10 @@ import (
 
 func main() {
 	//virtualaddress()
-	virtualserver()
+	//virtualserver()
 	//virtualtoken()
+	//createVS()
+	modifyVS()
 	//UserTest()
 	//VersionTest()
 	//utilTest()
@@ -114,43 +117,90 @@ func UserTest() {
 	user, _ := bga.Users().List()
 	fmt.Println(user)
 
-	//userByte, err := json.Marshal(user)
-	//if err != nil {
-	//	fmt.Println("error:", err)
-	//}
-	//os.Stdout.Write(userByte)
-
 }
 
-func virtualserver() {
+func virtualserverlist() {
 	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
 	if err != nil {
 		panic(err)
 	}
 	bg := ltm.New(b)
-	//vs, _ := bg.Virtual().List()
-	//fmt.Println(vs.Items)
-	//for _, va := range vs.Items {
-	//	name := va.FullPath
-	//	address, err := bg.Virtual().Get(name)
-	//	if err != nil {
-	//		panic(err)
-	//	}
-	//	fmt.Println(address.Name)
-	//}
-	//item := ltm.VirtualServer{
-	//	Name:                     "hello-vs",
-	//	Destination:              "192.168.83.2:90",
-	//	SourceAddressTranslation: ltm.SourceAddressTranslation{Type: "automap"},
-	//}
-	//
-	//if err := bg.Virtual().Create(item); err != nil {
-	//	fmt.Errorf("create virtual server is failed %v\n", err)
-	//}
-	name := "/Common/hello-vs"
+	vs, _ := bg.Virtual().List()
+	fmt.Println(vs.Items)
+	for _, va := range vs.Items {
+		name := va.FullPath
+		address, err := bg.Virtual().Get(name)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(address.Name)
+	}
+}
 
-	bg.Virtual().Delete(name)
+func modifyVS() {
+	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	if err != nil {
+		panic(err)
+	}
+	bg := ltm.New(b)
+	name := "/Common/hello-vs1"
+	item := ltm.VirtualServer{
+		//Destination:              "134.164.83.26:9090",
+		//Mask:                     "255.255.255.255",
+		//SourceAddressTranslation: ltm.SourceAddressTranslation{Type: "automap"},
+		ConnectionLimit: 1000,
+	}
 
-	vs, _ := bg.Virtual().Get(name)
-	fmt.Println(vs)
+	if err := bg.Virtual().Update(name, item); err != nil {
+		log.Fatalf("update virtual server is failed %v", err)
+	}
+}
+
+func createVS() {
+	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	if err != nil {
+		panic(err)
+	}
+	bg := ltm.New(b)
+
+	item := ltm.VirtualServer{
+		Name:                     "hello-vs1",
+		Destination:              "192.168.83.23:90",
+		Mask:                     "255.255.255.255",
+		SourceAddressTranslation: ltm.SourceAddressTranslation{Type: "automap"},
+	}
+
+	if err := bg.Virtual().Create(item); err != nil {
+		log.Fatalf("create virtual server is failed %v", err)
+	}
+}
+
+func getsinglevvs() {
+	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	if err != nil {
+		panic(err)
+	}
+	bg := ltm.New(b)
+	name := "/Common/go-test"
+
+	vs, err := bg.Virtual().Get(name)
+	if err != nil {
+		log.Fatalf("get virtual server failed  %v", err)
+	}
+
+	bt, _ := json.Marshal(vs)
+	os.Stdout.Write(bt)
+}
+
+func deletevs() {
+	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	if err != nil {
+		panic(err)
+	}
+	bg := ltm.New(b)
+	name := "/Common/go-test"
+
+	if err := bg.Virtual().Delete(name); err != nil {
+		log.Fatalf("delete virtual server failed  %v", err)
+	}
 }

@@ -3,6 +3,7 @@ package rest
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"k8s.io/klog/v2"
@@ -255,6 +256,21 @@ func (r *Request) Error() error {
 	return r.err
 }
 
+// ReadError checks if a HTTP response contains an error and returns it.
+func (r *Request) ReadError(resp *http.Response) error {
+	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent {
+		if contentType := resp.Header.Get("Content-Type"); !strings.Contains(contentType, "application/json") {
+			return fmt.Errorf("The http response error status code: %s \n", resp.Status)
+		}
+		errResp, err := NewRequestError(resp.Body)
+		if err != nil {
+			return errors.New("cannot read error message from response body: " + err.Error())
+		}
+		return errResp
+	}
+	return nil
+}
+
 // NameMayNotBe specifies strings that cannot be used as names specified as path segments (like the REST API or etcd store)
 var NameMayNotBe = []string{".", ".."}
 
@@ -321,6 +337,9 @@ func (r *Request) request(ctx context.Context, fn func(req *http.Request, resp *
 		return err
 	}
 	defer resp.Body.Close()
+	if err := r.ReadError(resp); err != nil {
+		return err
+	}
 
 	fn(req, resp)
 
@@ -373,18 +392,10 @@ func (r *Request) DoRaw(ctx context.Context) ([]byte, error) {
 	var result Result
 	err := r.request(ctx, func(req *http.Request, resp *http.Response) {
 		result.Body, result.Err = io.ReadAll(resp.Body)
-		fmt.Println(string(result.Body))
-		// {"code":404,"message":"01020036:3: The requested Virtual Server (/Common/hello-vs) was not found.","errorStack":[],"apiError":3} <nil> 0
-		fmt.Println(string(result.Body), result.Err, result.Code)
-		// status core less than 200 and gather than 206
-		if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent {
-			result.Code = resp.StatusCode
-		}
 	})
 	if err != nil {
 		return nil, err
 	}
-
 	return result.Body, result.Err
 }
 
@@ -445,16 +456,6 @@ func (r *Request) transformResponse(resp *http.Response, req *http.Request) Resu
 		Code:        resp.StatusCode,
 	}
 }
-
-/*
-retrun reuslt
-{
-  "code": 404,
-  "message": "01020036:3: The requested Virtual Server (/Common/hello-vs) was not found.",
-  "errorStack": [],
-  "apiError": 3
-}
-*/
 
 // Result contains the result of calling Request.Do().
 type Result struct {

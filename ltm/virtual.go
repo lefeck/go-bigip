@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/lefeck/bigip"
 	"github.com/lefeck/bigip/rest"
-	"net/http"
 	"strings"
 )
 
@@ -127,16 +126,6 @@ func (vr *VirtualResource) List() (*VirtualServerList, error) {
 //	return &vsc, nil
 //}
 
-/*
-
-retrun reuslt
-{
-  "code": 404,
-  "message": "01020036:3: The requested Virtual Server (/Common/hello-vs) was not found.",
-  "errorStack": [],
-  "apiError": 3
-}
-*/
 // Get a single virtual server uration identified by id.
 func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
 	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
@@ -144,19 +133,10 @@ func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
 	if err != nil {
 		return nil, err
 	}
-	rt := rest.Result{Body: res}
+	result := rest.Result{Body: res}
 
-	if rt.Code == http.StatusUnauthorized {
-		return nil, rt.Err
-	}
-
-	//http.NotFound(*http.ResponseWriter,*rest.Request{}) {
-	//
-	//}
-
-	// code 返回404 ，直接退出， 返回错误不存在
 	var vs VirtualServer
-	if err := json.Unmarshal(rt.Body, &vs); err != nil {
+	if err := json.Unmarshal(result.Body, &vs); err != nil {
 		panic(err)
 	}
 	return &vs, nil
@@ -174,18 +154,24 @@ func (vr *VirtualResource) Create(item VirtualServer) error {
 	if err != nil {
 		return err
 	}
+	result := rest.Result{Body: res}
 
 	var vs VirtualServer
-	if err := json.Unmarshal(res, &vs); err != nil {
+	if err := json.Unmarshal(result.Body, &vs); err != nil {
 		panic(err)
 	}
 	return nil
 }
 
-// Edit the virtual server identified by the virtual server name.
-func (vr *VirtualResource) Edit(name string, item VirtualServer) error {
+// update the virtual server identified by the virtual server name.
+func (vr *VirtualResource) Update(name string, item VirtualServer) error {
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
 	res, err := vr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
-		Resource(VirtualEndpoint).ResourceInstance(name).Body(item).DoRaw(context.Background())
+		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
@@ -213,7 +199,7 @@ func (vr *VirtualResource) Enable(name string) error {
 	return nil
 }
 
-// Delete a single server uration identified by the virtual server nam.
+// Delete a single server identified by the virtual server name. if it is not exist return error
 // for example: https://192.168.13.91/mgmt/tm/ltm/virtual/~Common~go-test
 func (vr *VirtualResource) Delete(name string) error {
 	_, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).

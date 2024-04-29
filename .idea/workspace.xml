@@ -5,24 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auth/users.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cli/version.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/bash.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/util.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/curl.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/test.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest/error.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bigip.go" beforeDir="false" afterPath="$PROJECT_DIR$/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/ltm.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ltm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/virtual.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual_address.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rest/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/round_tripper.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +81,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rest" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -162,10 +153,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go 构建.go build main.go" />
+        <item itemvalue="Go 构建.go build github.com/lefeck/bigip/example" />
         <item itemvalue="Go 构建.go build main.go (1)" />
         <item itemvalue="Go 构建.go build github.com/lefeck/bigip/test" />
         <item itemvalue="Go 构建.go build virtual.go" />
-        <item itemvalue="Go 构建.go build github.com/lefeck/bigip/example" />
       </list>
     </recent_temporary>
   </component>
@@ -182,6 +173,20 @@
     <settings-migrated>true</settings-migrated>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/ltm/virtual.go</url>
+          <line>153</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/ltm/virtual.go</url>
+          <line>173</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="GoApplicationRunConfiguration">
         <watch expression="*(*&quot;string&quot;)(824635048264)" />
