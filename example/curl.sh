@@ -18,5 +18,18 @@ https://192.168.13.91/mgmt/tm/ltm/virtual
 curl -k -u admin:MsTac@2001 \
 -H "Content-Type: application/json" \
 -X PUT \
--d '{"connectionLimit": 1000}'
+-d '{"source": "0.0.0.0/32", "mask": "255.255.255.255", "connectionLimit": 1000}'
+https://192.168.13.91/mgmt/tm/ltm/virtual/~Common~hello-vs1
+
+
+curl -k -u your_username:your_password -H "Content-Type: application/json" \
+-X PATCH \
+-d '[{"op": "replace", "path": "/connectionLimit", "value": 1000}]' \
+https://your_bigip_ip_address/mgmt/tm/ltm/virtual/~Common~your_virtual_server_name
+
+
+curl -k -u admin:MsTac@2001 \
+-H "Content-Type: application/json" \
+-X PATCH  \
+-d '{"disabled": true}' \
 https://192.168.13.91/mgmt/tm/ltm/virtual/~Common~hello-vs1

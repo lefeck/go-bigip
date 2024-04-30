@@ -20,14 +20,14 @@ type BashResource struct {
 	b *bigip.BigIP
 }
 
-// https://192.168.13.91/mgmt/tm/util/bash
+// BashEndpoint is the base path of the util API.
+const BashEndpoint = "bash"
 
 /*
-curl -k -u admin:MsTac@2001 -H "Content-Type: application/json" -X POST -d \
-'{"command": "run", "utilCmdArgs": " -c 'ls -l'"}' https://192.168.13.91/mgmt/tm/util/bash
+Provides a way to manipulate bigip via commands，for example:
 
-curl -k -u admin:MsTac@2001 -H "Content-Type: application/json" -X POST -d \
-'{"command": "run", "utilCmdArgs": "-c uptime"}' https://192.168.13.91/mgmt/tm/util/bash
+	"tmsh list ltm virtual"
+	"uptime"
 */
 func (br *BashResource) Run(item Bash) (*Bash, error) {
 
@@ -42,10 +42,10 @@ func (br *BashResource) Run(item Bash) (*Bash, error) {
 	}
 
 	if len(item.UtilCmdArgs) == 0 {
-		return nil, errors.New("Enter the query command please")
+		return nil, errors.New("The input execution command cannot be empty")
 	}
 
-	newitem := ValidateCmdArgs(item)
+	newitem := validateCmdArgs(item)
 
 	jsonData, err := json.Marshal(newitem)
 	if err != nil {
@@ -53,7 +53,7 @@ func (br *BashResource) Run(item Bash) (*Bash, error) {
 	}
 	jsonString := string(jsonData)
 	res, err := br.b.RestClient.Post().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).
-		ManagerName(ltm.UTILManager).Resource(ltm.BashEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		ManagerName(UtilManager).Resource(BashEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -65,10 +65,25 @@ func (br *BashResource) Run(item Bash) (*Bash, error) {
 	return &bash, nil
 }
 
-func ValidateCmdArgs(item Bash) Bash {
+func validateCmdArgs(item Bash) Bash {
 	cmdArgs := strings.TrimSpace(item.UtilCmdArgs)
+	// 	for example : tmsh list ltm virtual",
 	if !strings.HasPrefix(cmdArgs, "-c") {
 		item.UtilCmdArgs = fmt.Sprintf("-c '%s'", cmdArgs)
+		return item
 	}
+	// 	for example:  "-c 'tmsh list  ltm  virtual'",
+	item.UtilCmdArgs = validateCmdArgsForBash(cmdArgs)
+
 	return item
+}
+
+func validateCmdArgsForBash(cmd string) string {
+	last := strings.TrimPrefix(cmd, "-c")
+	last = strings.TrimSpace(last)
+	if !strings.HasPrefix(last, "'") || !strings.HasSuffix(last, "'") {
+		last = "'" + last + "'"
+	}
+	cmd = "-c " + last
+	return cmd
 }

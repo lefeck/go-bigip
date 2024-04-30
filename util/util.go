@@ -19,3 +19,6 @@ func NewUtil(b *bigip.BigIP) Util {
 func (util Util) Bash() *BashResource {
 	return &util.bash
 }
+
+// UtilManager is a commonly used basepath, providing a large number of api resource types
+const UtilManager = "util"

@@ -4,19 +4,21 @@ import (
 	"github.com/lefeck/bigip"
 )
 
-type Auth struct {
+type Authz struct {
 	b     *bigip.BigIP
 	users UsersResource
 }
 
-func NewAuth(b *bigip.BigIP) Auth {
-	return Auth{
+func NewAuth(b *bigip.BigIP) Authz {
+	return Authz{
 		b:     b,
 		users: UsersResource{b: b},
 	}
 }
 
-// /mgmt/shared/authz/users
-func (auth Auth) Users() *UsersResource {
+func (auth Authz) Users() *UsersResource {
 	return &auth.users
 }
+
+// AuthzManager is a commonly used basepath, providing a large number of api resource types
+const AuthzManager = "authz"

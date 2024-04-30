@@ -47,10 +47,14 @@ type VersionStatsResoure struct {
 	b *bigip.BigIP
 }
 
+// VersionEndpoint is the base path of the TM API.
+const VersionEndpoint = "version"
+
+// Get bigip device version
 func (vsr *VersionStatsResoure) Get() (*VersionStats, error) {
 	var vs *VersionStats
-	res, err := vsr.b.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.CLIManager).
-		Resource(ltm.VersionEndpoint).DoRaw(context.Background())
+	res, err := vsr.b.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(CliManager).
+		Resource(VersionEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}

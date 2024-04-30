@@ -5,14 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/example/curl.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/test.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rest/error.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ltm/rule.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/users.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/version.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/version.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/curl.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/curl.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/test.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ltm/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/ltm.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ltm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/virtual.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ltm/virtual_address.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_address.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/bash.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/bash.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/util.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +93,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.go build main.go">
+  <component name="RunManager" selected="Go 构建.go build github.com/lefeck/bigip/example">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -93,6 +101,15 @@
       <package value="github.com/lefeck/go-bigip" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build bash.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/lefeck/go-bigip" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/util/bash.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build github.com/lefeck/bigip/example" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -107,17 +124,8 @@
     <configuration name="go build github.com/lefeck/bigip/test" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/bigip/test" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/test/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="bigip" />
-      <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip" />
+      <package value="github.com/lefeck/bigip/test" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/test/main.go" />
       <method v="2" />
@@ -131,13 +139,13 @@
       <filePath value="$PROJECT_DIR$/example/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go build virtual.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build test.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
       <package value="github.com/lefeck/go-bigip" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/ltm/virtual.go" />
+      <filePath value="$PROJECT_DIR$/test/test.go" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -152,11 +160,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go 构建.go build main.go" />
         <item itemvalue="Go 构建.go build github.com/lefeck/bigip/example" />
-        <item itemvalue="Go 构建.go build main.go (1)" />
+        <item itemvalue="Go 构建.go build main.go" />
+        <item itemvalue="Go 构建.go build test.go" />
         <item itemvalue="Go 构建.go build github.com/lefeck/bigip/test" />
-        <item itemvalue="Go 构建.go build virtual.go" />
+        <item itemvalue="Go 构建.go build bash.go" />
       </list>
     </recent_temporary>
   </component>
@@ -167,7 +175,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.2" />
     <MESSAGE value="v0.3" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3" />
+    <MESSAGE value="v0.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.4" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -176,14 +185,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/ltm/virtual.go</url>
-          <line>153</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/ltm/virtual.go</url>
-          <line>173</line>
-          <option name="timeStamp" value="10" />
+          <url>file://$PROJECT_DIR$/rest/request.go</url>
+          <line>138</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

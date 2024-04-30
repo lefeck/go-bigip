@@ -2,6 +2,9 @@ package cli
 
 import "github.com/lefeck/bigip"
 
+// CliManager is a commonly used basepath, providing a large number of api resource types
+const CliManager = "cli"
+
 type Cli struct {
 	b       *bigip.BigIP
 	version VersionStatsResoure

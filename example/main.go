@@ -27,9 +27,12 @@ func main() {
 	//virtualserver()
 	//virtualtoken()
 	//createVS()
-	modifyVS()
+	//modifyVS()
 	//UserTest()
 	//VersionTest()
+	//getSinglevVS()
+
+	modifyVsStateToEnable()
 	//utilTest()
 }
 
@@ -87,7 +90,8 @@ func VersionTest() {
 }
 
 func utilTest() {
-	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	b, err := bigip.NewSession("192.168.10.101", "admin", "admin")
+	//b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
 	if err != nil {
 		panic(err)
 	}
@@ -96,15 +100,16 @@ func utilTest() {
 	item := util.Bash{
 		Command: "run",
 		//UtilCmdArgs: "uptime",
-		UtilCmdArgs: "tmsh list  ltm  virtual",
+		UtilCmdArgs: " -c  tmsh list ltm virtual  ",
 	}
 
 	bashr, _ := bga.Bash().Run(item)
-	bt, err := json.Marshal(bashr)
-	if err != nil {
-		panic(err)
-	}
-	os.Stdout.Write(bt)
+	fmt.Println(bashr)
+	//bt, err := json.Marshal(bashr)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//os.Stdout.Write(bt)
 }
 
 func UserTest() {
@@ -145,15 +150,42 @@ func modifyVS() {
 	bg := ltm.New(b)
 	name := "/Common/hello-vs1"
 	item := ltm.VirtualServer{
-		//Destination:              "134.164.83.26:9090",
-		//Mask:                     "255.255.255.255",
-		//SourceAddressTranslation: ltm.SourceAddressTranslation{Type: "automap"},
-		ConnectionLimit: 1000,
+		IPProtocol:               "tcp",
+		Source:                   "0.0.0.0/32",
+		Destination:              "192.168.83.26:9090",
+		Mask:                     "255.255.255.255",
+		SourceAddressTranslation: ltm.SourceAddressTranslation{Type: "automap"},
+		ConnectionLimit:          1000,
 	}
 
 	if err := bg.Virtual().Update(name, item); err != nil {
 		log.Fatalf("update virtual server is failed %v", err)
 	}
+}
+
+func modifyVsStateToDisable() {
+	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	if err != nil {
+		panic(err)
+	}
+	bg := ltm.New(b)
+	name := "/Common/hello-vs1"
+	if err := bg.Virtual().Disable(name); err != nil {
+		log.Fatalf("disable virtual server is failed %v", err)
+	}
+}
+
+func modifyVsStateToEnable() {
+	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	if err != nil {
+		panic(err)
+	}
+	bg := ltm.New(b)
+	name := "/Common/hello-vs1"
+	if err := bg.Virtual().Enable(name); err != nil {
+		log.Fatalf("enabled virtual server is failed %v", err)
+	}
+
 }
 
 func createVS() {
@@ -175,7 +207,7 @@ func createVS() {
 	}
 }
 
-func getsinglevvs() {
+func getSinglevVS() {
 	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
 	if err != nil {
 		panic(err)

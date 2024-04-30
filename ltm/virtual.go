@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/lefeck/bigip"
-	"github.com/lefeck/bigip/rest"
 	"strings"
 )
 
@@ -15,14 +14,14 @@ type Persistence struct {
 	TMDefault string `json:"tmDefault,omitempty"`
 }
 
-// VirtualServerList holds a list of virtual server uration.
+// VirtualServerList contains a list of virtual server uration.
 type VirtualServerList struct {
 	Items    []VirtualServer `json:"items,omitempty"`
 	Kind     string          `json:"kind,omitempty" pretty:",expanded"`
 	SelfLink string          `json:"selfLink,omitempty" pretty:",expanded"`
 }
 
-// VirtualServer holds the uration of a single virtual server.
+// VirtualServer contains only a single virtual server.
 type VirtualServer struct {
 	AddressStatus       string        `json:"addressStatus,omitempty"`
 	AutoLasthop         string        `json:"autoLasthop,omitempty"`
@@ -31,6 +30,7 @@ type VirtualServer struct {
 	Description         string        `json:"description,omitempty"`
 	Destination         string        `json:"destination,omitempty"`
 	Enabled             bool          `json:"enabled,omitempty"`
+	Disabled            bool          `json:"disabled,omitempty"`
 	FallbackPersistence string        `json:"fallbackPersistence,omitempty"`
 	FullPath            string        `json:"fullPath,omitempty" pretty:",expanded"`
 	FwEnforcedPolicy    string        `json:"fwEnforcedPolicy,omitempty"`
@@ -85,14 +85,17 @@ type Profile struct {
 	Context string `json:"context,omitempty"`
 }
 
+// VirtualEndpoint is the base path of the ltm API.
+const VirtualEndpoint = "virtual"
+
 // VirtualResource provides an API to manage virtual server urations.
 type VirtualResource struct {
 	b *bigip.BigIP
 }
 
-// ListAll lists all the virtual server urations.
+// List all virtual server instances
 func (vr *VirtualResource) List() (*VirtualServerList, error) {
-	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -100,7 +103,7 @@ func (vr *VirtualResource) List() (*VirtualServerList, error) {
 
 	var vsl VirtualServerList
 	if err := json.Unmarshal(res, &vsl); err != nil {
-		panic(err)
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
 	}
 	return &vsl, nil
 }
@@ -128,16 +131,15 @@ func (vr *VirtualResource) List() (*VirtualServerList, error) {
 
 // Get a single virtual server uration identified by id.
 func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
-	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
-	result := rest.Result{Body: res}
 
 	var vs VirtualServer
-	if err := json.Unmarshal(result.Body, &vs); err != nil {
-		panic(err)
+	if err := json.Unmarshal(res, &vs); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
 	}
 	return &vs, nil
 }
@@ -149,36 +151,25 @@ func (vr *VirtualResource) Create(item VirtualServer) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	res, err := vr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+	_, err = vr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
-	result := rest.Result{Body: res}
-
-	var vs VirtualServer
-	if err := json.Unmarshal(result.Body, &vs); err != nil {
-		panic(err)
-	}
 	return nil
 }
 
-// update the virtual server identified by the virtual server name.
+// Update the virtual server identified by the virtual server name.
 func (vr *VirtualResource) Update(name string, item VirtualServer) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	res, err := vr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+	_, err = vr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
-	}
-
-	var vs VirtualServer
-	if err := json.Unmarshal(res, &vs); err != nil {
-		panic(err)
 	}
 	return nil
 }
@@ -186,15 +177,32 @@ func (vr *VirtualResource) Update(name string, item VirtualServer) error {
 // Enabling a virtual server item identified by the virtual server name.
 func (vr *VirtualResource) Enable(name string) error {
 	item := VirtualServer{Enabled: true}
-	res, err := vr.b.RestClient.Patch().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
-		Resource(VirtualEndpoint).ResourceInstance(name).Body(item).DoRaw(context.Background())
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	_, err = vr.b.RestClient.Patch().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(VirtualEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
+	return nil
+}
 
-	var vs VirtualServer
-	if err := json.Unmarshal(res, &vs); err != nil {
-		panic(err)
+// Disabling a virtual server item identified by the virtual server name.
+func (vr *VirtualResource) Disable(name string) error {
+	item := VirtualServer{Disabled: true}
+
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	_, err = vr.b.RestClient.Patch().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
 	}
 	return nil
 }
@@ -202,7 +210,7 @@ func (vr *VirtualResource) Enable(name string) error {
 // Delete a single server identified by the virtual server name. if it is not exist return error
 // for example: https://192.168.13.91/mgmt/tm/ltm/virtual/~Common~go-test
 func (vr *VirtualResource) Delete(name string) error {
-	_, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+	_, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -210,63 +218,51 @@ func (vr *VirtualResource) Delete(name string) error {
 	return nil
 }
 
-//
-//// RemoveRule removes a single  iRule from the virtual server identified by id.
-//func (vr *VirtualResource) RemoveRule(vsID, ruleID string) error {
-//	res, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
-//		Resource(VirtualEndpoint).ResourceInstance(name).Body(name).DoRaw(context.Background())
-//	if err != nil {
-//		return err
-//	}
-//
-//	var vs VirtualServer
-//	if err := json.Unmarshal(res, &vs); err != nil {
-//		panic(err)
-//	}
-//	return nil
-//}
+// removes a single iRule from the virtual server identified by virtual server name.
+func (vr *VirtualResource) RemoveRuleForVirtualServer(vsName, ruleName string) error {
+	item := VirtualServer{
+		Rules: []string{
+			ruleName,
+		},
+	}
+	res, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(vsName).Body(item).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	var vs VirtualServer
+	if err := json.Unmarshal(res, &vs); err != nil {
+		panic(err)
+	}
+	return nil
+}
 
-//// Rules gets the iRules uration for a virtual server identified by id.
-//func (vr *VirtualResource) Rules(id string) ([]Rule, error) {
-//	resp, err := vr.doRequest("GET", id+"/rule", nil)
-//	if err != nil {
-//		return nil, err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return nil, err
-//	}
-//	var rules []Rule
-//	dec := json.NewDecoder(resp.Body)
-//	if err := dec.Decode(&rules); err != nil {
-//		return nil, err
-//	}
-//	return rules, nil
-//}
-//
-//// AddRule adds an iRule to the virtual server identified by id.
-//func (vr *VirtualResource) AddRule(id string, rule Rule) error {
-//	resp, err := vr.doRequest("POST", id+"/rule", rule)
-//	if err != nil {
-//		return err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return err
-//	}
-//	return nil
-//}
+// gets the iRules for a virtual server identified by name.
+func (vr *VirtualResource) GetRulesByVirtualServer(name string) ([]Rule, error) {
+	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+	var rules []Rule
+	if err := json.Unmarshal(res, &rules); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
 
-// RemoveRule removes a single  iRule from the virtual server identified by id.
+	return rules, nil
+}
 
-//func (vr *VirtualResource) RemoveRule(vsID, ruleID string) error {
-//	resp, err := vr.doRequest("DELETE", vsID+"/rule/"+ruleID, nil)
-//	if err != nil {
-//		return err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return err
-//	}
-//	return nil
-//}
+// adds an iRule to the virtual server identified by name.
+func (vr *VirtualResource) AddRuleForVirtualServer(vsName string, rule Rule) error {
+	jsonData, err := json.Marshal(rule)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	_, err = vr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(VirtualEndpoint).SubResource(RuleEndpoint).ResourceInstance(vsName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -38,28 +38,30 @@ type VirtualAddress struct {
 	Unit int `json:"unit,omitempty"`
 }
 
+// VirtualAddressEndpoint is the base path of the ltm API.
+const VirtualAddressEndpoint = "virtual-address"
+
 type VirtualAddressResource struct {
 	b *bigip.BigIP
 }
 
 func (vars *VirtualAddressResource) List() (*VirtualAddressList, error) {
-	val := &VirtualAddressList{}
-	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+	var val VirtualAddressList
+	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualAddressEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
 
-	if err := json.Unmarshal(res, val); err != nil {
+	if err := json.Unmarshal(res, &val); err != nil {
 		panic(err)
 	}
-	return val, nil
+	return &val, nil
 }
 
 func (vars *VirtualAddressResource) GetAddressByVirtualServerName(name string) (string, error) {
 	var va VirtualAddress
-
-	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LTMManager).
+	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualAddressEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return "", err
@@ -67,6 +69,5 @@ func (vars *VirtualAddressResource) GetAddressByVirtualServerName(name string) (
 	if err := json.Unmarshal(res, &va); err != nil {
 		panic(err)
 	}
-
 	return va.Address, nil
 }
