@@ -26,9 +26,11 @@ type Request struct {
 	params           url.Values
 	headers          http.Header
 	fullPath         string
+	subFullPath      string
 	resource         string
 	resourceCategory string
 	subResource      string
+	subStatsResource string
 	managerName      string
 	body             io.Reader
 	bodyBytes        []byte
@@ -76,14 +78,8 @@ func (r *Request) Verb(verb string) *Request {
 }
 
 /*
-		{
-		   "link": "https://localhost/mgmt/tm/ltm/persistence/sip"
-		 },
-		 {
-		   "link": "https://localhost/mgmt/tm/sys/restricted-module"
-		 },
-
-	     https://IP/mgmt/tm/<module name>/<subresource>
+https://localhost/mgmt/tm/sys/restricted-module
+https://IP/mgmt/tm/<module name>/<subresource>
 */
 func (r *Request) Prefix(segments ...string) *Request {
 	if r.err != nil {
@@ -145,9 +141,23 @@ func (r *Request) ResourceInstance(fullPaths ...string) *Request {
 		fmt.Errorf("fullPath already set to %q, cannot change to %q", r.fullPath, fullPath)
 		return r
 	}
-	newfullPath := replaceSlashInSubPath(fullPath)
+	newfullPath := convertSubPath(fullPath)
 	r.fullPath = newfullPath
 
+	return r
+}
+
+func (r *Request) SubResourceInstance(subFullPaths ...string) *Request {
+	if r.err != nil {
+		return r
+	}
+	subfullPath := path.Join(subFullPaths...)
+	if len(r.subFullPath) != 0 {
+		fmt.Errorf("subfullPath already set to %q, cannot change to %q", r.subFullPath, subFullPaths)
+		return r
+	}
+	newsubFullPath := convertSubPath(subfullPath)
+	r.subFullPath = newsubFullPath
 	return r
 }
 
@@ -170,7 +180,28 @@ func (r *Request) SubResource(subResources ...string) *Request {
 	return r
 }
 
-func replaceSlashInSubPath(path string) string {
+// The SubStatsResource is used by bigip to get the status of the resource.
+func (r *Request) SubStatsResource(subStatsResources ...string) *Request {
+	if r.err != nil {
+		return r
+	}
+	subStatsResource := path.Join(subStatsResources...)
+	if len(r.subStatsResource) != 0 {
+		r.err = fmt.Errorf("subStatsResource already set to %q, cannot change to %q", r.subStatsResource, subStatsResource)
+		return r
+	}
+	for _, s := range subStatsResources {
+		if msgs := IsValidPathSegmentName(s); len(msgs) != 0 {
+			r.err = fmt.Errorf("invalid subStatsResource %q: %v", s, msgs)
+			return r
+		}
+	}
+	r.subStatsResource = subStatsResource
+	return r
+}
+
+// Convert subpath to appropriate method
+func convertSubPath(path string) string {
 	parts := strings.Split(path, "/")
 	for i := 1; i < len(parts); i++ {
 		parts[i] = strings.ReplaceAll(parts[i], "/", "~")
@@ -178,7 +209,7 @@ func replaceSlashInSubPath(path string) string {
 	return strings.Join(parts, "~")
 }
 
-// Name sets the name of a resource to access (<resource>/[ns/<namespace>/]<name>)
+// Name sets the name of a resource to access
 func (r *Request) ManagerName(managerName string) *Request {
 	if r.err != nil {
 		return r
@@ -257,7 +288,7 @@ func (r *Request) Error() error {
 }
 
 // ReadError checks if a HTTP response contains an error and returns it.
-func (r *Request) ReadError(resp *http.Response) error {
+func (r *Request) HandleError(resp *http.Response) error {
 	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent {
 		if contentType := resp.Header.Get("Content-Type"); !strings.Contains(contentType, "application/json") {
 			return fmt.Errorf("The http response error status code: %s \n", resp.Status)
@@ -337,7 +368,7 @@ func (r *Request) request(ctx context.Context, fn func(req *http.Request, resp *
 		return err
 	}
 	defer resp.Body.Close()
-	if err := r.ReadError(resp); err != nil {
+	if err := r.HandleError(resp); err != nil {
 		return err
 	}
 
@@ -472,8 +503,8 @@ func (r *Request) URL() *url.URL {
 
 	// Join trims trailing slashes, so preserve r.pathPrefix's trailing slash for backwards compatibility if nothing was changed
 	// TODO: anything else
-	if len(r.resourceCategory) != 0 || len(r.managerName) != 0 || len(r.resource) != 0 || len(r.subpath) != 0 || len(r.subResource) != 0 {
-		p = path.Join(p, r.resourceCategory, r.managerName, r.resource, r.fullPath)
+	if len(r.resourceCategory) != 0 || len(r.managerName) != 0 || len(r.resource) != 0 || len(r.subpath) != 0 || len(r.subResource) != 0 || len(r.subStatsResource) != 0 {
+		p = path.Join(p, r.resourceCategory, r.managerName, r.resource, r.fullPath, r.subResource, r.subFullPath, r.subStatsResource)
 	}
 
 	finalURL := &url.URL{}

@@ -28,15 +28,14 @@ func DefaultServerURL(host, apiPath string) (*url.URL, string, error) {
 	return hostURL, baseAPIPath, nil
 }
 
-// DefaultVersionedAPIPathFor constructs the default path for the given group version, assuming the given
+// DefaultAPIPath constructs the default path, assuming the given
 // API path, following the standard conventions of the BigIP API.
 func DefaultAPIPath(apiPath string) string {
 	baseAPIPath := path.Join("/", apiPath)
 	return baseAPIPath
 }
 
-// DefaultServerUrlFor is shared between IsConfigTransportTLS and RESTClientFor. It
-// requires Host and Version to be set prior to being called.
+// DefaultServerUrlFor is shared RESTClientFor. It requires Host to be set prior to being called.
 func DefaultServerUrlFor(config *Config) (*url.URL, string, error) {
 	host := config.Host
 

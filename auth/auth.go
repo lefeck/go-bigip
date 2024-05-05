@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/lefeck/bigip"
+	"github.com/lefeck/go-bigip"
 )
 
 type Authz struct {

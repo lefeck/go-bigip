@@ -1,0 +1,49 @@
+{
+  "kind": "tm:ltm:virtual-address:virtual-addressstats",
+  "generation": 1,
+  "selfLink": "https://localhost/mgmt/tm/ltm/virtual-address/~Common~10.100.131.91/stats?ver=17.0.0.1",
+  "entries": {
+    "https://localhost/mgmt/tm/ltm/virtual-address/~Common~10.100.131.91/stats": {
+      "nestedStats": {
+        "entries": {
+          "addr": {
+            "description": "10.100.131.91"
+          },
+          "clientside.bitsIn": {
+            "value": 0
+          },
+          "clientside.bitsOut": {
+            "value": 0
+          },
+          "clientside.curConns": {
+            "value": 0
+          },
+          "clientside.maxConns": {
+            "value": 0
+          },
+          "clientside.pktsIn": {
+            "value": 0
+          },
+          "clientside.pktsOut": {
+            "value": 0
+          },
+          "clientside.totConns": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/10.100.131.91"
+          },
+          "status.availabilityState": {
+            "description": "available"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The virtual address is available"
+          }
+        }
+      }
+    }
+  }
+}

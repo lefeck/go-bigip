@@ -1,4 +1,4 @@
-module github.com/lefeck/bigip
+module github.com/lefeck/go-bigip
 
 go 1.20
 

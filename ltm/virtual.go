@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/lefeck/bigip"
+	"github.com/lefeck/go-bigip"
 	"strings"
 )
 
@@ -93,7 +93,7 @@ type VirtualResource struct {
 	b *bigip.BigIP
 }
 
-// List all virtual server instances
+// List all virtual server item
 func (vr *VirtualResource) List() (*VirtualServerList, error) {
 	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).DoRaw(context.Background())
@@ -108,31 +108,25 @@ func (vr *VirtualResource) List() (*VirtualServerList, error) {
 	return &vsl, nil
 }
 
-//
-//// ListAllWithParams lists all the virtual server urations.
-//func (vr *VirtualResource) ListAllWithParams(v url.Values) (*VirtualServerList, error) {
-//	params := v.Encode()
-//
-//	resp, err := vr.doRequest("GET", "?"+params, nil)
-//	if err != nil {
-//		return nil, err
-//	}
-//	defer resp.Body.Close()
-//	if err := vr.readError(resp); err != nil {
-//		return nil, err
-//	}
-//	var vsc VirtualServerList
-//	dec := json.NewDecoder(resp.Body)
-//	if err := dec.Decode(&vsc); err != nil {
-//		return nil, err
-//	}
-//	return &vsc, nil
-//}
+// List all the details of the virtual server, including: profile, policy, etc.
+func (vr *VirtualResource) ListDetail() (*VirtualServerList, error) {
+	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(VirtualEndpoint).SetParams("expandSubcollections", "true").DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
 
-// Get a single virtual server uration identified by id.
+	var vsl VirtualServerList
+	if err := json.Unmarshal(res, &vsl); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &vsl, nil
+}
+
+// Get a single virtual server identified by name.
 func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
 	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(VirtualEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -144,7 +138,7 @@ func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
 	return &vs, nil
 }
 
-// Create a new virtual server instance
+// Create a new virtual server item
 func (vr *VirtualResource) Create(item VirtualServer) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -159,7 +153,16 @@ func (vr *VirtualResource) Create(item VirtualServer) error {
 	return nil
 }
 
-// Update the virtual server identified by the virtual server name.
+// Update the virtual server identified by the virtual server name,
+// Source and Mask fields must be specified, otherwise an error will be reported. For example:
+/*
+   item := ltm.VirtualServer{
+       ......
+       Source:    "0.0.0.0/32",
+       Mask:      "255.255.255.255",
+       ......
+   }
+*/
 func (vr *VirtualResource) Update(name string, item VirtualServer) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -167,7 +170,17 @@ func (vr *VirtualResource) Update(name string, item VirtualServer) error {
 	}
 	jsonString := string(jsonData)
 	_, err = vr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(VirtualEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Delete a single virtual server identified by the virtual server name. if it is not exist return error
+func (vr *VirtualResource) Delete(name string) error {
+	_, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(VirtualEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
@@ -200,18 +213,7 @@ func (vr *VirtualResource) Disable(name string) error {
 	}
 	jsonString := string(jsonData)
 	_, err = vr.b.RestClient.Patch().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// Delete a single server identified by the virtual server name. if it is not exist return error
-// for example: https://192.168.13.91/mgmt/tm/ltm/virtual/~Common~go-test
-func (vr *VirtualResource) Delete(name string) error {
-	_, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
+		Resource(VirtualEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
@@ -226,7 +228,7 @@ func (vr *VirtualResource) RemoveRuleForVirtualServer(vsName, ruleName string) e
 		},
 	}
 	res, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(vsName).Body(item).DoRaw(context.Background())
+		Resource(VirtualEndpoint).ResourceInstance(vsName).Body(item).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
@@ -240,7 +242,7 @@ func (vr *VirtualResource) RemoveRuleForVirtualServer(vsName, ruleName string) e
 // gets the iRules for a virtual server identified by name.
 func (vr *VirtualResource) GetRulesByVirtualServer(name string) ([]Rule, error) {
 	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
+		Resource(VirtualEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}

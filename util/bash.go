@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/lefeck/bigip"
-	"github.com/lefeck/bigip/ltm"
+	"github.com/lefeck/go-bigip"
+	"github.com/lefeck/go-bigip/ltm"
 	"strings"
 )
 

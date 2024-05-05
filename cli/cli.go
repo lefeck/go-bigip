@@ -1,6 +1,6 @@
 package cli
 
-import "github.com/lefeck/bigip"
+import "github.com/lefeck/go-bigip"
 
 // CliManager is a commonly used basepath, providing a large number of api resource types
 const CliManager = "cli"

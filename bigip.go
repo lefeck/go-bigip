@@ -1,7 +1,7 @@
 package bigip
 
 import (
-	"github.com/lefeck/bigip/rest"
+	"github.com/lefeck/go-bigip/rest"
 )
 
 type BigIP struct {

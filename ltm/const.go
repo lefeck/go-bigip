@@ -1,11 +1,7 @@
 package ltm
 
-//  /mgmt/shared/authz/users
-
 const (
-	BasePath      = "/mgmt/"
+	BasePath      = "mgmt"
 	SHAREResoucre = "shared"
-
-	TMResource = "tm"
-	Suffix     = "/"
+	TMResource    = "tm"
 )

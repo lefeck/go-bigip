@@ -58,13 +58,12 @@ func NewRESTClient(baseURL *url.URL, baseAPIPath string, config ClientContentCon
 // if err != nil { ... }
 // resp, err := c.Verb("GET").
 //
-//	Path("pods").
-//	SelectorParam("labels", "area=staging").
+//	Path("virtual").
 //	Timeout(10*time.Second).
 //	Do()
 //
 // if err != nil { ... }
-// list, ok := resp.(*api.PodList)
+// list, ok := resp.(*api.List)
 func (c *RESTClient) Verb(verb string) *Request {
 	return NewRequest(c).Verb(verb)
 }

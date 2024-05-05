@@ -33,3 +33,25 @@ curl -k -u admin:MsTac@2001 \
 -X PATCH  \
 -d '{"disabled": true}' \
 https://192.168.13.91/mgmt/tm/ltm/virtual/~Common~hello-vs1
+
+export BIGIP_USERNAME=admin
+export BIGIP_PASSWORD=MsTac@2001
+export BIGIP_ADDRESS=192.168.13.91
+
+#curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X POST -d '{"name": "<irule_name>", "apiAnonymous": "<irule_definition>"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/rule
+
+curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} \
+-H "Content-Type: application/json" \
+-X POST \
+-d '{"name": "MyRedirectRule", "apiAnonymous": "when HTTP_REQUEST {\n SWITCH -glob [string tolower [HTTP::uri]] {\n        \"/example*\" {\n             HTTP::redirect http://example.org[HTTP::uri]\n        }\n\n        default {\n            HTTP::redirect http://example.com[HTTP::uri]\n        }\n    }\n}"}' \
+https://${BIGIP_ADDRESS}/mgmt/tm/ltm/rule
+
+curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X DELETE https://${BIGIP_ADDRESS}/mgmt/tm/ltm/pool/~Common~hello-pool
+
+
+
+curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X PUT -d '{"monitor": "<monitor_state>"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/pool/~Common~<pool_name>/members/~Common~<member_address>:<member_port>
+
+curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X POST -d '{"name": "<member_address>:<member_port>"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/pool/~Common~<pool_name>/members
+
+curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X POST -d '{"name": "MyRedirectRule", "apiAnonymous": "when HTTP_REQUEST {\n set req_uri [string tolower [HTTP::uri]]\n if { [string match \"/example*\" \$req_uri] } {\n        HTTP::redirect http://example.org[HTTP::uri]\n    } else {\n        HTTP::redirect http://example.com[HTTP::uri]\n    }\n}"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/rule

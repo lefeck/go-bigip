@@ -3,8 +3,8 @@ package auth
 import (
 	"context"
 	"encoding/json"
-	"github.com/lefeck/bigip"
-	"github.com/lefeck/bigip/ltm"
+	"github.com/lefeck/go-bigip"
+	"github.com/lefeck/go-bigip/ltm"
 )
 
 type UsersList struct {

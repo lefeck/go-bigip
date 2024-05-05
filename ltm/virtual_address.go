@@ -3,7 +3,7 @@ package ltm
 import (
 	"context"
 	"encoding/json"
-	"github.com/lefeck/bigip"
+	"github.com/lefeck/go-bigip"
 )
 
 type VirtualAddressList struct {
@@ -62,7 +62,7 @@ func (vars *VirtualAddressResource) List() (*VirtualAddressList, error) {
 func (vars *VirtualAddressResource) GetAddressByVirtualServerName(name string) (string, error) {
 	var va VirtualAddress
 	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualAddressEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
+		Resource(VirtualAddressEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return "", err
 	}

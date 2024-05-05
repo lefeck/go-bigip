@@ -1,0 +1,881 @@
+{
+  "kind": "tm:ltm:pool:poolcollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/ltm/pool/stats?ver=17.0.0.1",
+  "entries": {
+    "https://localhost/mgmt/tm/ltm/pool/~Common~HTTPS_192.168.13.93/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~HTTPS_192.168.13.93/stats?ver=17.0.0.1",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 1
+          },
+          "availableMemberCnt": {
+            "value": 1
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 0
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 0
+          },
+          "lowestPriogrp": {
+            "value": 0
+          },
+          "memberCnt": {
+            "value": 1
+          },
+          "minActiveMembers": {
+            "value": 0
+          },
+          "monitorRule": {
+            "description": "min 1 of /Common/HTTP_POST /Common/tcp"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/HTTPS_192.168.13.93"
+          },
+          "serverside.bitsIn": {
+            "value": 0
+          },
+          "serverside.bitsOut": {
+            "value": 0
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 0
+          },
+          "serverside.pktsIn": {
+            "value": 0
+          },
+          "serverside.pktsOut": {
+            "value": 0
+          },
+          "serverside.totConns": {
+            "value": 0
+          },
+          "status.availabilityState": {
+            "description": "available"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The pool is available"
+          },
+          "totRequests": {
+            "value": 0
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/ltm/pool/~Common~hello-pool/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~hello-pool/stats?ver=17.0.0.1",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 0
+          },
+          "availableMemberCnt": {
+            "value": 0
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 0
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 0
+          },
+          "lowestPriogrp": {
+            "value": 0
+          },
+          "memberCnt": {
+            "value": 0
+          },
+          "minActiveMembers": {
+            "value": 0
+          },
+          "monitorRule": {
+            "description": "none"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/hello-pool"
+          },
+          "serverside.bitsIn": {
+            "value": 0
+          },
+          "serverside.bitsOut": {
+            "value": 0
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 0
+          },
+          "serverside.pktsIn": {
+            "value": 0
+          },
+          "serverside.pktsOut": {
+            "value": 0
+          },
+          "serverside.totConns": {
+            "value": 0
+          },
+          "status.availabilityState": {
+            "description": "offline"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The children pool member(s) either don't have service checking enabled, or service check results are not available yet"
+          },
+          "totRequests": {
+            "value": 0
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/ltm/pool/~Common~pool-test/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~pool-test/stats?ver=17.0.0.1",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 0
+          },
+          "availableMemberCnt": {
+            "value": 0
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 200
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 200
+          },
+          "lowestPriogrp": {
+            "value": 200
+          },
+          "memberCnt": {
+            "value": 3
+          },
+          "minActiveMembers": {
+            "value": 2
+          },
+          "monitorRule": {
+            "description": "/Common/tcp"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/pool-test"
+          },
+          "serverside.bitsIn": {
+            "value": 0
+          },
+          "serverside.bitsOut": {
+            "value": 0
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 0
+          },
+          "serverside.pktsIn": {
+            "value": 0
+          },
+          "serverside.pktsOut": {
+            "value": 0
+          },
+          "serverside.totConns": {
+            "value": 0
+          },
+          "status.availabilityState": {
+            "description": "offline"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The children pool member(s) are down"
+          },
+          "totRequests": {
+            "value": 0
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/ltm/pool/~Common~pool_fsa/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~pool_fsa/stats?ver=17.0.0.1",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 0
+          },
+          "availableMemberCnt": {
+            "value": 0
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 0
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 0
+          },
+          "lowestPriogrp": {
+            "value": 0
+          },
+          "memberCnt": {
+            "value": 3
+          },
+          "minActiveMembers": {
+            "value": 0
+          },
+          "monitorRule": {
+            "description": "/Common/gateway_icmp"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/pool_fsa"
+          },
+          "serverside.bitsIn": {
+            "value": 247691808
+          },
+          "serverside.bitsOut": {
+            "value": 296790480
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 12
+          },
+          "serverside.pktsIn": {
+            "value": 366408
+          },
+          "serverside.pktsOut": {
+            "value": 274806
+          },
+          "serverside.totConns": {
+            "value": 137403
+          },
+          "status.availabilityState": {
+            "description": "offline"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The children pool member(s) are down"
+          },
+          "totRequests": {
+            "value": 45801
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/ltm/pool/~Common~pool_fsa_dns_hsl/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~pool_fsa_dns_hsl/stats?ver=17.0.0.1",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 1
+          },
+          "availableMemberCnt": {
+            "value": 1
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 0
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 0
+          },
+          "lowestPriogrp": {
+            "value": 0
+          },
+          "memberCnt": {
+            "value": 1
+          },
+          "minActiveMembers": {
+            "value": 0
+          },
+          "monitorRule": {
+            "description": "/Common/gateway_icmp"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/pool_fsa_dns_hsl"
+          },
+          "serverside.bitsIn": {
+            "value": 0
+          },
+          "serverside.bitsOut": {
+            "value": 0
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 0
+          },
+          "serverside.pktsIn": {
+            "value": 0
+          },
+          "serverside.pktsOut": {
+            "value": 0
+          },
+          "serverside.totConns": {
+            "value": 0
+          },
+          "status.availabilityState": {
+            "description": "available"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The pool is available"
+          },
+          "totRequests": {
+            "value": 0
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/ltm/pool/~Common~pool_fsa_hsl/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~pool_fsa_hsl/stats?ver=17.0.0.1",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 1
+          },
+          "availableMemberCnt": {
+            "value": 1
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 0
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 0
+          },
+          "lowestPriogrp": {
+            "value": 0
+          },
+          "memberCnt": {
+            "value": 1
+          },
+          "minActiveMembers": {
+            "value": 0
+          },
+          "monitorRule": {
+            "description": "/Common/gateway_icmp"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/pool_fsa_hsl"
+          },
+          "serverside.bitsIn": {
+            "value": 0
+          },
+          "serverside.bitsOut": {
+            "value": 0
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 0
+          },
+          "serverside.pktsIn": {
+            "value": 0
+          },
+          "serverside.pktsOut": {
+            "value": 0
+          },
+          "serverside.totConns": {
+            "value": 0
+          },
+          "status.availabilityState": {
+            "description": "available"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The pool is available"
+          },
+          "totRequests": {
+            "value": 0
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/ltm/pool/~Common~pool_wsa/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~pool_wsa/stats?ver=17.0.0.1",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 0
+          },
+          "availableMemberCnt": {
+            "value": 0
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 0
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 0
+          },
+          "lowestPriogrp": {
+            "value": 0
+          },
+          "memberCnt": {
+            "value": 2
+          },
+          "minActiveMembers": {
+            "value": 0
+          },
+          "monitorRule": {
+            "description": "/Common/gateway_icmp"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/pool_wsa"
+          },
+          "serverside.bitsIn": {
+            "value": 111774400
+          },
+          "serverside.bitsOut": {
+            "value": 44709760
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 8
+          },
+          "serverside.pktsIn": {
+            "value": 279436
+          },
+          "serverside.pktsOut": {
+            "value": 139718
+          },
+          "serverside.totConns": {
+            "value": 139718
+          },
+          "status.availabilityState": {
+            "description": "offline"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The children pool member(s) are down"
+          },
+          "totRequests": {
+            "value": 0
+          }
+        }
+      }
+    }
+  }
+}

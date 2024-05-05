@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/lefeck/bigip/transport"
+	"github.com/lefeck/go-bigip/transport"
 	"net/http"
 	"time"
 )

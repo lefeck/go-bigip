@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"path"
 	"strings"
 )
 
@@ -22,4 +23,13 @@ func main() {
 	cmd := "-c tmsh list  ltm  virtual"
 	checkedCmd := validateCmdForBash(cmd)
 	fmt.Println(checkedCmd)
+
+	api()
+
+}
+
+func api() {
+	apiPath := "/hello/pod"
+	fullpath := path.Join("/", apiPath)
+	fmt.Println(fullpath)
 }

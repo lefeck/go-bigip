@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/lefeck/bigip"
+	"github.com/lefeck/go-bigip"
 	"strings"
 )
 
@@ -60,7 +60,7 @@ func (rr *RuleResource) List() (*RuleList, error) {
 
 func (rr *RuleResource) Get(name string) (*Rule, error) {
 	res, err := rr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(RuleEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
+		Resource(RuleEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func (rr *RuleResource) Update(name string, item Rule) error {
 	}
 	jsonString := string(jsonData)
 	_, err = rr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(RuleEndpoint).Suffix(Suffix).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(RuleEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
@@ -102,7 +102,7 @@ func (rr *RuleResource) Update(name string, item Rule) error {
 
 func (rr *RuleResource) Delete(name string) error {
 	_, err := rr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(RuleEndpoint).Suffix(Suffix).ResourceInstance(name).DoRaw(context.Background())
+		Resource(RuleEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

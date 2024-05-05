@@ -1,7 +1,7 @@
 package util
 
 import (
-	"github.com/lefeck/bigip"
+	"github.com/lefeck/go-bigip"
 )
 
 type Util struct {
