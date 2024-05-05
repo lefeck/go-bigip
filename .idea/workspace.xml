@@ -4,44 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="变更">
-      <change afterPath="$PROJECT_DIR$/example/dynamic_key_for_map.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/dynamic_key_for_map.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/irule-test.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/irule.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/pool-stats.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/members_stats.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/node.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/node_stats.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/pool.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/pool_members.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/pool_stats.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/snatpool.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/virtual_address_stats.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/virtual_stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/version.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/version.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/curl.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/curl.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/ltm.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ltm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/rule.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/rule.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual_address.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/transport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/url.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/bash.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/bash.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/util.go" afterDir="false" />
-    </list>
+    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="v0.5" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -237,6 +200,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add irule function" />
+    <MESSAGE value="变更" />
+    <MESSAGE value="v0.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.5" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
