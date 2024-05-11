@@ -1,4 +1,4 @@
-package ltm
+package bigip
 
 const (
 	BasePath      = "mgmt"

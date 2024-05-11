@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/lefeck/go-bigip"
-	"github.com/lefeck/go-bigip/ltm"
 )
 
 type VersionStats struct {
@@ -53,7 +52,7 @@ const VersionEndpoint = "version"
 // Get bigip device version
 func (vsr *VersionStatsResoure) Get() (*VersionStats, error) {
 	var vs *VersionStats
-	res, err := vsr.b.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(CliManager).
+	res, err := vsr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(CliManager).
 		Resource(VersionEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

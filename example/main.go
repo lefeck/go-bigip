@@ -7,6 +7,7 @@ import (
 	"github.com/lefeck/go-bigip/auth"
 	"github.com/lefeck/go-bigip/cli"
 	"github.com/lefeck/go-bigip/ltm"
+	"github.com/lefeck/go-bigip/ltm/monitor"
 	"github.com/lefeck/go-bigip/util"
 	"log"
 	"os"
@@ -59,7 +60,8 @@ func main() {
 	//bs.listVirtualAddressStats()
 	//bs.getSingleVirtualAddressStats()
 	//bs.listVirtualServerDetail()
-	bs.listSnatPool()
+	//bs.listSnatPool()
+	bs.ListMonitor()
 }
 
 // this is a testing struct for bigip api
@@ -73,6 +75,20 @@ func (bs *bigipTest) init() {
 		panic(err)
 	}
 	bs.bigIP = b
+}
+
+func (bs *bigipTest) ListMonitor() {
+	//lp := ltm.New(bs.bigIP)
+
+	bg := monitor.NewMonitor(bs.bigIP)
+	dnsl, _ := bg.MonitorDNS().List()
+	fmt.Println(dnsl)
+}
+
+func (bs *bigipTest) ListProfileSSLClient() {
+	bg := ltm.New(bs.bigIP)
+	// 	bg.Profile().SSLClient().List()
+	fmt.Println(bg)
 }
 
 func (bs *bigipTest) listPoolStats() {
@@ -270,8 +286,10 @@ func (bs *bigipTest) listPool() {
 func (bs *bigipTest) createPool() {
 	bg := ltm.New(bs.bigIP)
 	item := ltm.Pool{
-		Name:              "hello-pool",
+		Name:              "hello-pool-bg3",
 		LoadBalancingMode: "round-robin",
+		Members:           []string{"192.13.23.1:90", "128.3.2.53:90"},
+		Monitor:           "http",
 	}
 
 	if err := bg.Pool().Create(item); err != nil {

@@ -50,6 +50,8 @@ curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/js
 
 
 
+curl -sku admin:MsTac@2001 -X POST -H "Content-Type: application/json" -d '{"name": "example_ifile", "sourcePath": "http://example.com/path/to/your-file"}' https://192.168.13.91/mgmt/tm/ltm/ifile
+
 curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X PUT -d '{"monitor": "<monitor_state>"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/pool/~Common~<pool_name>/members/~Common~<member_address>:<member_port>
 
 curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X POST -d '{"name": "<member_address>:<member_port>"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/pool/~Common~<pool_name>/members

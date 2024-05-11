@@ -29,16 +29,16 @@ type ContentConfig struct {
 }
 
 func RESTClientForConfigAndClient(config *Config, httpClient *http.Client) (*RESTClient, error) {
-	// 对url做检验和处理
+	// Check and process the url
 	baseURL, baseAPIPath, err := DefaultServerUrlFor(config)
 	if err != nil {
 		return nil, err
 	}
-	//添加content
+	//adding content for ClientContentConfig
 	clientContent := ClientContentConfig{
 		ContentType: config.ContentType,
 	}
-	// 初始化http工作,为下一步做处理
+	// Initialize http for the next step.
 	restClient, err := NewRESTClient(baseURL, baseAPIPath, clientContent, httpClient)
 
 	return restClient, err

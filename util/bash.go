@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/lefeck/go-bigip"
-	"github.com/lefeck/go-bigip/ltm"
 	"strings"
 )
 
@@ -52,7 +51,7 @@ func (br *BashResource) Run(item Bash) (*Bash, error) {
 		return nil, fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	res, err := br.b.RestClient.Post().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).
+	res, err := br.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).
 		ManagerName(UtilManager).Resource(BashEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

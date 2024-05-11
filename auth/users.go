@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/lefeck/go-bigip"
-	"github.com/lefeck/go-bigip/ltm"
 )
 
 type UsersList struct {
@@ -35,7 +34,7 @@ const UserEndpoint = "users"
 
 // /mgmt/shared/authz/users
 func (ur *UsersResource) List() (*UsersList, error) {
-	res, err := ur.b.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.SHAREResoucre).
+	res, err := ur.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.SHAREResoucre).
 		ManagerName(AuthzManager).Resource(UserEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
