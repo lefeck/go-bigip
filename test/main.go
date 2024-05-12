@@ -548,7 +548,7 @@ type LTM struct {
 func New(c *BigIP) LTM {
 	return LTM{
 		c:       c,
-		virtual: VirtualResource{b: b},
+		virtual: VirtualResource{c: c},
 	}
 }
 

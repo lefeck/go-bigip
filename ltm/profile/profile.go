@@ -12,7 +12,3 @@ type ProfileResoucre struct {
 func NewProfile(b *bigip.BigIP) ProfileResoucre {
 	return ProfileResoucre{b: b}
 }
-
-func (p *ProfileResoucre) ProfileCertificateAuthority() ProfileResoucre {
-
-}
