@@ -27,8 +27,8 @@ type Request struct {
 	headers          http.Header
 	fullPath         string
 	subFullPath      string
-	resource         string
 	resourceCategory string
+	resource         string
 	subResource      string
 	subStatsResource string
 	managerName      string
@@ -287,7 +287,7 @@ func (r *Request) Error() error {
 	return r.err
 }
 
-// ReadError checks if a HTTP response contains an error and returns it.
+// HandleError checks if a HTTP response contains an error and returns it.
 func (r *Request) HandleError(resp *http.Response) error {
 	if resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent {
 		if contentType := resp.Header.Get("Content-Type"); !strings.Contains(contentType, "application/json") {

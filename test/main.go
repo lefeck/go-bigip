@@ -548,7 +548,7 @@ type LTM struct {
 func New(c *BigIP) LTM {
 	return LTM{
 		c:       c,
-		virtual: VirtualResource{b: b},
+		virtual: VirtualResource{c: c},
 	}
 }
 
@@ -558,7 +558,8 @@ func (ltm LTM) Virtual() *VirtualResource {
 }
 
 func main() {
-	bg, _ := NewCredentials("https://192.168.13.91", "admin", "MsTac@2001")
+	bg, _ := NewTokenClient("https://192.168.13.91", "admin", "MsTac@2001", " ")
+	//bg, _ := NewCredentials("https://192.168.13.91", "admin", "MsTac@2001")
 	bg.DisableCertCheck()
 	ltm := New(bg)
 

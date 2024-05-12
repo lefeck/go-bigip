@@ -11,7 +11,7 @@ type Interface interface {
 	Verb(verb string) *Request
 	Post() *Request
 	Put() *Request
-	Patch(pt PatchType) *Request
+	Patch() *Request
 	Get() *Request
 	Delete() *Request
 }
@@ -30,6 +30,8 @@ type RESTClient struct {
 	// Set specific behavior of the client.  If not set http.DefaultClient will be used.
 	Client *http.Client
 }
+
+var _ Interface = &RESTClient{}
 
 func NewRESTClient(baseURL *url.URL, baseAPIPath string, config ClientContentConfig, client *http.Client) (*RESTClient, error) {
 	if len(config.ContentType) == 0 {
@@ -83,10 +85,6 @@ func (c *RESTClient) Patch() *Request {
 	return c.Verb(http.MethodPatch)
 }
 
-//func (c *RESTClient) Patch(pt PatchType) *Request {
-//	return c.Verb(http.MethodPatch).SetHeader("Content-Type", string(pt))
-//}
-
 // Get begins a GET request. Short for c.Verb("GET").
 func (c *RESTClient) Get() *Request {
 	return c.Verb(http.MethodGet)
@@ -97,6 +95,11 @@ func (c *RESTClient) Delete() *Request {
 	return c.Verb(http.MethodDelete)
 }
 
+//func (c *RESTClient) Patch(pt PatchType) *Request {
+//	return c.Verb(http.MethodPatch).SetHeader("Content-Type", string(pt))
+//}
+
+// TODO: specify header type for url
 type PatchType string
 
 const (
