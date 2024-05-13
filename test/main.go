@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -98,7 +97,11 @@ func NewTokenSession(baseURL, token string) (*BigIP, error) {
 func CreateToken(baseURL, user, password, loginProvName string) (string, time.Time, error) {
 	t := &http.Transport{}
 	c := &BigIP{c: http.Client{Transport: t, Timeout: DefaultTimeout}, baseURL: baseURL, transport: t}
-	c.transport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	c.transport.TLSClient = &tls.
+	{
+	InsecureSkipVerify:
+		true
+	}
 	// Negociate token with a pair of username/password.
 	data, err := json.Marshal(map[string]string{"username": user, "password": password, "loginProviderName": loginProvName})
 	if err != nil {
@@ -170,7 +173,11 @@ func NewTokenClient(baseURL, user, password, loginProvName string) (*BigIP, erro
 // DisableCertCheck disables certificate verification, meaning that insecure
 // certificate will not cause any error.
 func (b *BigIP) DisableCertCheck() {
-	b.transport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	b.transport.TLSClient = &tls.
+	{
+	InsecureSkipVerify:
+		true
+	}
 }
 
 // CheckAuth verifies that the credentials provided at the client initialization
@@ -221,7 +228,7 @@ func (c *BigIP) SetHTTPClient(client http.Client) {
 	c.c = client
 }
 
-// UseProxy configures a proxy to use for outbound connections
+// UseProxy ures a proxy to use for outbound connections
 func (c *BigIP) UseProxy(proxy string) error {
 	proxyURL, err := url.Parse(proxy)
 	if err != nil {
@@ -231,7 +238,7 @@ func (c *BigIP) UseProxy(proxy string) error {
 	return nil
 }
 
-// UseSystemProxy configures the client to use the system proxy
+// UseSystemProxy ures the client to use the system proxy
 func (c *BigIP) UseSystemProxy() error {
 	proxy := os.Getenv("HTTP_PROXY")
 	if proxy != "" {
@@ -552,9 +559,9 @@ func New(c *BigIP) LTM {
 	}
 }
 
-// Virtual returns a VirtualResource configured to query tm/ltm/virtual API.
+// Virtual returns a VirtualResource ured to query tm/ltm/virtual API.
 func (ltm LTM) Virtual() *VirtualResource {
-	return &ltm.virtual
+	return &virtual
 }
 
 func main() {
@@ -563,6 +570,6 @@ func main() {
 	bg.DisableCertCheck()
 	ltm := New(bg)
 
-	vss, _ := ltm.virtual.List()
+	vss, _ := virtual.List()
 	fmt.Println(vss)
 }

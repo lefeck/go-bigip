@@ -54,6 +54,5 @@ func restClientFor(config *rest.Config) (*rest.RESTClient, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return rest.RESTClientForConfigAndClient(config, httpClient)
 }

@@ -15,7 +15,7 @@ type SelfList struct {
 	SelfLink string `json:"selfLink,omitempty"`
 }
 
-// A Self hold the configuration for a Self IP.
+// A Self hold the uration for a Self IP.
 type Self struct {
 	Address               string `json:"address,omitempty"`
 	AddressSource         string `json:"addressSource,omitempty"`
@@ -40,12 +40,12 @@ type Self struct {
 // SelfEndpoint represents the REST resource for managing a self IP.
 const SelfEndpoint = "self"
 
-// A SelfResource provides API to manage self ip configuration.
+// A SelfResource provides API to manage self ip uration.
 type SelfResource struct {
 	b *bigip.BigIP
 }
 
-// ListAll lists all the self ip configurations.
+// ListAll lists all the self ip urations.
 func (sr *SelfResource) List() (*SelfList, error) {
 	var sl SelfList
 	res, err := sr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
@@ -60,7 +60,7 @@ func (sr *SelfResource) List() (*SelfList, error) {
 	return &sl, nil
 }
 
-// Get a single self ip configuration identified by id.
+// Get a single self ip uration identified by id.
 func (sr *SelfResource) Get(fullPathName string) (*Self, error) {
 	var self Self
 	res, err := sr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
@@ -75,7 +75,7 @@ func (sr *SelfResource) Get(fullPathName string) (*Self, error) {
 	return &self, nil
 }
 
-// Create a new self ip configuration.
+// Create a new self ip uration.
 func (sr *SelfResource) Create(item Self) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -90,7 +90,7 @@ func (sr *SelfResource) Create(item Self) error {
 	return nil
 }
 
-// Edit a self ip configuration identified by id.
+// Edit a self ip uration identified by id.
 func (sr *SelfResource) Edit(name string, item Self) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -105,7 +105,7 @@ func (sr *SelfResource) Edit(name string, item Self) error {
 	return nil
 }
 
-// Delete a single self ip configuration identified by id.
+// Delete a single self ip uration identified by id.
 func (sr *SelfResource) Delete(name string) error {
 	_, err := sr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
 		Resource(SelfEndpoint).ResourceInstance(name).DoRaw(context.Background())

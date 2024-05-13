@@ -5,17 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/lefeck/go-bigip"
-	"github.com/lefeck/go-bigip/ltm"
 	"strings"
 )
 
-type ClientSSLConfigList struct {
-	Items    []ClientSSLConfig `json:"items,omitempty"`
-	Kind     string            `json:"kind,omitempty"`
-	SelfLink string            `json:"selflink,omitempty"`
+type ClientSSLList struct {
+	Items    []ClientSSL `json:"items,omitempty"`
+	Kind     string      `json:"kind,omitempty"`
+	SelfLink string      `json:"selflink,omitempty"`
 }
 
-type ClientSSLConfig struct {
+type ClientSSL struct {
 	Kind                     string `json:"kind"`
 	Name                     string `json:"name"`
 	Partition                string `json:"partition"`
@@ -128,44 +127,44 @@ type ClientSSLConfig struct {
 
 const ClientSSLEndpoint = "client-ssl"
 
-type ClientSSLSoucre struct {
-	B *bigip.BigIP
+type ClientSSLResource struct {
+	b *bigip.BigIP
 }
 
-func (mir *ClientSSLSoucre) List() (*ClientSSLConfigList, error) {
-	var micl ClientSSLConfigList
-	res, err := mir.B.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+func (mir *ClientSSLResource) List() (*ClientSSLList, error) {
+	var items ClientSSLList
+	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
 
-	if err := json.Unmarshal(res, &micl); err != nil {
+	if err := json.Unmarshal(res, &items); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
 	}
-	return &micl, nil
+	return &items, nil
 }
 
-func (mir *ClientSSLSoucre) Get(fullPathName string) (*ClientSSLConfig, error) {
-	var mic ClientSSLConfig
-	res, err := mir.B.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+func (mir *ClientSSLResource) Get(fullPathName string) (*ClientSSL, error) {
+	var item ClientSSL
+	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
-	if err := json.Unmarshal(res, &mic); err != nil {
+	if err := json.Unmarshal(res, &item); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
 	}
-	return &mic, nil
+	return &item, nil
 }
 
-func (mir *ClientSSLSoucre) Create(item ClientSSLConfig) error {
+func (mir *ClientSSLResource) Create(item ClientSSL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mir.B.RestClient.Post().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+	_, err = mir.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -173,13 +172,13 @@ func (mir *ClientSSLSoucre) Create(item ClientSSLConfig) error {
 	return nil
 }
 
-func (mir *ClientSSLSoucre) Update(name string, item ClientSSLConfig) error {
+func (mir *ClientSSLResource) Update(name string, item ClientSSL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mir.B.RestClient.Put().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+	_, err = mir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -187,8 +186,8 @@ func (mir *ClientSSLSoucre) Update(name string, item ClientSSLConfig) error {
 	return nil
 }
 
-func (mir *ClientSSLSoucre) Delete(name string) error {
-	_, err := mir.B.RestClient.Delete().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+func (mir *ClientSSLResource) Delete(name string) error {
+	_, err := mir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

@@ -1,6 +1,14 @@
 package profile
 
-type stream struct {
+import "github.com/lefeck/go-bigip"
+
+type StreamList struct {
+	Items    []Stream `json:"items,omitempty"`
+	Kind     string   `json:"kind,omitempty"`
+	SelfLink string   `json:"selflink,omitempty"`
+}
+
+type Stream struct {
 	Kind         string `json:"kind"`
 	Name         string `json:"name"`
 	Partition    string `json:"partition"`
@@ -14,4 +22,10 @@ type stream struct {
 	Description  string `json:"description"`
 	Source       string `json:"source"`
 	TmTarget     string `json:"tmTarget"`
+}
+
+const StreamEndpoint = "stream"
+
+type StreamResource struct {
+	b *bigip.BigIP
 }

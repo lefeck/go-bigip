@@ -116,7 +116,7 @@ type PoolStats struct {
 	} `json:"entries,omitempty"`
 }
 
-// PoolStatsResource provides an API to manage PoolStats configurations.
+// PoolStatsResource provides an API to manage PoolStats urations.
 type PoolStatsResource struct {
 	b *bigip.BigIP
 }

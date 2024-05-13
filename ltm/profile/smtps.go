@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type SmtpsConfigList struct {
-	Items    []SmtpsConfig `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type SMTPSList struct {
+	Items    []SMTPS `json:"items,omitempty"`
+	Kind     string  `json:"kind,omitempty"`
+	SelfLink string  `json:"selflink,omitempty"`
 }
 
-type SmtpsConfig struct {
+type SMTPS struct {
 	Kind           string `json:"kind"`
 	Name           string `json:"name"`
 	Partition      string `json:"partition"`
@@ -21,10 +21,14 @@ type SmtpsConfig struct {
 	Description    string `json:"description"`
 }
 
-type ProfileSmtpsResource struct {
+const SMTPSEndpoint = "smtps"
+
+type SMTPSResource struct {
 	b *bigip.BigIP
 }
 
-func (p *ProfileSmtpsResource) List() (*SmtpsConfigList, error) {
+func (p *SMTPS) List() (*SMTPSList, error) {
+	var items SMTPSList
 
+	return &items, nil
 }

@@ -8,14 +8,14 @@ import (
 	"strings"
 )
 
-// A RuleList contains a list of iRule configurations.
+// A RuleList contains a list of iRule urations.
 type RuleList struct {
 	Items    []Rule `json:"items,omitempty"`
 	Kind     string `json:"kind,omitempty" pretty:",expanded"`
 	SelfLink string `json:"selfLink,omitempty" pretty:",expanded"`
 }
 
-// Rule contains only the iRule configuration.
+// Rule contains only the iRule uration.
 type Rule struct {
 	Action              string `json:"action,omitempty"`
 	AppService          string `json:"appService,omitempty"`
@@ -37,10 +37,10 @@ type Rule struct {
 	ApiAnonymous string `json:"apiAnonymous,omitempty"`
 }
 
-// RuleEndpoint represents the REST resource for managing iRule configurations.
+// RuleEndpoint represents the REST resource for managing iRule urations.
 const RuleEndpoint = "rule"
 
-// A RuleResource provides an API to manage iRule configurations.
+// A RuleResource provides an API to manage iRule urations.
 type RuleResource struct {
 	b *bigip.BigIP
 }

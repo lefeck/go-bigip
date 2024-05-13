@@ -16,12 +16,11 @@ type Interface interface {
 	Delete() *Request
 }
 
-// ClientContentConfig controls how RESTClient communicates with the server.
+// ClientContent controls how RESTClient communicates with the server.
 type ClientContentConfig struct {
 	AcceptContentTypes string
 	ContentType        string
 }
-
 type RESTClient struct {
 	Base        *url.URL
 	baseAPIPath string

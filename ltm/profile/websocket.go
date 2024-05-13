@@ -1,6 +1,14 @@
 package profile
 
-type websocket struct {
+import "github.com/lefeck/go-bigip"
+
+type WebSocketList struct {
+	Items    []WebSocket `json:"items,omitempty"`
+	Kind     string      `json:"kind,omitempty"`
+	SelfLink string      `json:"selflink,omitempty"`
+}
+
+type WebSocket struct {
 	Kind                   string `json:"kind"`
 	Name                   string `json:"name"`
 	Partition              string `json:"partition"`
@@ -17,4 +25,10 @@ type websocket struct {
 	PayloadProcessingMode  string `json:"payloadProcessingMode"`
 	PayloadProtocolProfile string `json:"payloadProtocolProfile"`
 	WindowBits             int    `json:"windowBits"`
+}
+
+const WebSocketEndpoint = "websocket"
+
+type WebSocketResource struct {
+	b *bigip.BigIP
 }

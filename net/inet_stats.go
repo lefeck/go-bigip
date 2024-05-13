@@ -53,7 +53,7 @@ type InterfaceStats struct {
 const InterfaceStatsEndpoint = "interface"
 const StatsEndpoint = "stats"
 
-// InterfaceStatsResource provides an API to manage InterfaceStats configurations.
+// InterfaceStatsResource provides an API to manage InterfaceStats urations.
 type InetStatsResource struct {
 	b *bigip.BigIP
 }

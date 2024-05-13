@@ -18,7 +18,7 @@ func New(config *Config) (http.RoundTripper, error) {
 	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	// Use customTransport instead of http.DefaultTransport
-	return HTTPWrappersForConfig(config, customTransport)
+	return HTTPWrappersFor(config, customTransport)
 }
 
 // WrapperFunc wraps an http.RoundTripper when a new transport

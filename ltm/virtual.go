@@ -156,7 +156,7 @@ func (vr *VirtualResource) Create(item VirtualServer) error {
 // Update the virtual server identified by the virtual server name,
 // Source and Mask fields must be specified, otherwise an error will be reported. For example:
 /*
-   item := ltm.VirtualServer{
+   item := VirtualServer{
        ......
        Source:    "0.0.0.0/32",
        Mask:      "255.255.255.255",

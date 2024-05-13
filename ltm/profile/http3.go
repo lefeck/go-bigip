@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type Http3ConfigList struct {
-	Items    []Http3Config `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type HTTP3ConfigList struct {
+	Items    []HTTP3 `json:"items,omitempty"`
+	Kind     string  `json:"kind,omitempty"`
+	SelfLink string  `json:"selflink,omitempty"`
 }
 
-type Http3Config struct {
+type HTTP3 struct {
 	Kind            string `json:"kind"`
 	Name            string `json:"name"`
 	Partition       string `json:"partition"`
@@ -21,8 +21,8 @@ type Http3Config struct {
 	HeaderTableSize int    `json:"headerTableSize"`
 }
 
-const Http3Endpoint = "http3"
+const HTTP3Endpoint = "http3"
 
-type Http3Resoucre struct {
+type HTTP3Resoucre struct {
 	b *bigip.BigIP
 }

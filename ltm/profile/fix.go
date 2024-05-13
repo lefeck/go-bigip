@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type FixConfigList struct {
-	Items    []Fastl4Config `json:"items,omitempty"`
-	Kind     string         `json:"kind,omitempty"`
-	SelfLink string         `json:"selflink,omitempty"`
+type FixList struct {
+	Items    []Fix  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type FixConfig struct {
+type Fix struct {
 	Kind                     string        `json:"kind"`
 	Name                     string        `json:"name"`
 	Partition                string        `json:"partition"`

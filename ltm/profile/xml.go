@@ -1,6 +1,14 @@
 package profile
 
-type xml struct {
+import "github.com/lefeck/go-bigip"
+
+type XMLList struct {
+	Items    []XML  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
+}
+
+type XML struct {
 	Kind                 string        `json:"kind"`
 	Name                 string        `json:"name"`
 	Partition            string        `json:"partition"`
@@ -13,4 +21,10 @@ type xml struct {
 	MultipleQueryMatches string        `json:"multipleQueryMatches"`
 	NamespaceMappings    []interface{} `json:"namespaceMappings"`
 	XpathQueries         []interface{} `json:"xpathQueries"`
+}
+
+const XMLEndpoint = "xml"
+
+type XMLResource struct {
+	b *bigip.BigIP
 }

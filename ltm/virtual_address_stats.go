@@ -42,7 +42,7 @@ type DescriptionOrValue struct {
 	Value       int    `json:"value,omitempty"`
 }
 
-// VirtualStatsResource provides an API to manage VirtualStats configurations.
+// VirtualStatsResource provides an API to manage VirtualStats urations.
 type VirtualAddressStatsResource struct {
 	b *bigip.BigIP
 }

@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type FtpConfigList struct {
-	Items    []FtpConfig `json:"items,omitempty"`
-	Kind     string      `json:"kind,omitempty"`
-	SelfLink string      `json:"selflink,omitempty"`
+type FTPList struct {
+	Items    []FTP  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type FtpConfig struct {
+type FTP struct {
 	Kind                   string `json:"kind"`
 	Name                   string `json:"name"`
 	Partition              string `json:"partition"`
@@ -31,8 +31,8 @@ type FtpConfig struct {
 	TranslateExtended      string `json:"translateExtended"`
 }
 
-const FtpEndpoint = "ftp"
+const FTPEndpoint = "ftp"
 
-type FtpResource struct {
+type FTPResource struct {
 	b *bigip.BigIP
 }

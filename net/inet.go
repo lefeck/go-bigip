@@ -49,12 +49,12 @@ type Interface struct {
 // InterfaceEndpoint represents the REST resource for managing interfaces.
 const InterfaceEndpoint = "interface"
 
-// A InetResource provides an API to manage Interface configurations.
+// A InetResource provides an API to manage Interface urations.
 type InetResource struct {
 	b *bigip.BigIP
 }
 
-// ListAll lists all interfaces configuration.
+// ListAll lists all interfaces uration.
 func (ir *InetResource) List() (*InterfaceList, error) {
 	var items InterfaceList
 	res, err := ir.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).Resource(InterfaceEndpoint).DoRaw(context.Background())
@@ -67,7 +67,7 @@ func (ir *InetResource) List() (*InterfaceList, error) {
 	return &items, nil
 }
 
-// Get a single interface configuration identified by id.
+// Get a single interface uration identified by id.
 func (ir *InetResource) Get(fullPathName string) (*Interface, error) {
 	var item Interface
 	res, err := ir.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).

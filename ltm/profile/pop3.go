@@ -1,6 +1,14 @@
 package profile
 
-type pop3 struct {
+import "github.com/lefeck/go-bigip"
+
+type POP3List struct {
+	Items    []POP3 `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
+}
+
+type POP3 struct {
 	Kind           string `json:"kind"`
 	Name           string `json:"name"`
 	Partition      string `json:"partition"`
@@ -11,4 +19,10 @@ type pop3 struct {
 	AppService     string `json:"appService"`
 	DefaultsFrom   string `json:"defaultsFrom"`
 	Description    string `json:"description"`
+}
+
+const POP3Endpoint = "pop3"
+
+type POP3Resource struct {
+	b *bigip.BigIP
 }

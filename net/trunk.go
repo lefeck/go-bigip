@@ -15,7 +15,7 @@ type TrunkList struct {
 	SelfLink string  `json:"selfLink,omitempty"`
 }
 
-// A Trunk hold the configuration for a trunk.
+// A Trunk hold the uration for a trunk.
 type Trunk struct {
 	Bandwidth           int      `json:"bandwidth,omitempty"`
 	CfgMbrCount         int      `json:"cfgMbrCount,omitempty"`
@@ -45,12 +45,12 @@ type Trunk struct {
 // TrunkEndpoint represents the REST resource for managing a trunk.
 const TrunkEndpoint = "trunk"
 
-// A TrunkResource provides API to manage trunks configuration.
+// A TrunkResource provides API to manage trunks uration.
 type TrunkResource struct {
 	b *bigip.BigIP
 }
 
-// ListAll lists all the trunk configurations.
+// ListAll lists all the trunk urations.
 func (tr *TrunkResource) List() (*TrunkList, error) {
 	var tl TrunkList
 	res, err := tr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
@@ -65,7 +65,7 @@ func (tr *TrunkResource) List() (*TrunkList, error) {
 	return &tl, nil
 }
 
-// Get a single trunk configuration identified by id.
+// Get a single trunk uration identified by id.
 func (tr *TrunkResource) Get(fullPathName string) (*Trunk, error) {
 	var trunk Trunk
 	res, err := tr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
@@ -80,7 +80,7 @@ func (tr *TrunkResource) Get(fullPathName string) (*Trunk, error) {
 	return &trunk, nil
 }
 
-// Create a new trunk configuration.
+// Create a new trunk uration.
 func (tr *TrunkResource) Create(item Trunk) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -95,7 +95,7 @@ func (tr *TrunkResource) Create(item Trunk) error {
 	return nil
 }
 
-// Edit a trunk configuration identified by id.
+// Edit a trunk uration identified by id.
 func (tr *TrunkResource) Edit(name string, item Trunk) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -110,7 +110,7 @@ func (tr *TrunkResource) Edit(name string, item Trunk) error {
 	return nil
 }
 
-// Delete a single trunk configuration identified by id.
+// Delete a single trunk uration identified by id.
 func (tr *TrunkResource) Delete(name string) error {
 	_, err := tr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
 		Resource(TrunkEndpoint).ResourceInstance(name).DoRaw(context.Background())

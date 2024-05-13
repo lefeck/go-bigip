@@ -15,11 +15,11 @@ import (
 
 //	func virtualtoken() {
 //		token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJNc1RhY0AyMDAxIiwic3ViIjoiZGVtbyIsImlhdCI6MTcxMzQ5NDYzNSwibmJmIjoxNzEzNDk0NjM1LCJleHAiOjE3MTM1ODEwMzV9.j1vnb6LonkCDxs7bbfDovjbFHSjRk7vCZAns5Bwiqf8"
-//		b, err := bigip.NewToken("192.168.13.91", token)
+//		b, err := bigip.Token("192.168.13.91", token)
 //		if err != nil {
 //			panic(err)
 //		}
-//		bg := ltm.New(b)
+//		bg := (b)
 //		val, _ := bg.VirtualAddress().List()
 //		fmt.Println(val)
 //		for _, va := range val.Items {
@@ -61,7 +61,13 @@ func main() {
 	//bs.getSingleVirtualAddressStats()
 	//bs.listVirtualServerDetail()
 	//bs.listSnatPool()
-	bs.ListMonitor()
+	//bs.ListMonitorICMP()
+	bs.ListMonitorICMP()
+	//bs.CreateMonitorICMP()
+	//bs.UpdateMonitorICMP()
+
+	// profile
+	//bs.ListProfileFastHttp()
 }
 
 // this is a testing struct for bigip api
@@ -77,12 +83,71 @@ func (bs *bigipTest) init() {
 	bs.bigIP = b
 }
 
-func (bs *bigipTest) ListMonitor() {
-	//lp := ltm.New(bs.bigIP)
+func (bs *bigipTest) ListMonitorICMP() {
+	bg := ltm.New(bs.bigIP)
+	icmpList, _ := bg.Monitor().ICMP().List()
+	fmt.Println(icmpList)
 
-	bg := monitor.NewMonitor(bs.bigIP)
-	dnsl, _ := bg.MonitorDNS().List()
-	fmt.Println(dnsl)
+	for _, icmp := range icmpList.Items {
+		fullpath := icmp.FullPath
+		item, err := bg.Monitor().ICMP().Get(fullpath)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(item)
+	}
+}
+
+func (bs *bigipTest) ListProfileFastHttp() {
+	bg := ltm.New(bs.bigIP)
+	fasthttp, _ := bg.Profile().FASTHTTP().List()
+
+	fmt.Println(fasthttp)
+
+	for _, icmp := range fasthttp.Items {
+		fullpath := icmp.FullPath
+		item, err := bg.Profile().FASTHTTP().Get(fullpath)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(item)
+	}
+}
+
+func (bs *bigipTest) CreateMonitorICMP() {
+	bg := ltm.New(bs.bigIP)
+	item := monitor.MonitorICMP{
+		Name:          "hello-icmp-m1",
+		Interval:      20,
+		Timeout:       50,
+		AdaptiveLimit: 100,
+	}
+	if err := bg.Monitor().ICMP().Create(item); err != nil {
+		panic(err)
+	}
+}
+
+func (bs *bigipTest) UpdateMonitorICMP() {
+	bg := ltm.New(bs.bigIP)
+	fullPathname := "/Common/hello-icmp-m1"
+
+	item := monitor.MonitorICMP{
+		Interval:      10,
+		Timeout:       80,
+		AdaptiveLimit: 100,
+	}
+	if err := bg.Monitor().ICMP().Update(fullPathname, item); err != nil {
+		panic(err)
+	}
+}
+
+func (bs *bigipTest) DeleteMonitorICMP() {
+	bg := ltm.New(bs.bigIP)
+	name := "/Common/hello-icmp-m1"
+
+	if err := bg.Monitor().ICMP().Delete(name); err != nil {
+		log.Fatalf("delete monitor is failed %v", err)
+	}
 }
 
 func (bs *bigipTest) ListProfileSSLClient() {
@@ -194,6 +259,7 @@ func (bs *bigipTest) virtualAddressList() {
 }
 
 func (bs *bigipTest) getVersion() {
+
 	bga := cli.NewCli(bs.bigIP)
 	version, _ := bga.Version().Get()
 	fmt.Println(version.Entries.HTTPSLocalhostMgmtTmCliVersion0.NestedStats.EntriesMenu.Supported)

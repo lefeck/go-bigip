@@ -1,6 +1,14 @@
 package profile
 
-type socks struct {
+import "github.com/lefeck/go-bigip"
+
+type SocksList struct {
+	Items    []WebSocket `json:"items,omitempty"`
+	Kind     string      `json:"kind,omitempty"`
+	SelfLink string      `json:"selflink,omitempty"`
+}
+
+type Socks struct {
 	Kind                   string   `json:"kind"`
 	Name                   string   `json:"name"`
 	Partition              string   `json:"partition"`
@@ -22,4 +30,10 @@ type socks struct {
 	TunnelNameReference struct {
 		Link string `json:"link"`
 	} `json:"tunnelNameReference"`
+}
+
+const SocksEndpoint = "socks"
+
+type SocksResource struct {
+	b *bigip.BigIP
 }

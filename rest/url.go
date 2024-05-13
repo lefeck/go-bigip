@@ -38,7 +38,6 @@ func DefaultAPIPath(apiPath string) string {
 // DefaultServerUrlFor is shared RESTClientFor. It requires Host to be set prior to being called.
 func DefaultServerUrlFor(config *Config) (*url.URL, string, error) {
 	host := config.Host
-
 	if host == "" {
 		host = "localhost"
 	}

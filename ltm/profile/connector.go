@@ -5,17 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/lefeck/go-bigip"
-	"github.com/lefeck/go-bigip/ltm"
 	"strings"
 )
 
-type ConnectorConfigList struct {
-	Items    []ConnectorConfig `json:"items,omitempty"`
-	Kind     string            `json:"kind,omitempty"`
-	SelfLink string            `json:"selflink,omitempty"`
+type ConnectorList struct {
+	Items    []Connector `json:"items,omitempty"`
+	Kind     string      `json:"kind,omitempty"`
+	SelfLink string      `json:"selflink,omitempty"`
 }
 
-type ConnectorConfig struct {
+type Connector struct {
 	Kind               string `json:"kind"`
 	Name               string `json:"name"`
 	Partition          string `json:"partition"`
@@ -32,12 +31,12 @@ type ConnectorConfig struct {
 const ConnectorEndpoint = "connector"
 
 type ConnectorResource struct {
-	B *bigip.BigIP
+	b *bigip.BigIP
 }
 
-func (cr *ConnectorResource) List() (*ConnectorConfigList, error) {
-	var items ConnectorConfigList
-	res, err := cr.B.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+func (cr *ConnectorResource) List() (*ConnectorList, error) {
+	var items ConnectorList
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -49,9 +48,9 @@ func (cr *ConnectorResource) List() (*ConnectorConfigList, error) {
 	return &items, nil
 }
 
-func (cr *ConnectorResource) Get(fullPathName string) (*ConnectorConfig, error) {
-	var item ConnectorConfig
-	res, err := cr.B.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+func (cr *ConnectorResource) Get(fullPathName string) (*Connector, error) {
+	var item Connector
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -62,13 +61,13 @@ func (cr *ConnectorResource) Get(fullPathName string) (*ConnectorConfig, error) 
 	return &item, nil
 }
 
-func (cr *ConnectorResource) Create(item ConnectorConfig) error {
+func (cr *ConnectorResource) Create(item Connector) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = cr.B.RestClient.Post().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -76,13 +75,13 @@ func (cr *ConnectorResource) Create(item ConnectorConfig) error {
 	return nil
 }
 
-func (cr *ConnectorResource) Update(name string, item ConnectorConfig) error {
+func (cr *ConnectorResource) Update(name string, item Connector) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = cr.B.RestClient.Put().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -91,7 +90,7 @@ func (cr *ConnectorResource) Update(name string, item ConnectorConfig) error {
 }
 
 func (cr *ConnectorResource) Delete(name string) error {
-	_, err := cr.B.RestClient.Delete().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

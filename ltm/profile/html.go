@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type HtmlConfigList struct {
-	Items    []HtmlConfig `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type HTMLList struct {
+	Items    []HTML `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type HtmlConfig struct {
+type HTML struct {
 	Kind             string   `json:"kind"`
 	Name             string   `json:"name"`
 	Partition        string   `json:"partition"`
@@ -22,8 +22,8 @@ type HtmlConfig struct {
 	Description      string   `json:"description"`
 }
 
-const HtmlEndpoint = "html"
+const HTMLEndpoint = "html"
 
-type HtmlResource struct {
+type HTMLResource struct {
 	b *bigip.BigIP
 }

@@ -152,7 +152,7 @@ type VirtualStats struct {
 // The StatsEndpoint representative is used to manage all resource types on the bigip.
 const StatsEndpoint = "stats"
 
-// VirtualStatsResource provides an API to manage VirtualStats configurations.
+// VirtualStatsResource provides an API to manage VirtualStats urations.
 type VirtualStatsResource struct {
 	b *bigip.BigIP
 }

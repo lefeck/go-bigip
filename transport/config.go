@@ -1,10 +1,8 @@
 package transport
 
-import (
-	"net/http"
-)
+import "net/http"
 
-// Config holds various options for establishing a transport.
+// holds various options for establishing a transport.
 type Config struct {
 	// Username and password for basic authentication
 	Username string

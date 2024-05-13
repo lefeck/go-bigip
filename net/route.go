@@ -15,7 +15,7 @@ type RouteList struct {
 	SelfLink string  `json:"selfLink,omitempty"`
 }
 
-// A Route hold the configuration for a route.
+// A Route hold the uration for a route.
 type Route struct {
 	FullPath   string `json:"fullPath,omitempty"`
 	Generation int    `json:"generation,omitempty"`
@@ -31,12 +31,12 @@ type Route struct {
 // RouteEndpoint represents the REST resource for managing a route.
 const RouteEndpoint = "route"
 
-// A RouteResource provides API to manage routes configuration.
+// A RouteResource provides API to manage routes uration.
 type RouteResource struct {
 	b *bigip.BigIP
 }
 
-// ListAll lists all the route configurations.
+// List lists all the route urations.
 func (rr *RouteResource) List() (*RouteList, error) {
 	var rl RouteList
 	res, err := rr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).Resource(RouteEndpoint).DoRaw(context.Background())
@@ -49,7 +49,7 @@ func (rr *RouteResource) List() (*RouteList, error) {
 	return &rl, nil
 }
 
-// Get a single route configuration identified by id.
+// Get a single route uration identified by id.
 func (rr *RouteResource) Get(fullPathName string) (*Route, error) {
 	res, err := rr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
 		Resource(RouteEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
@@ -64,7 +64,7 @@ func (rr *RouteResource) Get(fullPathName string) (*Route, error) {
 	return &route, nil
 }
 
-// Create a new route configuration.
+// Create a new route uration.
 func (rr *RouteResource) Create(item Route) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -79,7 +79,7 @@ func (rr *RouteResource) Create(item Route) error {
 	return nil
 }
 
-// Edit a route configuration identified by id.
+// Edit a route uration identified by id.
 func (rr *RouteResource) Update(name string, item Route) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -94,7 +94,7 @@ func (rr *RouteResource) Update(name string, item Route) error {
 	return nil
 }
 
-// Delete a single route configuration identified by id.
+// Delete a single route uration identified by id.
 func (rr *RouteResource) Delete(name string) error {
 	_, err := rr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
 		Resource(RouteEndpoint).ResourceInstance(name).DoRaw(context.Background())

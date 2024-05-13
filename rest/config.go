@@ -34,7 +34,7 @@ func RESTClientForConfigAndClient(config *Config, httpClient *http.Client) (*RES
 	if err != nil {
 		return nil, err
 	}
-	//adding content for ClientContentConfig
+	//adding content for ClientContent
 	clientContent := ClientContentConfig{
 		ContentType: config.ContentType,
 	}

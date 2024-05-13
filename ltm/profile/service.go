@@ -1,6 +1,13 @@
 package profile
 
-type service struct {
+import "github.com/lefeck/go-bigip"
+
+type ServiceList struct {
+	Items    []Service `json:"items,omitempty"`
+	Kind     string    `json:"kind,omitempty"`
+	SelfLink string    `json:"selflink,omitempty"`
+}
+type Service struct {
 	Kind       string `json:"kind"`
 	Name       string `json:"name"`
 	Partition  string `json:"partition"`
@@ -9,4 +16,10 @@ type service struct {
 	SelfLink   string `json:"selfLink"`
 	AppService string `json:"appService"`
 	Type       string `json:"type"`
+}
+
+const ServiceEndpoint = "service"
+
+type ServiceResource struct {
+	b *bigip.BigIP
 }

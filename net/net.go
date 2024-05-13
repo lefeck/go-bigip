@@ -35,7 +35,7 @@ func New(b *bigip.BigIP) NET {
 	}
 }
 
-// Inet returns a InetResource configured to query tm/net/interface API.
+// Inet returns a InetResource ured to query tm/net/interface API.
 func (net NET) Inet() *InetResource {
 	return &net.inet
 }
@@ -44,27 +44,27 @@ func (net NET) InetStats() *InetStatsResource {
 	return &net.inetStats
 }
 
-// Route returns a RouteResource configured to query tm/net/route API.
+// Route returns a RouteResource ured to query tm/net/route API.
 func (net NET) Route() *RouteResource {
 	return &net.route
 }
 
-// Vlan returns a VlanResource configured to query /tm/net/vlan API.
+// Vlan returns a VlanResource ured to query /tm/net/vlan API.
 func (net NET) Vlan() *VlanResource {
 	return &net.vlan
 }
 
-// Self returns a SelfResource configured to query /tm/net/self API.
+// Self returns a SelfResource ured to query /tm/net/self API.
 func (net NET) Self() *SelfResource {
 	return &net.self
 }
 
-// RouteDomain returns a RouteDomainResource configured to query /tm/net/route-domain API.
+// RouteDomain returns a RouteDomainResource ured to query /tm/net/route-domain API.
 func (net NET) RouteDomain() *RouteDomainResource {
 	return &net.routeDomain
 }
 
-// RouteDomain returns a RouteDomainResource configured to query /tm/net/route-domain API.
+// RouteDomain returns a RouteDomainResource ured to query /tm/net/route-domain API.
 func (net NET) Trunk() *TrunkResource {
 	return &net.trunk
 }

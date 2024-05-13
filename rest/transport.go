@@ -6,7 +6,7 @@ import (
 )
 
 // HTTPClientFor returns an http.Client that will provide the authentication
-// or transport level security defined by the provided Config. Will return the
+// or transport level security defined by the provided . Will return the
 // default http.DefaultClient if no special case behavior is needed.
 func HTTPClientFor(config *Config) (*http.Client, error) {
 	transport, err := TransportFor(config)
@@ -27,7 +27,7 @@ func HTTPClientFor(config *Config) (*http.Client, error) {
 }
 
 // TransportFor returns an http.RoundTripper that will provide the authentication
-// or transport level security defined by the provided Config. Will return the
+// or transport level security defined by the provided . Will return the
 // default http.DefaultTransport if no special case behavior is needed.
 func TransportFor(config *Config) (http.RoundTripper, error) {
 	cfg, err := config.TransportConfig()
@@ -37,15 +37,15 @@ func TransportFor(config *Config) (http.RoundTripper, error) {
 	return transport.New(cfg)
 }
 
-func HTTPWrappersForConfig(config *Config, rt http.RoundTripper) (http.RoundTripper, error) {
+func HTTPWrappersFor(config *Config, rt http.RoundTripper) (http.RoundTripper, error) {
 	cfg, err := config.TransportConfig()
 	if err != nil {
 		return nil, err
 	}
-	return transport.HTTPWrappersForConfig(cfg, rt)
+	return transport.HTTPWrappersFor(cfg, rt)
 }
 
-// TransportConfig converts a client config to an appropriate transport config.
+// Transport converts a client  to an appropriate transport .
 func (c *Config) TransportConfig() (*transport.Config, error) {
 	conf := &transport.Config{
 		Transport:       c.Transport,
@@ -55,7 +55,6 @@ func (c *Config) TransportConfig() (*transport.Config, error) {
 		BearerToken:     c.BearerToken,
 		BearerTokenFile: c.BearerTokenFile,
 	}
-
 	return conf, nil
 }
 

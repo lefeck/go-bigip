@@ -3,6 +3,8 @@ package ltm
 
 import (
 	"github.com/lefeck/go-bigip"
+	"github.com/lefeck/go-bigip/ltm/monitor"
+	"github.com/lefeck/go-bigip/ltm/profile"
 )
 
 // LtmManager is a commonly used basepath, providing a large number of api resource types
@@ -10,8 +12,6 @@ const LtmManager = "ltm"
 
 // LTM implements a REST client for the F5 BigIP LTM API.
 type LTM struct {
-	b *bigip.BigIP
-
 	virtual             VirtualResource
 	virtualStats        VirtualStatsResource
 	virtualAddress      VirtualAddressResource
@@ -27,8 +27,11 @@ type LTM struct {
 	iFile             IFileResource
 	dataGroupInternal DataGroupInternalResource
 
-	//monitor   monitor.MonitorResoucre
-	//clientSSL profile.ProfileClientSSLSoucre
+	// Provide a public entry point for monitor resources
+	monitor monitor.MonitorResource
+
+	// Provide a public entry point for profile resources
+	profile profile.ProfileResource
 }
 
 // New creates a new LTM client.
@@ -50,24 +53,13 @@ func New(b *bigip.BigIP) LTM {
 		dataGroupInternal: DataGroupInternalResource{b: b},
 
 		// monitor
-		////monitor: monitor.MonitorResoucre{B: b},
-		//monitor: monitor.NewMonitor(b ),
-		//
-		//// profile
-		//clientSSL: profile.ProfileClientSSLSoucre{B: b},
+		monitor: monitor.NewMonitor(b),
+		// profile
+		profile: profile.NewProfile(b),
 	}
 }
 
-type LTMBuilder interface {
-	Virtual() *VirtualResource
-	VirtualAddress() *VirtualAddressResource
-	VirtualAddressStats() *VirtualAddressStatsResource
-	VirtualStats() *VirtualStatsResource
-	Pool() *PoolResource
-	SnatPool() *SnatPoolResource
-}
-
-// Virtual returns a VirtualResource configured to query tm/ltm/virtual API.
+// Virtual returns a VirtualResource ured to query tm/ltm/virtual API.
 func (ltm LTM) Virtual() *VirtualResource {
 	return &ltm.virtual
 }
@@ -108,20 +100,20 @@ func (ltm LTM) NodeStats() *NodeStatsResource {
 	return &ltm.nodeStats
 }
 
-//func (ltm LTM) ProfileCLientSSL() *profile.ProfileClientSSLSoucre {
-//	return &ltm.clientSSL
-//}
-
-// IFile returns an IFileResource configured to query /tm/ltm/ifile API.
+// IFile returns an IFileResource ured to query /tm/ltm/ifile API.
 func (ltm LTM) IFile() *IFileResource {
 	return &ltm.iFile
 }
 
-// DataGroupInternal returns a DataGroupInternalResource configured to query /tm/ltm/data-group/internal API.
+// DataGroupInternal returns a DataGroupInternalResource ured to query /tm/ltm/data-group/internal API.
 func (ltm LTM) DataGroupInternal() *DataGroupInternalResource {
 	return &ltm.dataGroupInternal
 }
 
-//func (ltm LTM) Monitor() monitor.MonitorResoucre {
-//	return ltm.monitor
-//}
+func (ltm LTM) Monitor() monitor.Monitor {
+	return ltm.monitor
+}
+
+func (ltm LTM) Profile() *profile.ProfileResource {
+	return &ltm.profile
+}

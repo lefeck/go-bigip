@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type NtlmConfigList struct {
-	Items    []NtlmConfig `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type NtlmList struct {
+	Items    []Ntlm `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type NtlmConfig struct {
+type Ntlm struct {
 	Kind                   string `json:"kind"`
 	Name                   string `json:"name"`
 	Partition              string `json:"partition"`
@@ -30,8 +30,8 @@ type NtlmConfig struct {
 	KeyByWorkstation       string `json:"keyByWorkstation"`
 }
 
-const NtlmEndpoint = "iamp"
+const NtlmEndpoint = "ntlm"
 
-type NtlmResoucre struct {
+type NtlmResource struct {
 	b *bigip.BigIP
 }

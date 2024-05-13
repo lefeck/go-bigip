@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type OneConnectConfigList struct {
-	Items    []OneConnectConfig `json:"items,omitempty"`
-	Kind     string             `json:"kind,omitempty"`
-	SelfLink string             `json:"selflink,omitempty"`
+type OneConnectList struct {
+	Items    []OneConnect `json:"items,omitempty"`
+	Kind     string       `json:"kind,omitempty"`
+	SelfLink string       `json:"selflink,omitempty"`
 }
 
-type OneConnectConfig struct {
+type OneConnect struct {
 	Kind                string `json:"kind"`
 	Name                string `json:"name"`
 	Partition           string `json:"partition"`
@@ -29,6 +29,6 @@ type OneConnectConfig struct {
 
 const OneConnectEndpoint = "oneconnect"
 
-type OneConnectResoucre struct {
+type OneConnectResource struct {
 	b *bigip.BigIP
 }

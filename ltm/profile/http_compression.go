@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type HttpCompressionConfigList struct {
-	Items    []HttpCompressionConfig `json:"items,omitempty"`
-	Kind     string                  `json:"kind,omitempty"`
-	SelfLink string                  `json:"selflink,omitempty"`
+type HTTPCompressionList struct {
+	Items    []HTTPCompression `json:"items,omitempty"`
+	Kind     string            `json:"kind,omitempty"`
+	SelfLink string            `json:"selflink,omitempty"`
 }
 
-type HttpCompressionConfig struct {
+type HTTPCompression struct {
 	Kind                  string        `json:"kind"`
 	Name                  string        `json:"name"`
 	Partition             string        `json:"partition"`
@@ -41,8 +41,8 @@ type HttpCompressionConfig struct {
 	VaryHeader         string        `json:"varyHeader"`
 }
 
-const HttpCompressionEndpoint = "http-compression"
+const HTTPCompressionEndpoint = "http-compression"
 
-type HttpCompressionResoucre struct {
+type HTTPCompressionResoucre struct {
 	b *bigip.BigIP
 }

@@ -106,7 +106,7 @@ func (pr *PoolResource) Get(fullPathName string) (*Pool, error) {
 
 // Create a new pool instance. If you just create a new pool, for example:
 /*
-	item := ltm.Pool{
+	item := Pool{
 		Name:              "pool-demo",
 		LoadBalancingMode: "round-robin",
 		Monitor:           "http",
@@ -115,7 +115,7 @@ func (pr *PoolResource) Get(fullPathName string) (*Pool, error) {
 */
 // If you create a new pool and also add member， for example:
 /*
-	item := ltm.Pool{
+	item := Pool{
 		Name:              "pool-demo",
 		LoadBalancingMode: "round-robin",
 		Members:           []string{"192.13.23.1:90", "128.3.2.53:90"},

@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func HTTPWrappersForConfig(config *Config, rt http.RoundTripper) (http.RoundTripper, error) {
+func HTTPWrappersFor(config *Config, rt http.RoundTripper) (http.RoundTripper, error) {
 	if config.WrapTransport != nil {
 		rt = config.WrapTransport(rt)
 	}

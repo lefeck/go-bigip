@@ -5,17 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/lefeck/go-bigip"
-	"github.com/lefeck/go-bigip/ltm"
 	"strings"
 )
 
-type FasthttpConfigList struct {
-	Items    []FasthttpConfig `json:"items,omitempty"`
-	Kind     string           `json:"kind,omitempty"`
-	SelfLink string           `json:"selflink,omitempty"`
+type FasthttpList struct {
+	Items    []Fasthttp `json:"items,omitempty"`
+	Kind     string     `json:"kind,omitempty"`
+	SelfLink string     `json:"selflink,omitempty"`
 }
 
-type FasthttpConfig struct {
+type Fasthttp struct {
 	Kind                        string `json:"kind"`
 	Name                        string `json:"name"`
 	Partition                   string `json:"partition"`
@@ -53,12 +52,12 @@ type FasthttpConfig struct {
 const FasthttpEndpoint = "fasthttp"
 
 type FasthttpResource struct {
-	B *bigip.BigIP
+	b *bigip.BigIP
 }
 
-func (fr *FasthttpResource) List() (*ClientSSLConfigList, error) {
-	var items ClientSSLConfigList
-	res, err := fr.B.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+func (fr *FasthttpResource) List() (*FasthttpList, error) {
+	var items FasthttpList
+	res, err := fr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -70,9 +69,9 @@ func (fr *FasthttpResource) List() (*ClientSSLConfigList, error) {
 	return &items, nil
 }
 
-func (fr *FasthttpResource) Get(fullPathName string) (*FasthttpConfig, error) {
-	var item FasthttpConfig
-	res, err := fr.B.RestClient.Get().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+func (fr *FasthttpResource) Get(fullPathName string) (*Fasthttp, error) {
+	var item Fasthttp
+	res, err := fr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -83,13 +82,13 @@ func (fr *FasthttpResource) Get(fullPathName string) (*FasthttpConfig, error) {
 	return &item, nil
 }
 
-func (fr *FasthttpResource) Create(item FasthttpConfig) error {
+func (fr *FasthttpResource) Create(item Fasthttp) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = fr.B.RestClient.Post().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
+	_, err = fr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -97,23 +96,23 @@ func (fr *FasthttpResource) Create(item FasthttpConfig) error {
 	return nil
 }
 
-func (fr *FasthttpResource) Update(name string, item FasthttpConfig) error {
+func (fr *FasthttpResource) Update(fullPathName string, item Fasthttp) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = fr.B.RestClient.Put().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
-		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	_, err = fr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (fr *FasthttpResource) Delete(name string) error {
-	_, err := fr.B.RestClient.Delete().Prefix(ltm.BasePath).ResourceCategory(ltm.TMResource).ManagerName(ltm.LtmManager).
-		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(name).DoRaw(context.Background())
+func (fr *FasthttpResource) Delete(fullPathName string) error {
+	_, err := fr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,14 @@
 package profile
 
-type ServerSsl struct {
+import "github.com/lefeck/go-bigip"
+
+type ServerSSLList struct {
+	Items    []ServerSSL `json:"items,omitempty"`
+	Kind     string      `json:"kind,omitempty"`
+	SelfLink string      `json:"selflink,omitempty"`
+}
+
+type ServerSSL struct {
 	Kind                       string        `json:"kind"`
 	Name                       string        `json:"name"`
 	Partition                  string        `json:"partition"`
@@ -77,4 +85,10 @@ type ServerSsl struct {
 	UncleanShutdown                  string `json:"uncleanShutdown"`
 	UnknownCertStatusResponseControl string `json:"unknownCertStatusResponseControl"`
 	UntrustedCertResponseControl     string `json:"untrustedCertResponseControl"`
+}
+
+const ServerSSLEndpoint = "server-ssl"
+
+type ServerSSLResource struct {
+	b *bigip.BigIP
 }

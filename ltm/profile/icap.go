@@ -1,6 +1,14 @@
 package profile
 
-type icap struct {
+import "github.com/lefeck/go-bigip"
+
+type IcapList struct {
+	Items    []Icap `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
+}
+
+type Icap struct {
 	Kind          string `json:"kind"`
 	Name          string `json:"name"`
 	Partition     string `json:"partition"`
@@ -15,4 +23,10 @@ type icap struct {
 	Referer       string `json:"referer"`
 	URI           string `json:"uri"`
 	UserAgent     string `json:"userAgent"`
+}
+
+const IcapEndpoint = "icap"
+
+type IcapResoucre struct {
+	b *bigip.BigIP
 }

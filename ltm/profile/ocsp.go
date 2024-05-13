@@ -2,13 +2,13 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-type OcspConfigList struct {
-	Items    []OcspConfig `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type OcspList struct {
+	Items    []Ocsp `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type OcspConfig struct {
+type Ocsp struct {
 	Kind         string `json:"kind"`
 	Name         string `json:"name"`
 	Partition    string `json:"partition"`
@@ -21,7 +21,7 @@ type OcspConfig struct {
 	Nonce        string `json:"nonce"`
 }
 
-const OcspEndpoint = "iamp"
+const OcspEndpoint = "ocsp"
 
 type OcspResoucre struct {
 	b *bigip.BigIP

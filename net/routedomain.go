@@ -19,31 +19,34 @@ type RouteDomainList struct {
 	SelfLink string        `json:"selfLink,omitempty"`
 }
 
-// A RouteDomain includes the configuration for a route domain.
+// A RouteDomain includes the uration for a route domain.
 type RouteDomain struct {
-	ConnectionLimit int      `json:"connectionLimit,omitempty"`
-	FullPath        string   `json:"fullPath,omitempty"`
-	Generation      int      `json:"generation,omitempty"`
-	ID              int      `json:"id,omitempty"`
-	Kind            string   `json:"kind,omitempty"`
-	Name            string   `json:"name,omitempty"`
-	SelfLink        string   `json:"selfLink,omitempty"`
-	Strict          string   `json:"strict,omitempty"`
-	Vlans           []string `json:"vlans,omitempty"`
-	VlansReference  []struct {
-		Link string `json:"link,omitempty"`
-	} `json:"vlansReference,omitempty"`
+	Kind               string   `json:"kind"`
+	Name               string   `json:"name"`
+	Partition          string   `json:"partition"`
+	FullPath           string   `json:"fullPath"`
+	Generation         int      `json:"generation"`
+	SelfLink           string   `json:"selfLink"`
+	ConnectionLimit    int      `json:"connectionLimit"`
+	ID                 int      `json:"id"`
+	Strict             string   `json:"strict"`
+	ThroughputCapacity string   `json:"throughputCapacity"`
+	RoutingProtocol    []string `json:"routingProtocol"`
+	Vlans              []string `json:"vlans"`
+	VlansReference     []struct {
+		Link string `json:"link"`
+	} `json:"vlansReference"`
 }
 
 // RouteDomainEndpoint represents the REST resource for managing a route domain.
 const RouteDomainEndpoint = "route-domain"
 
-// A RouteDomainResource provides API to manage route domain configuration.
+// A RouteDomainResource provides API to manage route domain uration.
 type RouteDomainResource struct {
 	b *bigip.BigIP
 }
 
-// List lists all the route domain configurations.
+// List lists all the route domain urations.
 func (rdr *RouteDomainResource) List() (*RouteDomainList, error) {
 	var items RouteDomainList
 	res, err := rdr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).Resource(RouteDomainEndpoint).DoRaw(context.Background())
@@ -56,7 +59,7 @@ func (rdr *RouteDomainResource) List() (*RouteDomainList, error) {
 	return &items, nil
 }
 
-// Get a single route domain configuration identified by name.
+// Get a single route domain uration identified by name.
 func (rdr *RouteDomainResource) Get(fullPathName string) (*RouteDomain, error) {
 	var item RouteDomain
 	res, err := rdr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
@@ -70,7 +73,7 @@ func (rdr *RouteDomainResource) Get(fullPathName string) (*RouteDomain, error) {
 	return &item, nil
 }
 
-// Create a new route domain configuration.
+// Create a new route domain uration.
 func (rdr *RouteDomainResource) Create(item RouteDomain) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -85,7 +88,7 @@ func (rdr *RouteDomainResource) Create(item RouteDomain) error {
 	return nil
 }
 
-// Update a route domain configuration identified by name.
+// Update a route domain uration identified by name.
 func (rdr *RouteDomainResource) Edit(fullPathName string, item RouteDomain) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -100,7 +103,7 @@ func (rdr *RouteDomainResource) Edit(fullPathName string, item RouteDomain) erro
 	return nil
 }
 
-// Delete a single route domain configuration identified by name.
+// Delete a single route domain uration identified by name.
 func (rdr *RouteDomainResource) Delete(fullPathName string) error {
 	_, err := rdr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
 		Resource(RouteDomainEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())

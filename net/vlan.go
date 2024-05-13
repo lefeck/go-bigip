@@ -15,7 +15,7 @@ type VlanList struct {
 	SelfLink string `json:"selfLink,omitempty"`
 }
 
-// A Vlan hold the configuration for a vlan.
+// A Vlan hold the uration for a vlan.
 type Vlan struct {
 	AutoLasthop         string `json:"autoLasthop,omitempty"`
 	CmpHash             string `json:"cmpHash,omitempty"`
@@ -67,12 +67,12 @@ const VlanEndpoint = "vlan"
 
 const VlanInterfacesEndpoint = "interfaces"
 
-// A VlanResource provides API to manage vlan configuration.
+// A VlanResource provides API to manage vlan uration.
 type VlanResource struct {
 	b *bigip.BigIP
 }
 
-// ListAll lists all the vlan configurations.
+// ListAll lists all the vlan urations.
 func (vr *VlanResource) List() (*VlanList, error) {
 	var vl VlanList
 	res, err := vr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
@@ -87,7 +87,7 @@ func (vr *VlanResource) List() (*VlanList, error) {
 	return &vl, nil
 }
 
-// Get a single vlan configuration identified by name.
+// Get a single vlan uration identified by name.
 func (vr *VlanResource) Get(fullPathName string) (*Vlan, error) {
 	var vlan Vlan
 	res, err := vr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
@@ -102,7 +102,7 @@ func (vr *VlanResource) Get(fullPathName string) (*Vlan, error) {
 	return &vlan, nil
 }
 
-// Create a new vlan configuration.
+// Create a new vlan uration.
 func (vr *VlanResource) Create(item Vlan) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -117,7 +117,7 @@ func (vr *VlanResource) Create(item Vlan) error {
 	return nil
 }
 
-// Edit a vlan configuration identified by id.
+// Edit a vlan uration identified by id.
 func (vr *VlanResource) Update(name string, item Vlan) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -132,7 +132,7 @@ func (vr *VlanResource) Update(name string, item Vlan) error {
 	return nil
 }
 
-// Delete a single vlan configuration identified by id.
+// Delete a single vlan uration identified by id.
 func (vr *VlanResource) Delete(name string) error {
 	_, err := vr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
 		Resource(VlanEndpoint).ResourceInstance(name).DoRaw(context.Background())
@@ -160,7 +160,7 @@ func (vr *VlanResource) GetVlanAssociatedInterfaces(name string) (*AssignedInter
 	return &ail, nil
 }
 
-// Edit a vlan configuration identified by id.
+// Edit a vlan uration identified by id.
 func (vr *VlanResource) AddInterfaceForVlan(name string, item AssignedInterface) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {

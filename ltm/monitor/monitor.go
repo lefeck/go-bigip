@@ -1,15 +1,11 @@
 package monitor
 
-import (
-	"github.com/lefeck/go-bigip"
-)
+import "github.com/lefeck/go-bigip"
 
 // MonitorEndpoint is a commonly used basepath, providing a large number of api resource types
 const MonitorEndpoint = "monitor"
 
-type MonitorResoucre struct {
-	b *bigip.BigIP
-
+type MonitorResource struct {
 	monitorDiameter         MonitorDiameterResource
 	monitorDNS              MonitorDNSResource
 	monitorExternal         MonitorExternalResource
@@ -50,9 +46,8 @@ type MonitorResoucre struct {
 	monitorWMI              MonitorWMIResource
 }
 
-func NewMonitor(b *bigip.BigIP) MonitorResoucre {
-	return MonitorResoucre{
-		b:                       b,
+func NewMonitor(b *bigip.BigIP) MonitorResource {
+	return MonitorResource{
 		monitorDiameter:         MonitorDiameterResource{b: b},
 		monitorDNS:              MonitorDNSResource{b: b},
 		monitorExternal:         MonitorExternalResource{b: b},
@@ -95,196 +90,196 @@ func NewMonitor(b *bigip.BigIP) MonitorResoucre {
 }
 
 type Monitor interface {
-	MonitorDiameter() *MonitorDiameterResource
-	MonitorDNS() *MonitorDNSResource
-	MonitorExternal() *MonitorExternalResource
-	MonitorFirepass() *MonitorFirepassResource
-	MonitorFTP() *MonitorFTPResource
-	MonitorGatewayICMP() *MonitorGatewayICMPResource
-	MonitorHTTP() *MonitorHTTPResource
-	MonitorHTTPS() *MonitorHTTPSResource
-	MonitorICMP() *MonitorICMPResource
-	MonitorIMAP() *MonitorIMAPResource
-	MonitorInband() *MonitorInbandResource
-	MonitorLDAP() *MonitorLDAPResource
-	MonitorModuleScore() *MonitorModuleScoreResource
-	MonitorMSSQL() *MonitorMSSQLResource
-	MonitorMySQL() *MonitorMySQLResource
-	MonitorNNTP() *MonitorNNTPResource
-	MonitorOracle() *MonitorOracleResource
-	MonitorPOP3() *MonitorPOP3Resource
-	MonitorPostgreSQL() *MonitorPostgreSQLResource
-	MonitorRadiusAccounting() *MonitorRadiusAccountingResource
-	MonitorRadius() *MonitorRadiusResource
-	MonitorRealServer() *MonitorRealServerResource
-	MonitorRPC() *MonitorRPCResource
-	MonitorSASP() *MonitorSASPResource
-	MonitorScripted() *MonitorScriptedResource
-	MonitorSIP() *MonitorSIPResource
-	MonitorSMB() *MonitorSMBResource
-	MonitorSMTP() *MonitorSMTPResource
-	MonitorSNMPDCABase() *MonitorSNMPDCABaseResource
-	MonitorSNMPDCA() *MonitorSNMPDCAResource
-	MonitorSOAP() *MonitorSOAPResource
-	MonitorTCPEcho() *MonitorTCPEchoResource
-	MonitorTCP() *MonitorTCPResource
-	MonitorTCPHalfOpen() *MonitorTCPHalfOpenResource
-	MonitorUDP() *MonitorUDPResource
-	MonitorVirtualLocation() *MonitorVirtualLocationResource
-	MonitorWAP() *MonitorWAPResource
-	MonitorWMI() *MonitorWMIResource
+	Diameter() *MonitorDiameterResource
+	DNS() *MonitorDNSResource
+	External() *MonitorExternalResource
+	Firepass() *MonitorFirepassResource
+	FTP() *MonitorFTPResource
+	GatewayICMP() *MonitorGatewayICMPResource
+	HTTP() *MonitorHTTPResource
+	HTTPS() *MonitorHTTPSResource
+	ICMP() *MonitorICMPResource
+	IMAP() *MonitorIMAPResource
+	Inband() *MonitorInbandResource
+	LDAP() *MonitorLDAPResource
+	ModuleScore() *MonitorModuleScoreResource
+	MSSQL() *MonitorMSSQLResource
+	MySQL() *MonitorMySQLResource
+	NNTP() *MonitorNNTPResource
+	Oracle() *MonitorOracleResource
+	POP3() *MonitorPOP3Resource
+	PostgreSQL() *MonitorPostgreSQLResource
+	RadiusAccounting() *MonitorRadiusAccountingResource
+	Radius() *MonitorRadiusResource
+	RealServer() *MonitorRealServerResource
+	RPC() *MonitorRPCResource
+	SASP() *MonitorSASPResource
+	Scripted() *MonitorScriptedResource
+	SIP() *MonitorSIPResource
+	SMB() *MonitorSMBResource
+	SMTP() *MonitorSMTPResource
+	SNMPDCABase() *MonitorSNMPDCABaseResource
+	SNMPDCA() *MonitorSNMPDCAResource
+	SOAP() *MonitorSOAPResource
+	TCPEcho() *MonitorTCPEchoResource
+	TCP() *MonitorTCPResource
+	TCPHalfOpen() *MonitorTCPHalfOpenResource
+	UDP() *MonitorUDPResource
+	VirtualLocation() *MonitorVirtualLocationResource
+	WAP() *MonitorWAPResource
+	WMI() *MonitorWMIResource
 }
 
-//var _ Monitor = MonitorResoucre{}
+var _ Monitor = MonitorResource{}
 
-func (m MonitorResoucre) MonitorDiameter() *MonitorDiameterResource {
+func (m MonitorResource) Diameter() *MonitorDiameterResource {
 	return &m.monitorDiameter
 }
 
-func (m MonitorResoucre) MonitorDNS() *MonitorDNSResource {
+func (m MonitorResource) DNS() *MonitorDNSResource {
 	return &m.monitorDNS
 }
 
-func (m MonitorResoucre) MonitorExternal() *MonitorExternalResource {
+func (m MonitorResource) External() *MonitorExternalResource {
 	return &m.monitorExternal
 }
 
-func (m MonitorResoucre) MonitorFirepass() *MonitorFirepassResource {
+func (m MonitorResource) Firepass() *MonitorFirepassResource {
 	return &m.monitorFirepass
 }
 
-func (m MonitorResoucre) MonitorFTP() *MonitorFTPResource {
+func (m MonitorResource) FTP() *MonitorFTPResource {
 	return &m.monitorFTP
 }
 
-func (m MonitorResoucre) MonitorGatewayICMP() *MonitorGatewayICMPResource {
+func (m MonitorResource) GatewayICMP() *MonitorGatewayICMPResource {
 	return &m.monitorGatewayICMP
 }
 
-func (m MonitorResoucre) MonitorHTTP() *MonitorHTTPResource {
+func (m MonitorResource) HTTP() *MonitorHTTPResource {
 	return &m.monitorHTTP
 }
 
-func (m MonitorResoucre) MonitorHTTPS() *MonitorHTTPSResource {
+func (m MonitorResource) HTTPS() *MonitorHTTPSResource {
 	return &m.monitorHTTPS
 }
 
-func (m MonitorResoucre) MonitorICMP() *MonitorICMPResource {
+func (m MonitorResource) ICMP() *MonitorICMPResource {
 	return &m.monitorICMP
 }
 
-func (m MonitorResoucre) MonitorIMAP() *MonitorIMAPResource {
+func (m MonitorResource) IMAP() *MonitorIMAPResource {
 	return &m.monitorIMAP
 }
 
-func (m MonitorResoucre) MonitorInband() *MonitorInbandResource {
+func (m MonitorResource) Inband() *MonitorInbandResource {
 	return &m.monitorInband
 }
 
-func (m MonitorResoucre) MonitorLDAP() *MonitorLDAPResource {
+func (m MonitorResource) LDAP() *MonitorLDAPResource {
 	return &m.monitorLDAP
 }
 
-func (m MonitorResoucre) MonitorModuleScore() *MonitorModuleScoreResource {
+func (m MonitorResource) ModuleScore() *MonitorModuleScoreResource {
 	return &m.monitorModuleScore
 }
 
-func (m MonitorResoucre) MonitorMSSQL() *MonitorMSSQLResource {
+func (m MonitorResource) MSSQL() *MonitorMSSQLResource {
 	return &m.monitorMSSQL
 }
 
-func (m MonitorResoucre) MonitorMySQL() *MonitorMySQLResource {
+func (m MonitorResource) MySQL() *MonitorMySQLResource {
 	return &m.monitorMySQL
 }
 
-func (m MonitorResoucre) MonitorNNTP() *MonitorNNTPResource {
+func (m MonitorResource) NNTP() *MonitorNNTPResource {
 	return &m.monitorNNTP
 }
 
-func (m MonitorResoucre) MonitorOracle() *MonitorOracleResource {
+func (m MonitorResource) Oracle() *MonitorOracleResource {
 	return &m.monitorOracle
 }
 
-func (m MonitorResoucre) MonitorPOP3() *MonitorPOP3Resource {
+func (m MonitorResource) POP3() *MonitorPOP3Resource {
 	return &m.monitorPOP3
 }
 
-func (m MonitorResoucre) MonitorPostgreSQL() *MonitorPostgreSQLResource {
+func (m MonitorResource) PostgreSQL() *MonitorPostgreSQLResource {
 	return &m.monitorPostgreSQL
 }
 
-func (m MonitorResoucre) MonitorRadiusAccounting() *MonitorRadiusAccountingResource {
+func (m MonitorResource) RadiusAccounting() *MonitorRadiusAccountingResource {
 	return &m.monitorRadiusAccounting
 }
 
-func (m MonitorResoucre) MonitorRadius() *MonitorRadiusResource {
+func (m MonitorResource) Radius() *MonitorRadiusResource {
 	return &m.monitorRadius
 }
 
-func (m MonitorResoucre) MonitorRealServer() *MonitorRealServerResource {
+func (m MonitorResource) RealServer() *MonitorRealServerResource {
 	return &m.monitorRealServer
 }
 
-func (m MonitorResoucre) MonitorRPC() *MonitorRPCResource {
+func (m MonitorResource) RPC() *MonitorRPCResource {
 	return &m.monitorRPC
 }
 
-func (m MonitorResoucre) MonitorSASP() *MonitorSASPResource {
+func (m MonitorResource) SASP() *MonitorSASPResource {
 	return &m.monitorSASP
 }
 
-func (m MonitorResoucre) MonitorScripted() *MonitorScriptedResource {
+func (m MonitorResource) Scripted() *MonitorScriptedResource {
 	return &m.monitorScripted
 }
 
-func (m MonitorResoucre) MonitorSIP() *MonitorSIPResource {
+func (m MonitorResource) SIP() *MonitorSIPResource {
 	return &m.monitorSIP
 }
 
-func (m MonitorResoucre) MonitorSMB() *MonitorSMBResource {
+func (m MonitorResource) SMB() *MonitorSMBResource {
 	return &m.monitorSMB
 }
 
-func (m MonitorResoucre) MonitorSMTP() *MonitorSMTPResource {
+func (m MonitorResource) SMTP() *MonitorSMTPResource {
 	return &m.monitorSMTP
 }
 
-func (m MonitorResoucre) MonitorSNMPDCABase() *MonitorSNMPDCABaseResource {
+func (m MonitorResource) SNMPDCABase() *MonitorSNMPDCABaseResource {
 	return &m.monitorSNMPDCABase
 }
 
-func (m MonitorResoucre) MonitorSNMPDCA() *MonitorSNMPDCAResource {
+func (m MonitorResource) SNMPDCA() *MonitorSNMPDCAResource {
 	return &m.monitorSNMPDCA
 }
 
-func (m MonitorResoucre) MonitorSOAP() *MonitorSOAPResource {
+func (m MonitorResource) SOAP() *MonitorSOAPResource {
 	return &m.monitorSOAP
 }
 
-func (m MonitorResoucre) MonitorTCPEcho() *MonitorTCPEchoResource {
+func (m MonitorResource) TCPEcho() *MonitorTCPEchoResource {
 	return &m.monitorTCPEcho
 }
 
-func (m MonitorResoucre) MonitorTCP() *MonitorTCPResource {
+func (m MonitorResource) TCP() *MonitorTCPResource {
 	return &m.monitorTCP
 }
 
-func (m MonitorResoucre) MonitorTCPHalfOpen() *MonitorTCPHalfOpenResource {
+func (m MonitorResource) TCPHalfOpen() *MonitorTCPHalfOpenResource {
 	return &m.monitorTCPHalfOpen
 }
 
-func (m MonitorResoucre) MonitorUDP() *MonitorUDPResource {
+func (m MonitorResource) UDP() *MonitorUDPResource {
 	return &m.monitorUDP
 }
 
-func (m MonitorResoucre) MonitorVirtualLocation() *MonitorVirtualLocationResource {
+func (m MonitorResource) VirtualLocation() *MonitorVirtualLocationResource {
 	return &m.monitorVirtualLocation
 }
 
-func (m MonitorResoucre) MonitorWAP() *MonitorWAPResource {
+func (m MonitorResource) WAP() *MonitorWAPResource {
 	return &m.monitorWAP
 }
 
-func (m MonitorResoucre) MonitorWMI() *MonitorWMIResource {
+func (m MonitorResource) WMI() *MonitorWMIResource {
 	return &m.monitorWMI
 }
