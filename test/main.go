@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -97,11 +98,8 @@ func NewTokenSession(baseURL, token string) (*BigIP, error) {
 func CreateToken(baseURL, user, password, loginProvName string) (string, time.Time, error) {
 	t := &http.Transport{}
 	c := &BigIP{c: http.Client{Transport: t, Timeout: DefaultTimeout}, baseURL: baseURL, transport: t}
-	c.transport.TLSClient = &tls.
-	{
-	InsecureSkipVerify:
-		true
-	}
+	c.transport.TLSClientConfig = &tls.Config{
+		InsecureSkipVerify: true}
 	// Negociate token with a pair of username/password.
 	data, err := json.Marshal(map[string]string{"username": user, "password": password, "loginProviderName": loginProvName})
 	if err != nil {
@@ -173,11 +171,8 @@ func NewTokenClient(baseURL, user, password, loginProvName string) (*BigIP, erro
 // DisableCertCheck disables certificate verification, meaning that insecure
 // certificate will not cause any error.
 func (b *BigIP) DisableCertCheck() {
-	b.transport.TLSClient = &tls.
-	{
-	InsecureSkipVerify:
-		true
-	}
+	b.transport.TLSClientConfig = &tls.Config{
+		InsecureSkipVerify: true}
 }
 
 // CheckAuth verifies that the credentials provided at the client initialization
@@ -561,7 +556,7 @@ func New(c *BigIP) LTM {
 
 // Virtual returns a VirtualResource ured to query tm/ltm/virtual API.
 func (ltm LTM) Virtual() *VirtualResource {
-	return &virtual
+	return &ltm.virtual
 }
 
 func main() {
@@ -570,6 +565,6 @@ func main() {
 	bg.DisableCertCheck()
 	ltm := New(bg)
 
-	vss, _ := virtual.List()
+	vss, _ := ltm.virtual.List()
 	fmt.Println(vss)
 }

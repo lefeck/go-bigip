@@ -65,7 +65,7 @@ func TestAbsPath(t *testing.T) {
 	restClient := &RESTClient{
 		Base:        baseURL,
 		Client:      http.DefaultClient,
-		content:     ClientContent{},
+		content:     ClientContentConfig{},
 		baseAPIPath: "/",
 	}
 
@@ -139,7 +139,7 @@ func TestDoRaw(t *testing.T) {
 	defer server.Close()
 
 	baseURL, _ := url.Parse(server.URL)
-	req := NewRequestWithClient(baseURL, "/test", ClientContent{}, http.DefaultClient).Verb("GET")
+	req := NewRequestWithClient(baseURL, "/test", ClientContentConfig{}, http.DefaultClient).Verb("GET")
 	ctx := context.Background()
 	resp, err := req.DoRaw(ctx)
 
