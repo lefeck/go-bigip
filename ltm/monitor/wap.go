@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorWAPList struct {
-	Items    []MonitorWAP `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type WAPList struct {
+	Items    []WAP  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type MonitorWAP struct {
+type WAP struct {
 	AccountingNode string `json:"accountingNode,omitempty"`
 	AccountingPort string `json:"accountingPort,omitempty"`
 	AppService     string `json:"appService,omitempty"`
@@ -41,16 +41,16 @@ type MonitorWAP struct {
 	UpInterval     int    `json:"upInterval,omitempty"`
 }
 
-const MonitorWAPEndpoint = "/monitor/wap"
+const WAPEndpoint = "wap"
 
-type MonitorWAPResource struct {
+type WAPResource struct {
 	b *bigip.BigIP
 }
 
-func (mwr *MonitorWAPResource) List() (*MonitorWAPList, error) {
-	var mwcl MonitorWAPList
+func (mwr *WAPResource) List() (*WAPList, error) {
+	var mwcl WAPList
 	res, err := mwr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWAPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WAPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -61,10 +61,10 @@ func (mwr *MonitorWAPResource) List() (*MonitorWAPList, error) {
 	return &mwcl, nil
 }
 
-func (mwr *MonitorWAPResource) Get(fullPathName string) (*MonitorWAP, error) {
-	var mwc MonitorWAP
+func (mwr *WAPResource) Get(fullPathName string) (*WAP, error) {
+	var mwc WAP
 	res, err := mwr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWAPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WAPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -74,37 +74,37 @@ func (mwr *MonitorWAPResource) Get(fullPathName string) (*MonitorWAP, error) {
 	return &mwc, nil
 }
 
-func (mwr *MonitorWAPResource) Create(item MonitorWAP) error {
+func (mwr *WAPResource) Create(item WAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mwr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mwr *MonitorWAPResource) Update(name string, item MonitorWAP) error {
+func (mwr *WAPResource) Update(name string, item WAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mwr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWAPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WAPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mwr *MonitorWAPResource) Delete(name string) error {
+func (mwr *WAPResource) Delete(name string) error {
 	_, err := mwr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWAPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WAPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

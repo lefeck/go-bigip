@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorRadiusAccountingList struct {
-	Items    []MonitorRadiusAccounting `json:"items,omitempty"`
-	Kind     string                    `json:"kind,omitempty"`
-	SelfLink string                    `json:"selflink,omitempty"`
+type RadiusAccountingList struct {
+	Items    []RadiusAccounting `json:"items,omitempty"`
+	Kind     string             `json:"kind,omitempty"`
+	SelfLink string             `json:"selflink,omitempty"`
 }
-type MonitorRadiusAccounting struct {
+type RadiusAccounting struct {
 	AppService   string `json:"appService,omitempty"`
 	Debug        string `json:"debug,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -33,16 +33,16 @@ type MonitorRadiusAccounting struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorRadiusAccountingEndpoint = "/monitor/rarius-accounting"
+const RadiusAccountingEndpoint = "rarius-accounting"
 
-type MonitorRadiusAccountingResource struct {
+type RadiusAccountingResource struct {
 	b *bigip.BigIP
 }
 
-func (mrar *MonitorRadiusAccountingResource) List() (*MonitorRadiusAccountingList, error) {
-	var mracl MonitorRadiusAccountingList
+func (mrar *RadiusAccountingResource) List() (*RadiusAccountingList, error) {
+	var mracl RadiusAccountingList
 	res, err := mrar.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRadiusAccountingEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RadiusAccountingEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -53,10 +53,10 @@ func (mrar *MonitorRadiusAccountingResource) List() (*MonitorRadiusAccountingLis
 	return &mracl, nil
 }
 
-func (mrar *MonitorRadiusAccountingResource) Get(fullPathName string) (*MonitorRadiusAccounting, error) {
-	var mrac MonitorRadiusAccounting
+func (mrar *RadiusAccountingResource) Get(fullPathName string) (*RadiusAccounting, error) {
+	var mrac RadiusAccounting
 	res, err := mrar.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRadiusAccountingEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RadiusAccountingEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -66,37 +66,37 @@ func (mrar *MonitorRadiusAccountingResource) Get(fullPathName string) (*MonitorR
 	return &mrac, nil
 }
 
-func (mrar *MonitorRadiusAccountingResource) Create(item MonitorRadiusAccounting) error {
+func (mrar *RadiusAccountingResource) Create(item RadiusAccounting) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mrar.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRadiusAccountingEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RadiusAccountingEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mrar *MonitorRadiusAccountingResource) Update(name string, item MonitorRadiusAccounting) error {
+func (mrar *RadiusAccountingResource) Update(name string, item RadiusAccounting) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mrar.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRadiusAccountingEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RadiusAccountingEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mrar *MonitorRadiusAccountingResource) Delete(name string) error {
+func (mrar *RadiusAccountingResource) Delete(name string) error {
 	_, err := mrar.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRadiusAccountingEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RadiusAccountingEndpoint).SubStatsResource(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

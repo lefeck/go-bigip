@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorTCPHalfOpenList struct {
-	Items    []MonitorTCPHalfOpen `json:"items,omitempty"`
-	Kind     string               `json:"kind,omitempty"`
-	SelfLink string               `json:"selflink,omitempty"`
+type TCPHalfOpenList struct {
+	Items    []TCPHalfOpen `json:"items,omitempty"`
+	Kind     string        `json:"kind,omitempty"`
+	SelfLink string        `json:"selflink,omitempty"`
 }
-type MonitorTCPHalfOpen struct {
+type TCPHalfOpen struct {
 	AppService   string `json:"appService,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
 	Description  string `json:"description,omitempty"`
@@ -32,16 +32,16 @@ type MonitorTCPHalfOpen struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorTCPHalfOpenEndpoint = "/monitor/tcp-half-open"
+const TCPHalfOpenEndpoint = "tcp-half-open"
 
-type MonitorTCPHalfOpenResource struct {
+type TCPHalfOpenResource struct {
 	b *bigip.BigIP
 }
 
-func (mthor *MonitorTCPHalfOpenResource) List() (*MonitorTCPHalfOpenList, error) {
-	var mthocl MonitorTCPHalfOpenList
+func (mthor *TCPHalfOpenResource) List() (*TCPHalfOpenList, error) {
+	var mthocl TCPHalfOpenList
 	res, err := mthor.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPHalfOpenEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -52,10 +52,10 @@ func (mthor *MonitorTCPHalfOpenResource) List() (*MonitorTCPHalfOpenList, error)
 	return &mthocl, nil
 }
 
-func (mthor *MonitorTCPHalfOpenResource) Get(fullPathName string) (*MonitorTCPHalfOpen, error) {
-	var mthoc MonitorTCPHalfOpen
+func (mthor *TCPHalfOpenResource) Get(fullPathName string) (*TCPHalfOpen, error) {
+	var mthoc TCPHalfOpen
 	res, err := mthor.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPHalfOpenEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -65,37 +65,37 @@ func (mthor *MonitorTCPHalfOpenResource) Get(fullPathName string) (*MonitorTCPHa
 	return &mthoc, nil
 }
 
-func (mthor *MonitorTCPHalfOpenResource) Create(item MonitorTCPHalfOpen) error {
+func (mthor *TCPHalfOpenResource) Create(item TCPHalfOpen) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mthor.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPHalfOpenEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mthor *MonitorTCPHalfOpenResource) Update(name string, item MonitorTCPHalfOpen) error {
+func (mthor *TCPHalfOpenResource) Update(name string, item TCPHalfOpen) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mthor.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPHalfOpenEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mthor *MonitorTCPHalfOpenResource) Delete(name string) error {
+func (mthor *TCPHalfOpenResource) Delete(name string) error {
 	_, err := mthor.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPHalfOpenEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

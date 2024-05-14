@@ -95,7 +95,8 @@ type VirtualResource struct {
 
 // List all virtual server items
 func (vr *VirtualResource) List() (*VirtualServerList, error) {
-	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	nrn := bigip.NewResourceName()
+	res, err := vr.b.RestClient.Get().Prefix(nrn.BaseResourceNameString()).ResourceCategory(nrn.TMResourceNameString()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -121,6 +122,20 @@ func (vr *VirtualResource) ListDetail() (*VirtualServerList, error) {
 		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
 	}
 	return &vsl, nil
+}
+
+// ListVirtualServerName get all virtual server names
+func (vr *VirtualResource) ListVirtualServerName() ([]string, error) {
+	vsl, err := vr.List()
+	if err != nil {
+		return nil, err
+	}
+	var items []string
+	for _, vs := range vsl.Items {
+		fullPathName := vs.FullPath
+		items = append(items, fullPathName)
+	}
+	return items, nil
 }
 
 // Get a single virtual server identified by name.

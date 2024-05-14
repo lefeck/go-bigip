@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorMSSQLList struct {
-	Items    []MonitorMSSQL `json:"items,omitempty"`
-	Kind     string         `json:"kind,omitempty"`
-	SelfLink string         `json:"selflink,omitempty"`
+type MSSQLList struct {
+	Items    []MSSQL `json:"items,omitempty"`
+	Kind     string  `json:"kind,omitempty"`
+	SelfLink string  `json:"selflink,omitempty"`
 }
 
-type MonitorMSSQL struct {
+type MSSQL struct {
 	AppService   string `json:"appService,omitempty"`
 	Count        string `json:"count,omitempty"`
 	Database     string `json:"database,omitempty"`
@@ -39,16 +39,16 @@ type MonitorMSSQL struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorMSSQLEndpoint = "/monitor/mssql"
+const MSSQLEndpoint = "mssql"
 
-type MonitorMSSQLResource struct {
+type MSSQLResource struct {
 	b *bigip.BigIP
 }
 
-func (mmr *MonitorMSSQLResource) List() (*MonitorMSSQLList, error) {
-	var mmcl MonitorMSSQLList
+func (mmr *MSSQLResource) List() (*MSSQLList, error) {
+	var mmcl MSSQLList
 	res, err := mmr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMSSQLEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MSSQLEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -59,10 +59,10 @@ func (mmr *MonitorMSSQLResource) List() (*MonitorMSSQLList, error) {
 	return &mmcl, nil
 }
 
-func (mmr *MonitorMSSQLResource) Get(fullPathName string) (*MonitorMSSQL, error) {
-	var mmc MonitorMSSQL
+func (mmr *MSSQLResource) Get(fullPathName string) (*MSSQL, error) {
+	var mmc MSSQL
 	res, err := mmr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMSSQLEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MSSQLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -72,37 +72,37 @@ func (mmr *MonitorMSSQLResource) Get(fullPathName string) (*MonitorMSSQL, error)
 	return &mmc, nil
 }
 
-func (mmr *MonitorMSSQLResource) Create(item MonitorMSSQL) error {
+func (mmr *MSSQLResource) Create(item MSSQL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mmr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMSSQLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MSSQLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mmr *MonitorMSSQLResource) Update(name string, item MonitorMSSQL) error {
+func (mmr *MSSQLResource) Update(name string, item MSSQL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mmr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMSSQLEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MSSQLEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mmr *MonitorMSSQLResource) Delete(name string) error {
+func (mmr *MSSQLResource) Delete(name string) error {
 	_, err := mmr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMSSQLEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MSSQLEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorModuleScoreList struct {
-	Items    []MonitorModuleScore `json:"items,omitempty"`
-	Kind     string               `json:"kind,omitempty"`
-	SelfLink string               `json:"selflink,omitempty"`
+type ModuleScoreList struct {
+	Items    []ModuleScore `json:"items,omitempty"`
+	Kind     string        `json:"kind,omitempty"`
+	SelfLink string        `json:"selflink,omitempty"`
 }
-type MonitorModuleScore struct {
+type ModuleScore struct {
 	AppService    string `json:"appService,omitempty"`
 	Debug         string `json:"debug,omitempty"`
 	DefaultsFrom  string `json:"defaultsFrom,omitempty"`
@@ -36,16 +36,16 @@ type MonitorModuleScore struct {
 	UpInterval    int    `json:"upInterval,omitempty"`
 }
 
-const MonitorModuleScoreEndpoint = "/monitor/module-score"
+const ModuleScoreEndpoint = "module-score"
 
-type MonitorModuleScoreResource struct {
+type ModuleScoreResource struct {
 	b *bigip.BigIP
 }
 
-func (mmsr *MonitorModuleScoreResource) List() (*MonitorModuleScoreList, error) {
-	var mmscl MonitorModuleScoreList
+func (mmsr *ModuleScoreResource) List() (*ModuleScoreList, error) {
+	var mmscl ModuleScoreList
 	res, err := mmsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorModuleScoreEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -56,10 +56,10 @@ func (mmsr *MonitorModuleScoreResource) List() (*MonitorModuleScoreList, error) 
 	return &mmscl, nil
 }
 
-func (mmsr *MonitorModuleScoreResource) Get(fullPathName string) (*MonitorModuleScore, error) {
-	var mmsc MonitorModuleScore
+func (mmsr *ModuleScoreResource) Get(fullPathName string) (*ModuleScore, error) {
+	var mmsc ModuleScore
 	res, err := mmsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorModuleScoreEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -69,37 +69,37 @@ func (mmsr *MonitorModuleScoreResource) Get(fullPathName string) (*MonitorModule
 	return &mmsc, nil
 }
 
-func (mmsr *MonitorModuleScoreResource) Create(item MonitorModuleScore) error {
+func (mmsr *ModuleScoreResource) Create(item ModuleScore) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mmsr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorModuleScoreEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mmsr *MonitorModuleScoreResource) Update(name string, item MonitorModuleScore) error {
+func (mmsr *ModuleScoreResource) Update(name string, item ModuleScore) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mmsr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorModuleScoreEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mmsr *MonitorModuleScoreResource) Delete(name string) error {
+func (mmsr *ModuleScoreResource) Delete(name string) error {
 	_, err := mmsr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorModuleScoreEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

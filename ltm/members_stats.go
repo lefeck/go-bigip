@@ -45,12 +45,12 @@ type MemberStats struct {
 		CurSessions struct {
 			Value int `json:"value"`
 		} `json:"curSessions,omitempty"`
-		MonitorRule struct {
+		Rule struct {
 			Description string `json:"description,omitempty"`
-		} `json:"monitorRule,omitempty"`
-		MonitorStatus struct {
+		} `json:"Rule,omitempty"`
+		Status struct {
 			Description string `json:"description,omitempty"`
-		} `json:"monitorStatus,omitempty"`
+		} `json:"Status,omitempty"`
 		NodeName struct {
 			Description string `json:"description,omitempty"`
 		} `json:"nodeName,omitempty"`

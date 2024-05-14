@@ -1,6 +1,12 @@
 package profile
 
-import "github.com/lefeck/go-bigip"
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/lefeck/go-bigip"
+	"strings"
+)
 
 type ServerSSLList struct {
 	Items    []ServerSSL `json:"items,omitempty"`
@@ -91,4 +97,85 @@ const ServerSSLEndpoint = "server-ssl"
 
 type ServerSSLResource struct {
 	b *bigip.BigIP
+}
+
+// List retrieves a list of ServerSSL resources.
+func (cr *ServerSSLResource) List() (*ServerSSLList, error) {
+	var items ServerSSLList
+	// Perform a GET request to retrieve a list of ServerSSL resource objects
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal JSON response data into ServerSSLList struct
+	if err := json.Unmarshal(res, &items); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &items, nil
+}
+
+// Get retrieves a ServerSSL resource by its full path name.
+func (cr *ServerSSLResource) Get(fullPathName string) (*ServerSSL, error) {
+	var item ServerSSL
+	// Perform a GET request to retrieve a specific ServerSSL resource by its full path name
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal JSON response data into ServerSSL struct
+	if err := json.Unmarshal(res, &item); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &item, nil
+}
+
+// Create adds a new ServerSSL resource using the provided ServerSSL item.
+func (cr *ServerSSLResource) Create(item ServerSSL) error {
+	// Marshal the ServerSSL struct into JSON data
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+
+	// Perform a POST request to create a new ServerSSL resource using the JSON data
+	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Update modifies a ServerSSL resource identified by its full path name using the provided ServerSSL item.
+func (cr *ServerSSLResource) Update(fullPathName string, item ServerSSL) error {
+	// Marshal the ServerSSL struct into JSON data
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+
+	// Perform a PUT request to update the specified ServerSSL resource with the JSON data
+	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Delete removes a ServerSSL resource by its full path name.
+func (cr *ServerSSLResource) Delete(fullPathName string) error {
+	// Perform a DELETE request to delete the specified ServerSSL resource
+	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
 }

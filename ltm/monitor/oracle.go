@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorOracleList struct {
-	Items    []MonitorOracle `json:"items,omitempty"`
-	Kind     string          `json:"kind,omitempty"`
-	SelfLink string          `json:"selflink,omitempty"`
+type OracleList struct {
+	Items    []Oracle `json:"items,omitempty"`
+	Kind     string   `json:"kind,omitempty"`
+	SelfLink string   `json:"selflink,omitempty"`
 }
-type MonitorOracle struct {
+type Oracle struct {
 	AppService   string `json:"appService,omitempty"`
 	Count        string `json:"count,omitempty"`
 	Database     string `json:"database,omitempty"`
@@ -38,16 +38,16 @@ type MonitorOracle struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorOracleEndpoint = "/monitor/oracle"
+const OracleEndpoint = "oracle"
 
-type MonitorOracleResource struct {
+type OracleResource struct {
 	b *bigip.BigIP
 }
 
-func (mor *MonitorOracleResource) List() (*MonitorOracleList, error) {
-	var mocl MonitorOracleList
+func (mor *OracleResource) List() (*OracleList, error) {
+	var mocl OracleList
 	res, err := mor.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorOracleEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(OracleEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +58,10 @@ func (mor *MonitorOracleResource) List() (*MonitorOracleList, error) {
 	return &mocl, nil
 }
 
-func (mor *MonitorOracleResource) Get(fullPathName string) (*MonitorOracle, error) {
-	var moc MonitorOracle
+func (mor *OracleResource) Get(fullPathName string) (*Oracle, error) {
+	var moc Oracle
 	res, err := mor.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorOracleEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(OracleEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -71,37 +71,37 @@ func (mor *MonitorOracleResource) Get(fullPathName string) (*MonitorOracle, erro
 	return &moc, nil
 }
 
-func (mor *MonitorOracleResource) Create(item MonitorOracle) error {
+func (mor *OracleResource) Create(item Oracle) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mor.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorOracleEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(OracleEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mor *MonitorOracleResource) Update(name string, item MonitorOracle) error {
+func (mor *OracleResource) Update(name string, item Oracle) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mor.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorOracleEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(OracleEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mor *MonitorOracleResource) Delete(name string) error {
+func (mor *OracleResource) Delete(name string) error {
 	_, err := mor.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorOracleEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(OracleEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

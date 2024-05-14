@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorFTPList struct {
-	Items    []MonitorFTP `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type FTPList struct {
+	Items    []FTP  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorFTP struct {
+type FTP struct {
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
 	AdaptiveDivergenceValue  int    `json:"adaptiveDivergenceValue,omitempty"`
@@ -39,16 +39,16 @@ type MonitorFTP struct {
 	UpInterval               int    `json:"upInterval,omitempty,omitempty"`
 }
 
-const MonitorFTPEndpoint = "/monitor/ftp"
+const FTPEndpoint = "ftp"
 
-type MonitorFTPResource struct {
+type FTPResource struct {
 	b *bigip.BigIP
 }
 
-func (mfr *MonitorFTPResource) List() (*MonitorFTPList, error) {
-	var mfcl MonitorFTPList
+func (mfr *FTPResource) List() (*FTPList, error) {
+	var mfcl FTPList
 	res, err := mfr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFTPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -59,10 +59,10 @@ func (mfr *MonitorFTPResource) List() (*MonitorFTPList, error) {
 	return &mfcl, nil
 }
 
-func (mfr *MonitorFTPResource) Get(fullPathName string) (*MonitorFTP, error) {
-	var mfc MonitorFTP
+func (mfr *FTPResource) Get(fullPathName string) (*FTP, error) {
+	var mfc FTP
 	res, err := mfr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFTPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -72,37 +72,37 @@ func (mfr *MonitorFTPResource) Get(fullPathName string) (*MonitorFTP, error) {
 	return &mfc, nil
 }
 
-func (mfr *MonitorFTPResource) Create(item MonitorFTP) error {
+func (mfr *FTPResource) Create(item FTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mfr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mfr *MonitorFTPResource) Update(name string, item MonitorFTP) error {
+func (mfr *FTPResource) Update(name string, item FTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mfr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFTPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FTPEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mfr *MonitorFTPResource) Delete(name string) error {
+func (mfr *FTPResource) Delete(name string) error {
 	_, err := mfr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFTPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FTPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

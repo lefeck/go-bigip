@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorDNSList struct {
-	Items    []MonitorDNS `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type DNSList struct {
+	Items    []DNS  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorDNS struct {
+type DNS struct {
 	AcceptRcode              string `json:"acceptRcode,omitempty"`
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
@@ -45,12 +45,12 @@ type MonitorDNS struct {
 
 const DNSEndpoint = "dns"
 
-type MonitorDNSResource struct {
+type DNSResource struct {
 	b *bigip.BigIP
 }
 
-func (mdr *MonitorDNSResource) List() (*MonitorDNSList, error) {
-	var mdcl MonitorDNSList
+func (mdr *DNSResource) List() (*DNSList, error) {
+	var mdcl DNSList
 	res, err := mdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(DNSEndpoint).DoRaw(context.Background())
 	if err != nil {
@@ -63,10 +63,10 @@ func (mdr *MonitorDNSResource) List() (*MonitorDNSList, error) {
 	return &mdcl, nil
 }
 
-func (mdr *MonitorDNSResource) Get(fullPathName string) (*MonitorDNS, error) {
-	var mdc MonitorDNS
+func (mdr *DNSResource) Get(fullPathName string) (*DNS, error) {
+	var mdc DNS
 	res, err := mdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorEndpoint).SubResource(DNSEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(DNSEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (mdr *MonitorDNSResource) Get(fullPathName string) (*MonitorDNS, error) {
 	return &mdc, nil
 }
 
-func (mdr *MonitorDNSResource) Create(item MonitorDNS) error {
+func (mdr *DNSResource) Create(item DNS) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
@@ -90,23 +90,23 @@ func (mdr *MonitorDNSResource) Create(item MonitorDNS) error {
 	return nil
 }
 
-func (mdr *MonitorDNSResource) Update(name string, item MonitorDNS) error {
+func (mdr *DNSResource) Update(name string, item DNS) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mdr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorEndpoint).SubResource(DNSEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(DNSEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mdr *MonitorDNSResource) Delete(name string) error {
+func (mdr *DNSResource) Delete(name string) error {
 	_, err := mdr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorEndpoint).SubResource(DNSEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(DNSEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

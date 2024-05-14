@@ -61,11 +61,11 @@ func main() {
 	//bs.getSingleVirtualAddressStats()
 	//bs.listVirtualServerDetail()
 	//bs.listSnatPool()
-	//bs.ListMonitorICMP()
-	bs.ListMonitorICMP()
-	//bs.CreateMonitorICMP()
-	//bs.UpdateMonitorICMP()
 
+	bs.ListICMP()
+	//bs.CreateICMP()
+	//bs.UpdateICMP()
+	//bs.DeleteICMP()
 	// profile
 	//bs.ListProfileFastHttp()
 }
@@ -83,7 +83,7 @@ func (bs *bigipTest) init() {
 	bs.bigIP = b
 }
 
-func (bs *bigipTest) ListMonitorICMP() {
+func (bs *bigipTest) ListICMP() {
 	bg := ltm.New(bs.bigIP)
 	icmpList, _ := bg.Monitor().ICMP().List()
 	fmt.Println(icmpList)
@@ -114,9 +114,9 @@ func (bs *bigipTest) ListProfileFastHttp() {
 	}
 }
 
-func (bs *bigipTest) CreateMonitorICMP() {
+func (bs *bigipTest) CreateICMP() {
 	bg := ltm.New(bs.bigIP)
-	item := monitor.MonitorICMP{
+	item := monitor.ICMP{
 		Name:          "hello-icmp-m1",
 		Interval:      20,
 		Timeout:       50,
@@ -127,11 +127,11 @@ func (bs *bigipTest) CreateMonitorICMP() {
 	}
 }
 
-func (bs *bigipTest) UpdateMonitorICMP() {
+func (bs *bigipTest) UpdateICMP() {
 	bg := ltm.New(bs.bigIP)
 	fullPathname := "/Common/hello-icmp-m1"
 
-	item := monitor.MonitorICMP{
+	item := monitor.ICMP{
 		Interval:      10,
 		Timeout:       80,
 		AdaptiveLimit: 100,
@@ -141,12 +141,12 @@ func (bs *bigipTest) UpdateMonitorICMP() {
 	}
 }
 
-func (bs *bigipTest) DeleteMonitorICMP() {
+func (bs *bigipTest) DeleteICMP() {
 	bg := ltm.New(bs.bigIP)
 	name := "/Common/hello-icmp-m1"
 
 	if err := bg.Monitor().ICMP().Delete(name); err != nil {
-		log.Fatalf("delete monitor is failed %v", err)
+		log.Fatalf("delete  is failed %v", err)
 	}
 }
 
@@ -562,7 +562,7 @@ func (bs *bigipTest) updatePoolMembers() {
 	item := ltm.PoolMembers{
 		ConnectionLimit: 1000,
 		Ratio:           10,
-		//Monitor:         "enable",
+		//:         "enable",
 	}
 
 	if err := bg.PoolMembers().Update(poolName, memberName, item); err != nil {

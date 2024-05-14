@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorRealServerList struct {
-	Items    []MonitorRealServer `json:"items,omitempty"`
-	Kind     string              `json:"kind,omitempty"`
-	SelfLink string              `json:"selflink,omitempty"`
+type RealServerList struct {
+	Items    []RealServer `json:"items,omitempty"`
+	Kind     string       `json:"kind,omitempty"`
+	SelfLink string       `json:"selflink,omitempty"`
 }
-type MonitorRealServer struct {
+type RealServer struct {
 	Agent        string `json:"agent,omitempty"`
 	AppService   string `json:"appService,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -33,16 +33,16 @@ type MonitorRealServer struct {
 	TmCommand    string `json:"tmCommand,omitempty"`
 }
 
-const MonitorRealServerEndpoint = "/monitor/real-server"
+const RealServerEndpoint = "real-server"
 
-type MonitorRealServerResource struct {
+type RealServerResource struct {
 	b *bigip.BigIP
 }
 
-func (mrsr *MonitorRealServerResource) List() (*MonitorRealServerList, error) {
-	var mrscl MonitorRealServerList
+func (mrsr *RealServerResource) List() (*RealServerList, error) {
+	var mrscl RealServerList
 	res, err := mrsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRealServerEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RealServerEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -53,10 +53,10 @@ func (mrsr *MonitorRealServerResource) List() (*MonitorRealServerList, error) {
 	return &mrscl, nil
 }
 
-func (mrsr *MonitorRealServerResource) Get(fullPathName string) (*MonitorRealServer, error) {
-	var mrsc MonitorRealServer
+func (mrsr *RealServerResource) Get(fullPathName string) (*RealServer, error) {
+	var mrsc RealServer
 	res, err := mrsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRealServerEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RealServerEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -66,37 +66,37 @@ func (mrsr *MonitorRealServerResource) Get(fullPathName string) (*MonitorRealSer
 	return &mrsc, nil
 }
 
-func (mrsr *MonitorRealServerResource) Create(item MonitorRealServer) error {
+func (mrsr *RealServerResource) Create(item RealServer) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mrsr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRealServerEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RealServerEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mrsr *MonitorRealServerResource) Update(name string, item MonitorRealServer) error {
+func (mrsr *RealServerResource) Update(name string, item RealServer) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mrsr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRealServerEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RealServerEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mrsr *MonitorRealServerResource) Delete(name string) error {
+func (mrsr *RealServerResource) Delete(name string) error {
 	_, err := mrsr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRealServerEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RealServerEndpoint).SubStatsResource(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

@@ -26,8 +26,8 @@ type NestedNodeStats struct {
 type NodeStatsEntry struct {
 	Addr                    DescriptionOrValue `json:"addr"`
 	CurSessions             DescriptionOrValue `json:"curSessions"`
-	MonitorRule             DescriptionOrValue `json:"monitorRule"`
-	MonitorStatus           DescriptionOrValue `json:"monitorStatus"`
+	Rule                    DescriptionOrValue `json:"Rule"`
+	Status                  DescriptionOrValue `json:"Status"`
 	TmName                  DescriptionOrValue `json:"tmName"`
 	ServersideBitsIn        DescriptionOrValue `json:"serverside.bitsIn"`
 	ServersideBitsOut       DescriptionOrValue `json:"serverside.bitsOut"`

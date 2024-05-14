@@ -75,23 +75,23 @@ func (cr *ConnectorResource) Create(item Connector) error {
 	return nil
 }
 
-func (cr *ConnectorResource) Update(name string, item Connector) error {
+func (cr *ConnectorResource) Update(fullPathName string, item Connector) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (cr *ConnectorResource) Delete(name string) error {
+func (cr *ConnectorResource) Delete(fullPathName string) error {
 	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).SubResourceInstance(name).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(ConnectorEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

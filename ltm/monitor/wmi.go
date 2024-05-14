@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorWMIList struct {
-	Items    []MonitorWMI `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type WMIList struct {
+	Items    []WMI  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorWMI struct {
+type WMI struct {
 	Agent        string `json:"agent,omitempty"`
 	AppService   string `json:"appService,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -35,16 +35,16 @@ type MonitorWMI struct {
 	URL          string `json:"url,omitempty"`
 }
 
-const MonitorWMIEndpoint = "/monitor/wmi"
+const WMIEndpoint = "wmi"
 
-type MonitorWMIResource struct {
+type WMIResource struct {
 	b *bigip.BigIP
 }
 
-func (mwr *MonitorWMIResource) List() (*MonitorWMIList, error) {
-	var mwcl MonitorWMIList
+func (mwr *WMIResource) List() (*WMIList, error) {
+	var mwcl WMIList
 	res, err := mwr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWMIEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WMIEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -55,10 +55,10 @@ func (mwr *MonitorWMIResource) List() (*MonitorWMIList, error) {
 	return &mwcl, nil
 }
 
-func (mwr *MonitorWMIResource) Get(fullPathName string) (*MonitorWMI, error) {
-	var mwc MonitorWMI
+func (mwr *WMIResource) Get(fullPathName string) (*WMI, error) {
+	var mwc WMI
 	res, err := mwr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWMIEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WMIEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -68,37 +68,37 @@ func (mwr *MonitorWMIResource) Get(fullPathName string) (*MonitorWMI, error) {
 	return &mwc, nil
 }
 
-func (mwr *MonitorWMIResource) Create(item MonitorWMI) error {
+func (mwr *WMIResource) Create(item WMI) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mwr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWMIEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WMIEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mwr *MonitorWMIResource) Update(name string, item MonitorWMI) error {
+func (mwr *WMIResource) Update(name string, item WMI) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mwr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWMIEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WMIEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mwr *MonitorWMIResource) Delete(name string) error {
+func (mwr *WMIResource) Delete(name string) error {
 	_, err := mwr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorWMIEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(WMIEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

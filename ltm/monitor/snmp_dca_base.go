@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorSNMPDCABaseList struct {
-	Items    []MonitorSNMPDCABase `json:"items,omitempty"`
-	Kind     string               `json:"kind,omitempty"`
-	SelfLink string               `json:"selflink,omitempty"`
+type SNMPDCABaseList struct {
+	Items    []SNMPDCABase `json:"items,omitempty"`
+	Kind     string        `json:"kind,omitempty"`
+	SelfLink string        `json:"selflink,omitempty"`
 }
 
-type MonitorSNMPDCABase struct {
+type SNMPDCABase struct {
 	AppService   string `json:"appService,omitempty"`
 	Community    string `json:"community,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -33,16 +33,16 @@ type MonitorSNMPDCABase struct {
 	Version      string `json:"version,omitempty"`
 }
 
-const MonitorSNMPDCABaseEndpoint = "/monitor/snmp-dca-base"
+const SNMPDCABaseEndpoint = "snmp-dca-base"
 
-type MonitorSNMPDCABaseResource struct {
+type SNMPDCABaseResource struct {
 	b *bigip.BigIP
 }
 
-func (msdbr *MonitorSNMPDCABaseResource) List() (*MonitorSNMPDCABaseList, error) {
-	var msdbcl MonitorSNMPDCABaseList
+func (msdbr *SNMPDCABaseResource) List() (*SNMPDCABaseList, error) {
+	var msdbcl SNMPDCABaseList
 	res, err := msdbr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCABaseEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -53,10 +53,10 @@ func (msdbr *MonitorSNMPDCABaseResource) List() (*MonitorSNMPDCABaseList, error)
 	return &msdbcl, nil
 }
 
-func (msdbr *MonitorSNMPDCABaseResource) Get(fullPathName string) (*MonitorSNMPDCABase, error) {
-	var msdbc MonitorSNMPDCABase
+func (msdbr *SNMPDCABaseResource) Get(fullPathName string) (*SNMPDCABase, error) {
+	var msdbc SNMPDCABase
 	res, err := msdbr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCABaseEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -65,37 +65,37 @@ func (msdbr *MonitorSNMPDCABaseResource) Get(fullPathName string) (*MonitorSNMPD
 	}
 	return &msdbc, nil
 }
-func (msdbr *MonitorSNMPDCABaseResource) Create(item MonitorSNMPDCABase) error {
+func (msdbr *SNMPDCABaseResource) Create(item SNMPDCABase) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msdbr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCABaseEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msdbr *MonitorSNMPDCABaseResource) Update(name string, item MonitorSNMPDCABase) error {
+func (msdbr *SNMPDCABaseResource) Update(name string, item SNMPDCABase) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msdbr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCABaseEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msdbr *MonitorSNMPDCABaseResource) Delete(name string) error {
+func (msdbr *SNMPDCABaseResource) Delete(name string) error {
 	_, err := msdbr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCABaseEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

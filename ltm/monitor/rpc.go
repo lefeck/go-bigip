@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorRPCList struct {
-	Items    []MonitorRPC `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type RPCList struct {
+	Items    []RPC  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type MonitorRPC struct {
+type RPC struct {
 	AppService    string `json:"appService,omitempty"`
 	Debug         string `json:"debug,omitempty"`
 	DefaultsFrom  string `json:"defaultsFrom,omitempty"`
@@ -36,16 +36,16 @@ type MonitorRPC struct {
 	VersionNumber string `json:"versionNumber,omitempty"`
 }
 
-const MonitorRPCEndpoint = "/monitor/rpc"
+const RPCEndpoint = "rpc"
 
-type MonitorRPCResource struct {
+type RPCResource struct {
 	b *bigip.BigIP
 }
 
-func (mrr *MonitorRPCResource) List() (*MonitorRPCList, error) {
-	var mrrcl MonitorRPCList
+func (mrr *RPCResource) List() (*RPCList, error) {
+	var mrrcl RPCList
 	res, err := mrr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRPCEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RPCEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -56,10 +56,10 @@ func (mrr *MonitorRPCResource) List() (*MonitorRPCList, error) {
 	return &mrrcl, nil
 }
 
-func (mrr *MonitorRPCResource) Get(fullPathName string) (*MonitorRPC, error) {
-	var mrrc MonitorRPC
+func (mrr *RPCResource) Get(fullPathName string) (*RPC, error) {
+	var mrrc RPC
 	res, err := mrr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRPCEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RPCEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -69,37 +69,37 @@ func (mrr *MonitorRPCResource) Get(fullPathName string) (*MonitorRPC, error) {
 	return &mrrc, nil
 }
 
-func (mrr *MonitorRPCResource) Create(item MonitorRPC) error {
+func (mrr *RPCResource) Create(item RPC) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mrr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRPCEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RPCEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mrr *MonitorRPCResource) Update(name string, item MonitorRPC) error {
+func (mrr *RPCResource) Update(name string, item RPC) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mrr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRPCEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RPCEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mrr *MonitorRPCResource) Delete(name string) error {
+func (mrr *RPCResource) Delete(name string) error {
 	_, err := mrr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorRPCEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(RPCEndpoint).SubStatsResource(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

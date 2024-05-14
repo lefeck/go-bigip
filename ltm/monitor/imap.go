@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorIMAPList struct {
-	Items    []MonitorIMAP `json:"items"`
-	Kind     string        `json:"kind"`
-	SelfLink string        `json:"selflink"`
+type IMAPList struct {
+	Items    []IMAP `json:"items"`
+	Kind     string `json:"kind"`
+	SelfLink string `json:"selflink"`
 }
 
-type MonitorIMAP struct {
+type IMAP struct {
 	Debug        string `json:"debug"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
 	Description  string `json:"description,omitempty"`
@@ -33,17 +33,16 @@ type MonitorIMAP struct {
 	UpInterval   int    `json:"upInterval"`
 }
 
-const MonitorIMAPEndpoint = "/monitor/imap"
-const MonitorICMPEndpoint = ""
+const IMAPEndpoint = "imap"
 
-type MonitorIMAPResource struct {
+type IMAPResource struct {
 	b *bigip.BigIP
 }
 
-func (mir *MonitorIMAPResource) List() (*MonitorIMAPList, error) {
-	var micl MonitorIMAPList
+func (mir *IMAPResource) List() (*IMAPList, error) {
+	var micl IMAPList
 	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorICMPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -54,10 +53,10 @@ func (mir *MonitorIMAPResource) List() (*MonitorIMAPList, error) {
 	return &micl, nil
 }
 
-func (mir *MonitorIMAPResource) Get(fullPathName string) (*MonitorIMAP, error) {
-	var mic MonitorIMAP
+func (mir *IMAPResource) Get(fullPathName string) (*IMAP, error) {
+	var mic IMAP
 	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorICMPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -67,37 +66,37 @@ func (mir *MonitorIMAPResource) Get(fullPathName string) (*MonitorIMAP, error) {
 	return &mic, nil
 }
 
-func (mir *MonitorIMAPResource) Create(item MonitorIMAP) error {
+func (mir *IMAPResource) Create(item IMAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mir.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorICMPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mir *MonitorIMAPResource) Update(name string, item MonitorIMAP) error {
+func (mir *IMAPResource) Update(name string, item IMAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorICMPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mir *MonitorIMAPResource) Delete(name string) error {
+func (mir *IMAPResource) Delete(name string) error {
 	_, err := mir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorICMPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

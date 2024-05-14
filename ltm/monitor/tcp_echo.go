@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorTCPEchoList struct {
-	Items    []MonitorTCPEcho `json:"items,omitempty"`
-	Kind     string           `json:"kind,omitempty"`
-	SelfLink string           `json:"selflink,omitempty"`
+type TCPEchoList struct {
+	Items    []TCPEcho `json:"items,omitempty"`
+	Kind     string    `json:"kind,omitempty"`
+	SelfLink string    `json:"selflink,omitempty"`
 }
 
-type MonitorTCPEcho struct {
+type TCPEcho struct {
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
 	AdaptiveDivergenceValue  int    `json:"adaptiveDivergenceValue,omitempty"`
@@ -38,16 +38,16 @@ type MonitorTCPEcho struct {
 	UpInterval               int    `json:"upInterval,omitempty"`
 }
 
-const MonitorTCPEchoEndpoint = "/monitor/tcp-echo"
+const TCPEchoEndpoint = "tcp-echo"
 
-type MonitorTCPEchoResource struct {
+type TCPEchoResource struct {
 	b *bigip.BigIP
 }
 
-func (mter *MonitorTCPEchoResource) List() (*MonitorTCPEchoList, error) {
-	var mtecl MonitorTCPEchoList
+func (mter *TCPEchoResource) List() (*TCPEchoList, error) {
+	var mtecl TCPEchoList
 	res, err := mter.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEchoEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +58,10 @@ func (mter *MonitorTCPEchoResource) List() (*MonitorTCPEchoList, error) {
 	return &mtecl, nil
 }
 
-func (mter *MonitorTCPEchoResource) Get(fullPathName string) (*MonitorTCPEcho, error) {
-	var mtec MonitorTCPEcho
+func (mter *TCPEchoResource) Get(fullPathName string) (*TCPEcho, error) {
+	var mtec TCPEcho
 	res, err := mter.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEchoEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -71,37 +71,37 @@ func (mter *MonitorTCPEchoResource) Get(fullPathName string) (*MonitorTCPEcho, e
 	return &mtec, nil
 }
 
-func (mter *MonitorTCPEchoResource) Create(item MonitorTCPEcho) error {
+func (mter *TCPEchoResource) Create(item TCPEcho) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mter.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEchoEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mter *MonitorTCPEchoResource) Update(name string, item MonitorTCPEcho) error {
+func (mter *TCPEchoResource) Update(name string, item TCPEcho) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mter.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEchoEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mter *MonitorTCPEchoResource) Delete(name string) error {
+func (mter *TCPEchoResource) Delete(name string) error {
 	_, err := mter.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEchoEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

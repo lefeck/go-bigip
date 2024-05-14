@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorTCPList struct {
-	Items    []MonitorTCP `json:"items"`
-	Kind     string       `json:"kind"`
-	SelfLink string       `json:"selflink"`
+type TCPList struct {
+	Items    []TCP  `json:"items"`
+	Kind     string `json:"kind"`
+	SelfLink string `json:"selflink"`
 }
 
-type MonitorTCP struct {
+type TCP struct {
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
 	AdaptiveDivergenceValue  int    `json:"adaptiveDivergenceValue,omitempty"`
@@ -43,16 +43,16 @@ type MonitorTCP struct {
 	UpInterval               int    `json:"upInterval,omitempty"`
 }
 
-const MonitorTCPEndpoint = "/monitor/tcp"
+const TCPEndpoint = "tcp"
 
-type MonitorTCPResource struct {
+type TCPResource struct {
 	b *bigip.BigIP
 }
 
-func (mtr *MonitorTCPResource) List() (*MonitorTCPList, error) {
-	var mtcl MonitorTCPList
+func (mtr *TCPResource) List() (*TCPList, error) {
+	var mtcl TCPList
 	res, err := mtr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -63,10 +63,10 @@ func (mtr *MonitorTCPResource) List() (*MonitorTCPList, error) {
 	return &mtcl, nil
 }
 
-func (mtr *MonitorTCPResource) Get(fullPathName string) (*MonitorTCP, error) {
-	var mtc MonitorTCP
+func (mtr *TCPResource) Get(fullPathName string) (*TCP, error) {
+	var mtc TCP
 	res, err := mtr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -76,37 +76,37 @@ func (mtr *MonitorTCPResource) Get(fullPathName string) (*MonitorTCP, error) {
 	return &mtc, nil
 }
 
-func (mtr *MonitorTCPResource) Create(item MonitorTCP) error {
+func (mtr *TCPResource) Create(item TCP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mtr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mtr *MonitorTCPResource) Update(name string, item MonitorTCP) error {
+func (mtr *TCPResource) Update(name string, item TCP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mtr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mtr *MonitorTCPResource) Delete(name string) error {
+func (mtr *TCPResource) Delete(name string) error {
 	_, err := mtr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorTCPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(TCPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

@@ -27,7 +27,7 @@ type LTM struct {
 	iFile             IFileResource
 	dataGroupInternal DataGroupInternalResource
 
-	// Provide a public entry point for monitor resources
+	// Provide a public entry point for  monitor resources
 	monitor monitor.MonitorResource
 
 	// Provide a public entry point for profile resources
@@ -110,8 +110,8 @@ func (ltm LTM) DataGroupInternal() *DataGroupInternalResource {
 	return &ltm.dataGroupInternal
 }
 
-func (ltm LTM) Monitor() monitor.Monitor {
-	return ltm.monitor
+func (ltm LTM) Monitor() *monitor.MonitorResource {
+	return &ltm.monitor
 }
 
 func (ltm LTM) Profile() *profile.ProfileResource {

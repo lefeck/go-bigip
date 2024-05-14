@@ -32,7 +32,7 @@ type Node struct {
 		Interval      string `json:"interval"`
 	} `json:"fqdn"`
 	Logging   string `json:"logging"`
-	Monitor   string `json:"monitor"`
+	string    `json:""`
 	RateLimit string `json:"rateLimit"`
 	Ratio     int    `json:"ratio"`
 	Session   string `json:"session"`

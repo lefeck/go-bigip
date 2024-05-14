@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorSOAPList struct {
-	Items    []MonitorSOAP `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type SOAPList struct {
+	Items    []SOAP `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorSOAP struct {
+type SOAP struct {
 	AppService     string `json:"appService,omitempty"`
 	Debug          string `json:"debug,omitempty"`
 	DefaultsFrom   string `json:"defaultsFrom,omitempty"`
@@ -43,16 +43,16 @@ type MonitorSOAP struct {
 	UrlPath        string `json:"urlPath,omitempty"`
 }
 
-const MonitorSOAPEndpoint = "/monitor/soap"
+const SOAPEndpoint = "soap"
 
-type MonitorSOAPResource struct {
+type SOAPResource struct {
 	b *bigip.BigIP
 }
 
-func (msr *MonitorSOAPResource) List() (*MonitorSOAPList, error) {
-	var mscl MonitorSOAPList
+func (msr *SOAPResource) List() (*SOAPList, error) {
+	var mscl SOAPList
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SOAPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -62,10 +62,10 @@ func (msr *MonitorSOAPResource) List() (*MonitorSOAPList, error) {
 	}
 	return &mscl, nil
 }
-func (msr *MonitorSOAPResource) Get(fullPathName string) (*MonitorSOAP, error) {
-	var msc MonitorSOAP
+func (msr *SOAPResource) Get(fullPathName string) (*SOAP, error) {
+	var msc SOAP
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SOAPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -75,37 +75,37 @@ func (msr *MonitorSOAPResource) Get(fullPathName string) (*MonitorSOAP, error) {
 	return &msc, nil
 }
 
-func (msr *MonitorSOAPResource) Create(item MonitorSOAP) error {
+func (msr *SOAPResource) Create(item SOAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SOAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSOAPResource) Update(name string, item MonitorSOAP) error {
+func (msr *SOAPResource) Update(name string, item SOAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SOAPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSOAPResource) Delete(name string) error {
+func (msr *SOAPResource) Delete(name string) error {
 	_, err := msr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSOAPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SOAPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

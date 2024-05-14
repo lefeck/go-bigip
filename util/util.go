@@ -11,7 +11,6 @@ type Util struct {
 
 func NewUtil(b *bigip.BigIP) Util {
 	return Util{
-		b:    b,
 		bash: BashResource{b: b},
 	}
 }

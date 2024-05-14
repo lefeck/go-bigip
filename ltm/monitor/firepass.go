@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorFirepassList struct {
-	Items    []MonitorFirepass `json:"items,omitempty"`
-	Kind     string            `json:"kind,omitempty"`
-	SelfLink string            `json:"selflink,omitempty"`
+type FirepassList struct {
+	Items    []Firepass `json:"items,omitempty"`
+	Kind     string     `json:"kind,omitempty"`
+	SelfLink string     `json:"selflink,omitempty"`
 }
 
-type MonitorFirepass struct {
+type Firepass struct {
 	AppService       string `json:"appService,omitempty"`
 	Cipherlist       string `json:"cipherlist,omitempty"`
 	ConcurrencyLimit int    `json:"concurrencyLimit,omitempty"`
@@ -35,16 +35,16 @@ type MonitorFirepass struct {
 	Username         string `json:"username,omitempty"`
 }
 
-const MonitorFirepassEndpoint = "/monitor/firepass"
+const FirepassEndpoint = "firepass"
 
-type MonitorFirepassResource struct {
+type FirepassResource struct {
 	b *bigip.BigIP
 }
 
-func (mfr *MonitorFirepassResource) List() (*MonitorFirepassList, error) {
-	var mfcl MonitorFirepassList
+func (mfr *FirepassResource) List() (*FirepassList, error) {
+	var mfcl FirepassList
 	res, err := mfr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFirepassEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FirepassEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -55,10 +55,10 @@ func (mfr *MonitorFirepassResource) List() (*MonitorFirepassList, error) {
 	return &mfcl, nil
 }
 
-func (mfr *MonitorFirepassResource) Get(fullPathName string) (*MonitorFirepass, error) {
-	var mfc MonitorFirepass
+func (mfr *FirepassResource) Get(fullPathName string) (*Firepass, error) {
+	var mfc Firepass
 	res, err := mfr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFirepassEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FirepassEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -68,37 +68,37 @@ func (mfr *MonitorFirepassResource) Get(fullPathName string) (*MonitorFirepass, 
 	return &mfc, nil
 }
 
-func (mfr *MonitorFirepassResource) Create(item MonitorFirepass) error {
+func (mfr *FirepassResource) Create(item Firepass) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mfr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFirepassEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FirepassEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mfr *MonitorFirepassResource) Update(name string, item MonitorFirepass) error {
+func (mfr *FirepassResource) Update(name string, item Firepass) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mfr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFirepassEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FirepassEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mfr *MonitorFirepassResource) Delete(name string) error {
+func (mfr *FirepassResource) Delete(name string) error {
 	_, err := mfr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorFirepassEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(FirepassEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

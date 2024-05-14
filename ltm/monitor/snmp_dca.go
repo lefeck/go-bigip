@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorSNMPDCAList struct {
-	Items    []MonitorSNMPDCA `json:"items,omitempty"`
-	Kind     string           `json:"kind,omitempty"`
-	SelfLink string           `json:"selflink,omitempty"`
+type SNMPDCAList struct {
+	Items    []SNMPDCA `json:"items,omitempty"`
+	Kind     string    `json:"kind,omitempty"`
+	SelfLink string    `json:"selflink,omitempty"`
 }
 
-type MonitorSNMPDCA struct {
+type SNMPDCA struct {
 	AgentType         string `json:"agentType,omitempty"`
 	AppService        string `json:"appService,omitempty"`
 	Community         string `json:"community,omitempty"`
@@ -40,16 +40,16 @@ type MonitorSNMPDCA struct {
 	Version           string `json:"version,omitempty"`
 }
 
-const MonitorSNMPDCAEndpoint = "/monitor/snmp-dca"
+const SNMPDCAEndpoint = "snmp-dca"
 
-type MonitorSNMPDCAResource struct {
+type SNMPDCAResource struct {
 	b *bigip.BigIP
 }
 
-func (msdr *MonitorSNMPDCAResource) List() (*MonitorSNMPDCAList, error) {
-	var msdcl MonitorSNMPDCAList
+func (msdr *SNMPDCAResource) List() (*SNMPDCAList, error) {
+	var msdcl SNMPDCAList
 	res, err := msdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSNMPDCAEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -60,10 +60,10 @@ func (msdr *MonitorSNMPDCAResource) List() (*MonitorSNMPDCAList, error) {
 	return &msdcl, nil
 }
 
-func (msdr *MonitorSNMPDCAResource) Get(fullPathName string) (*MonitorSNMPDCA, error) {
-	var msdc MonitorSNMPDCA
+func (msdr *SNMPDCAResource) Get(fullPathName string) (*SNMPDCA, error) {
+	var msdc SNMPDCA
 	res, err := msdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSNMPDCAEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -73,37 +73,37 @@ func (msdr *MonitorSNMPDCAResource) Get(fullPathName string) (*MonitorSNMPDCA, e
 	return &msdc, nil
 }
 
-func (msdr *MonitorSNMPDCAResource) Create(item MonitorSNMPDCA) error {
+func (msdr *SNMPDCAResource) Create(item SNMPDCA) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msdr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSNMPDCAEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msdr *MonitorSNMPDCAResource) Update(name string, item MonitorSNMPDCA) error {
+func (msdr *SNMPDCAResource) Update(name string, item SNMPDCA) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msdr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSNMPDCAEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msdr *MonitorSNMPDCAResource) Delete(name string) error {
+func (msdr *SNMPDCAResource) Delete(name string) error {
 	_, err := msdr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSNMPDCAEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

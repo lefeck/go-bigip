@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorDiameterList struct {
-	Items    []MonitorDiameter `json:"items,omitempty"`
-	Kind     string            `json:"kind,omitempty"`
-	SelfLink string            `json:"selflink,omitempty"`
+type DiameterList struct {
+	Items    []Diameter `json:"items,omitempty"`
+	Kind     string     `json:"kind,omitempty"`
+	SelfLink string     `json:"selflink,omitempty"`
 }
 
-type MonitorDiameter struct {
+type Diameter struct {
 	AcctApplicationId               string `json:"acctApplicationId,omitempty"`
 	AppService                      string `json:"appService,omitempty"`
 	AuthApplicationId               string `json:"authApplicationId,omitempty"`
@@ -44,12 +44,12 @@ type MonitorDiameter struct {
 
 const DiameterEndpoint = "diameter"
 
-type MonitorDiameterResource struct {
+type DiameterResource struct {
 	b *bigip.BigIP
 }
 
-func (mdr *MonitorDiameterResource) List() (*MonitorDiameterList, error) {
-	var mdcl MonitorDiameterList
+func (mdr *DiameterResource) List() (*DiameterList, error) {
+	var mdcl DiameterList
 	res, err := mdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(DiameterEndpoint).DoRaw(context.Background())
 	if err != nil {
@@ -62,8 +62,8 @@ func (mdr *MonitorDiameterResource) List() (*MonitorDiameterList, error) {
 	return &mdcl, nil
 }
 
-func (mdr *MonitorDiameterResource) Get(fullPathName string) (*MonitorDiameter, error) {
-	var mdc MonitorDiameter
+func (mdr *DiameterResource) Get(fullPathName string) (*Diameter, error) {
+	var mdc Diameter
 	res, err := mdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(DiameterEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
@@ -75,7 +75,7 @@ func (mdr *MonitorDiameterResource) Get(fullPathName string) (*MonitorDiameter, 
 	return &mdc, nil
 }
 
-func (mdr *MonitorDiameterResource) Create(item MonitorDiameter) error {
+func (mdr *DiameterResource) Create(item Diameter) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
@@ -89,7 +89,7 @@ func (mdr *MonitorDiameterResource) Create(item MonitorDiameter) error {
 	return nil
 }
 
-func (mdr *MonitorDiameterResource) Update(fullPathName string, item MonitorDiameter) error {
+func (mdr *DiameterResource) Update(fullPathName string, item Diameter) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
@@ -103,7 +103,7 @@ func (mdr *MonitorDiameterResource) Update(fullPathName string, item MonitorDiam
 	return nil
 }
 
-func (mdr *MonitorDiameterResource) Delete(fullPathName string) error {
+func (mdr *DiameterResource) Delete(fullPathName string) error {
 	_, err := mdr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(DiameterEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {

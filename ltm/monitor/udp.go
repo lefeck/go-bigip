@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorUDPList struct {
-	Items    []MonitorUDP `json:"items"`
-	Kind     string       `json:"kind"`
-	SelfLink string       `json:"selflink"`
+type UDPList struct {
+	Items    []UDP  `json:"items"`
+	Kind     string `json:"kind"`
+	SelfLink string `json:"selflink"`
 }
 
-type MonitorUDP struct {
+type UDP struct {
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
 	AdaptiveDivergenceValue  int    `json:"adaptiveDivergenceValue,omitempty"`
@@ -43,16 +43,16 @@ type MonitorUDP struct {
 	UpInterval               int    `json:"upInterval,omitempty"`
 }
 
-const MonitorUDPEndpoint = "/monitor/udp"
+const UDPEndpoint = "udp"
 
-type MonitorUDPResource struct {
+type UDPResource struct {
 	b *bigip.BigIP
 }
 
-func (mur *MonitorUDPResource) List() (*MonitorUDPList, error) {
-	var mucl MonitorUDPList
+func (mur *UDPResource) List() (*UDPList, error) {
+	var mucl UDPList
 	res, err := mur.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorUDPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(UDPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -63,10 +63,10 @@ func (mur *MonitorUDPResource) List() (*MonitorUDPList, error) {
 	return &mucl, nil
 }
 
-func (mur *MonitorUDPResource) Get(fullPathName string) (*MonitorUDP, error) {
-	var muc MonitorUDP
+func (mur *UDPResource) Get(fullPathName string) (*UDP, error) {
+	var muc UDP
 	res, err := mur.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorUDPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(UDPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -76,37 +76,37 @@ func (mur *MonitorUDPResource) Get(fullPathName string) (*MonitorUDP, error) {
 	return &muc, nil
 }
 
-func (mur *MonitorUDPResource) Create(item MonitorUDP) error {
+func (mur *UDPResource) Create(item UDP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mur.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorUDPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(UDPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mur *MonitorUDPResource) Update(name string, item MonitorUDP) error {
+func (mur *UDPResource) Update(name string, item UDP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mur.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorUDPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(UDPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mur *MonitorUDPResource) Delete(name string) error {
+func (mur *UDPResource) Delete(name string) error {
 	_, err := mur.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorUDPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(UDPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

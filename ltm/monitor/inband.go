@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorInbandList struct {
-	Items    []MonitorInband `json:"items,omitempty"`
-	Kind     string          `json:"kind,omitempty"`
-	SelfLink string          `json:"selflink,omitempty"`
+type InbandList struct {
+	Items    []Inband `json:"items,omitempty"`
+	Kind     string   `json:"kind,omitempty"`
+	SelfLink string   `json:"selflink,omitempty"`
 }
 
-type MonitorInband struct {
+type Inband struct {
 	AppService      string `json:"appService,omitempty"`
 	DefaultsFrom    string `json:"defaultsFrom,omitempty"`
 	Description     string `json:"description,omitempty"`
@@ -30,16 +30,16 @@ type MonitorInband struct {
 	SelfLink        string `json:"selfLink,omitempty"`
 }
 
-const MonitorInbandEndpoint = "/monitor/inband"
+const InbandEndpoint = "inband"
 
-type MonitorInbandResource struct {
+type InbandResource struct {
 	b *bigip.BigIP
 }
 
-func (mir *MonitorInbandResource) List() (*MonitorInbandList, error) {
-	var micl MonitorInbandList
+func (mir *InbandResource) List() (*InbandList, error) {
+	var micl InbandList
 	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorInbandEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(InbandEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -50,10 +50,10 @@ func (mir *MonitorInbandResource) List() (*MonitorInbandList, error) {
 	return &micl, nil
 }
 
-func (mir *MonitorInbandResource) Get(fullPathName string) (*MonitorInband, error) {
-	var mic MonitorInband
+func (mir *InbandResource) Get(fullPathName string) (*Inband, error) {
+	var mic Inband
 	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorInbandEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(InbandEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -63,37 +63,37 @@ func (mir *MonitorInbandResource) Get(fullPathName string) (*MonitorInband, erro
 	return &mic, nil
 }
 
-func (mir *MonitorInbandResource) Create(item MonitorInband) error {
+func (mir *InbandResource) Create(item Inband) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mir.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorInbandEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(InbandEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mir *MonitorInbandResource) Update(name string, item MonitorInband) error {
+func (mir *InbandResource) Update(name string, item Inband) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorInbandEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(InbandEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mir *MonitorInbandResource) Delete(name string) error {
+func (mir *InbandResource) Delete(name string) error {
 	_, err := mir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorInbandEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(InbandEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

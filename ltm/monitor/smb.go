@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorSMBList struct {
-	Items    []MonitorSMB `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type SMBList struct {
+	Items    []SMB  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorSMB struct {
+type SMB struct {
 	AppService   string `json:"appService,omitempty"`
 	Debug        string `json:"debug,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -35,16 +35,16 @@ type MonitorSMB struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorSMBEndpoint = "/monitor/smb"
+const SMBEndpoint = "smb"
 
-type MonitorSMBResource struct {
+type SMBResource struct {
 	b *bigip.BigIP
 }
 
-func (msr *MonitorSMBResource) List() (*MonitorSMBList, error) {
-	var mscl MonitorSMBList
+func (msr *SMBResource) List() (*SMBList, error) {
+	var mscl SMBList
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMBEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMBEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -55,10 +55,10 @@ func (msr *MonitorSMBResource) List() (*MonitorSMBList, error) {
 	return &mscl, nil
 }
 
-func (msr *MonitorSMBResource) Get(fullPathName string) (*MonitorSMB, error) {
-	var msc MonitorSMB
+func (msr *SMBResource) Get(fullPathName string) (*SMB, error) {
+	var msc SMB
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMBEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMBEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -68,36 +68,36 @@ func (msr *MonitorSMBResource) Get(fullPathName string) (*MonitorSMB, error) {
 	return &msc, nil
 }
 
-func (msr *MonitorSMBResource) Create(item MonitorSMB) error {
+func (msr *SMBResource) Create(item SMB) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMBEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMBEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func (msr *MonitorSMBResource) Update(name string, item MonitorSMB) error {
+func (msr *SMBResource) Update(name string, item SMB) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMBEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMBEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSMBResource) Delete(name string) error {
+func (msr *SMBResource) Delete(name string) error {
 	_, err := msr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMBEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMBEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

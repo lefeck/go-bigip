@@ -74,9 +74,9 @@ type PoolStats struct {
 		MinActiveMembers struct {
 			Value int `json:"value"`
 		} `json:"minActiveMembers,omitempty"`
-		MonitorRule struct {
+		Rule struct {
 			Description string `json:"description,omitempty"`
-		} `json:"monitorRule,omitempty"`
+		} `json:"Rule,omitempty"`
 		ServersideBitsIn struct {
 			Value int `json:"value"`
 		} `json:"serverside.bitsIn,omitempty"`

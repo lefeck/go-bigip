@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorMySQLList struct {
-	Items    []MonitorMySQL `json:"items,omitempty"`
-	Kind     string         `json:"kind,omitempty"`
-	SelfLink string         `json:"selflink,omitempty"`
+type MySQLList struct {
+	Items    []MySQL `json:"items,omitempty"`
+	Kind     string  `json:"kind,omitempty"`
+	SelfLink string  `json:"selflink,omitempty"`
 }
-type MonitorMySQL struct {
+type MySQL struct {
 	AppService   string `json:"appService,omitempty"`
 	Count        string `json:"count,omitempty"`
 	Database     string `json:"database,omitempty"`
@@ -38,16 +38,16 @@ type MonitorMySQL struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorMySQLEndpoint = "/monitor/mysql"
+const MySQLEndpoint = "mysql"
 
-type MonitorMySQLResource struct {
+type MySQLResource struct {
 	b *bigip.BigIP
 }
 
-func (mmr *MonitorMySQLResource) List() (*MonitorMySQLList, error) {
-	var mmcl MonitorMySQLList
+func (mmr *MySQLResource) List() (*MySQLList, error) {
+	var mmcl MySQLList
 	res, err := mmr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMySQLEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MySQLEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +58,10 @@ func (mmr *MonitorMySQLResource) List() (*MonitorMySQLList, error) {
 	return &mmcl, nil
 }
 
-func (mmr *MonitorMySQLResource) Get(fullPathName string) (*MonitorMySQL, error) {
-	var mmc MonitorMySQL
+func (mmr *MySQLResource) Get(fullPathName string) (*MySQL, error) {
+	var mmc MySQL
 	res, err := mmr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMySQLEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MySQLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -71,37 +71,37 @@ func (mmr *MonitorMySQLResource) Get(fullPathName string) (*MonitorMySQL, error)
 	return &mmc, nil
 }
 
-func (mmr *MonitorMySQLResource) Create(item MonitorMySQL) error {
+func (mmr *MySQLResource) Create(item MySQL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mmr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMySQLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MySQLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mmr *MonitorMySQLResource) Update(name string, item MonitorMySQL) error {
+func (mmr *MySQLResource) Update(name string, item MySQL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mmr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMySQLEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MySQLEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mmr *MonitorMySQLResource) Delete(name string) error {
+func (mmr *MySQLResource) Delete(name string) error {
 	_, err := mmr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorMySQLEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(MySQLEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

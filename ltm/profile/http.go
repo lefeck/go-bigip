@@ -1,6 +1,12 @@
 package profile
 
-import "github.com/lefeck/go-bigip"
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/lefeck/go-bigip"
+	"strings"
+)
 
 type HTTPList struct {
 	Items    []HTTP `json:"items,omitempty"`
@@ -89,4 +95,85 @@ const HTTPEndpoint = "http"
 
 type HTTPResource struct {
 	b *bigip.BigIP
+}
+
+// List retrieves a list of HTTP resources.
+func (cr *HTTPResource) List() (*HTTPList, error) {
+	var items HTTPList
+	// Perform a GET request to retrieve a list of HTTP resource objects
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal JSON response data into HTTPList struct
+	if err := json.Unmarshal(res, &items); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &items, nil
+}
+
+// Get retrieves an HTTP resource by its full path name.
+func (cr *HTTPResource) Get(fullPathName string) (*HTTP, error) {
+	var item HTTP
+	// Perform a GET request to retrieve a specific HTTP resource by its full path name
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal JSON response data into HTTP struct
+	if err := json.Unmarshal(res, &item); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &item, nil
+}
+
+// Create adds a new HTTP resource using the provided HTML item.
+func (cr *HTTPResource) Create(item HTTP) error {
+	// Marshal the HTML struct into JSON data
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+
+	// Perform a POST request to create a new HTML resource using the JSON data
+	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Update modifies an HTTP resource identified by its full path name using the provided HTTP item.
+func (cr *HTTPResource) Update(fullPathName string, item HTTP) error {
+	// Marshal the HTTP struct into JSON data
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+
+	// Perform a PUT request to update the specified HTTP resource with the JSON data
+	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Delete removes an HTTP resource by its full path name.
+func (cr *HTTPResource) Delete(fullPathName string) error {
+	// Perform a DELETE request to delete the specified HTTP resource
+	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
 }

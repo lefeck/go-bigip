@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorPostgreSQLList struct {
-	Items    []MonitorPostgreSQL `json:"items,omitempty"`
-	Kind     string              `json:"kind,omitempty"`
-	SelfLink string              `json:"selflink,omitempty"`
+type PostgreSQLList struct {
+	Items    []PostgreSQL `json:"items,omitempty"`
+	Kind     string       `json:"kind,omitempty"`
+	SelfLink string       `json:"selflink,omitempty"`
 }
-type MonitorPostgreSQL struct {
+type PostgreSQL struct {
 	AppService   string `json:"appService,omitempty"`
 	Count        string `json:"count,omitempty"`
 	Database     string `json:"database,omitempty"`
@@ -38,16 +38,16 @@ type MonitorPostgreSQL struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorPostgreSQLEndpoint = "/monitor/postgresql"
+const PostgreSQLEndpoint = "postgresql"
 
-type MonitorPostgreSQLResource struct {
+type PostgreSQLResource struct {
 	b *bigip.BigIP
 }
 
-func (mpr *MonitorPostgreSQLResource) List() (*MonitorPostgreSQLList, error) {
-	var mpcl MonitorPostgreSQLList
+func (mpr *PostgreSQLResource) List() (*PostgreSQLList, error) {
+	var mpcl PostgreSQLList
 	res, err := mpr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPostgreSQLEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +58,10 @@ func (mpr *MonitorPostgreSQLResource) List() (*MonitorPostgreSQLList, error) {
 	return &mpcl, nil
 }
 
-func (mpr *MonitorPostgreSQLResource) Get(fullPathName string) (*MonitorPostgreSQL, error) {
-	var mpc MonitorPostgreSQL
+func (mpr *PostgreSQLResource) Get(fullPathName string) (*PostgreSQL, error) {
+	var mpc PostgreSQL
 	res, err := mpr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPostgreSQLEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -71,37 +71,37 @@ func (mpr *MonitorPostgreSQLResource) Get(fullPathName string) (*MonitorPostgreS
 	return &mpc, nil
 }
 
-func (mpr *MonitorPostgreSQLResource) Create(item MonitorPostgreSQL) error {
+func (mpr *PostgreSQLResource) Create(item PostgreSQL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mpr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPostgreSQLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mpr *MonitorPostgreSQLResource) Update(name string, item MonitorPostgreSQL) error {
+func (mpr *PostgreSQLResource) Update(name string, item PostgreSQL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mpr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPostgreSQLEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mpr *MonitorPostgreSQLResource) Delete(name string) error {
+func (mpr *PostgreSQLResource) Delete(name string) error {
 	_, err := mpr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPostgreSQLEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorSMTPList struct {
-	Items    []MonitorSMTP `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type SMTPList struct {
+	Items    []SMTP `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type MonitorSMTP struct {
+type SMTP struct {
 	AppService   string `json:"appService,omitempty"`
 	Debug        string `json:"debug,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -34,16 +34,16 @@ type MonitorSMTP struct {
 	UpInterval   int    `json:"upInterval,omitempty,omitempty"`
 }
 
-const MonitorSMTPEndpoint = "/monitor/smtp"
+const SMTPEndpoint = "smtp"
 
-type MonitorSMTPResource struct {
+type SMTPResource struct {
 	b *bigip.BigIP
 }
 
-func (msr *MonitorSMTPResource) List() (*MonitorSMTPList, error) {
-	var mscl MonitorSMTPList
+func (msr *SMTPResource) List() (*SMTPList, error) {
+	var mscl SMTPList
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMTPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -54,10 +54,10 @@ func (msr *MonitorSMTPResource) List() (*MonitorSMTPList, error) {
 	return &mscl, nil
 }
 
-func (msr *MonitorSMTPResource) Get(fullPathName string) (*MonitorSMTP, error) {
-	var msc MonitorSMTP
+func (msr *SMTPResource) Get(fullPathName string) (*SMTP, error) {
+	var msc SMTP
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMTPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMTPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -67,37 +67,37 @@ func (msr *MonitorSMTPResource) Get(fullPathName string) (*MonitorSMTP, error) {
 	return &msc, nil
 }
 
-func (msr *MonitorSMTPResource) Create(item MonitorSMTP) error {
+func (msr *SMTPResource) Create(item SMTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSMTPResource) Update(name string, item MonitorSMTP) error {
+func (msr *SMTPResource) Update(name string, item SMTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMTPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMTPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSMTPResource) Delete(name string) error {
+func (msr *SMTPResource) Delete(name string) error {
 	_, err := msr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSMTPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SMTPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

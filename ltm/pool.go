@@ -89,6 +89,20 @@ func (vr *PoolResource) ListDetail() (*PoolList, error) {
 	return &pl, nil
 }
 
+// ListVirtualServerName get all virtual server names
+func (vr *PoolResource) ListPoolName() ([]string, error) {
+	pl, err := vr.List()
+	if err != nil {
+		return nil, err
+	}
+	var items []string
+	for _, pool := range pl.Items {
+		fullPathName := pool.FullPath
+		items = append(items, fullPathName)
+	}
+	return items, nil
+}
+
 // Get a single pool identified by name.
 func (pr *PoolResource) Get(fullPathName string) (*Pool, error) {
 	var pool Pool
@@ -109,7 +123,7 @@ func (pr *PoolResource) Get(fullPathName string) (*Pool, error) {
 	item := Pool{
 		Name:              "pool-demo",
 		LoadBalancingMode: "round-robin",
-		Monitor:           "http",
+		:           "http",
         .....
 	}
 */
@@ -119,7 +133,7 @@ func (pr *PoolResource) Get(fullPathName string) (*Pool, error) {
 		Name:              "pool-demo",
 		LoadBalancingMode: "round-robin",
 		Members:           []string{"192.13.23.1:90", "128.3.2.53:90"},
-		Monitor:           "http",
+		:           "http",
         ......
 	}
 */

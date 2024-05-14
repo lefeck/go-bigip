@@ -1,6 +1,12 @@
 package profile
 
-import "github.com/lefeck/go-bigip"
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/lefeck/go-bigip"
+	"strings"
+)
 
 type TCPList struct {
 	Items    []TCP  `json:"items,omitempty"`
@@ -105,4 +111,85 @@ const TCPEndpoint = "tcp"
 
 type TCPResource struct {
 	b *bigip.BigIP
+}
+
+// List retrieves a list of TCP resources.
+func (cr *TCPResource) List() (*TCPList, error) {
+	var items TCPList
+	// Perform a GET request to retrieve a list of TCP resource objects
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(TCPEndpoint).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal JSON response data into TCPList struct
+	if err := json.Unmarshal(res, &items); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &items, nil
+}
+
+// Get retrieves a TCP resource by its full path name.
+func (cr *TCPResource) Get(fullPathName string) (*TCP, error) {
+	var item TCP
+	// Perform a GET request to retrieve a specific TCP resource by its full path name
+	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(TCPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal JSON response data into TCP struct
+	if err := json.Unmarshal(res, &item); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &item, nil
+}
+
+// Create adds a new TCP resource using the provided TCP item.
+func (cr *TCPResource) Create(item TCP) error {
+	// Marshal the TCP struct into JSON data
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+
+	// Perform a POST request to create a new TCP resource using the JSON data
+	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(TCPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Update modifies a TCP resource identified by its full path name using the provided TCP item.
+func (cr *TCPResource) Update(fullPathName string, item TCP) error {
+	// Marshal the TCP struct into JSON data
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+
+	// Perform a PUT request to update the specified TCP resource with the JSON data
+	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(TCPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Delete removes a TCP resource by its full path name.
+func (cr *TCPResource) Delete(fullPathName string) error {
+	// Perform a DELETE request to delete the specified TCP resource
+	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+		Resource(ProfileEndpoint).SubResource(TCPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
 }

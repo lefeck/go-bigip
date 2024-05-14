@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorSIPList struct {
-	Items    []MonitorSIP `json:"items,omitempty"`
-	Kind     string       `json:"kind,omitempty"`
-	SelfLink string       `json:"selflink,omitempty"`
+type SIPList struct {
+	Items    []SIP  `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorSIP struct {
+type SIP struct {
 	AppService    string `json:"appService,omitempty"`
 	Cert          string `json:"cert,omitempty"`
 	Cipherlist    string `json:"cipherlist,omitempty"`
@@ -41,16 +41,16 @@ type MonitorSIP struct {
 	UpInterval    int    `json:"upInterval,omitempty"`
 }
 
-const MonitorSIPEndpoint = "/monitor/sip"
+const SIPEndpoint = "sip"
 
-type MonitorSIPResource struct {
+type SIPResource struct {
 	b *bigip.BigIP
 }
 
-func (msr *MonitorSIPResource) List() (*MonitorSIPList, error) {
-	var mscl MonitorSIPList
+func (msr *SIPResource) List() (*SIPList, error) {
+	var mscl SIPList
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSIPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SIPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -61,10 +61,10 @@ func (msr *MonitorSIPResource) List() (*MonitorSIPList, error) {
 	return &mscl, nil
 }
 
-func (msr *MonitorSIPResource) Get(fullPathName string) (*MonitorSIP, error) {
-	var msc MonitorSIP
+func (msr *SIPResource) Get(fullPathName string) (*SIP, error) {
+	var msc SIP
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSIPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SIPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -74,37 +74,37 @@ func (msr *MonitorSIPResource) Get(fullPathName string) (*MonitorSIP, error) {
 	return &msc, nil
 }
 
-func (msr *MonitorSIPResource) Create(item MonitorSIP) error {
+func (msr *SIPResource) Create(item SIP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSIPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SIPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSIPResource) Update(name string, item MonitorSIP) error {
+func (msr *SIPResource) Update(name string, item SIP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSIPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SIPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSIPResource) Delete(name string) error {
+func (msr *SIPResource) Delete(name string) error {
 	_, err := msr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSIPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SIPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorLDAPList struct {
-	Items    []MonitorLDAP `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type LDAPList struct {
+	Items    []LDAP `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorLDAP struct {
+type LDAP struct {
 	AppService          string `json:"appService,omitempty"`
 	Base                string `json:"base,omitempty"`
 	ChaseReferrals      string `json:"chaseReferrals,omitempty"`
@@ -37,16 +37,16 @@ type MonitorLDAP struct {
 	UpInterval          int    `json:"upInterval,omitempty"`
 }
 
-const MonitorLDAPEndpoint = "/monitor/ldap"
+const LDAPEndpoint = "//ldap"
 
-type MonitorLDAPResource struct {
+type LDAPResource struct {
 	b *bigip.BigIP
 }
 
-func (mlr *MonitorLDAPResource) List() (*MonitorLDAPList, error) {
-	var mlcl MonitorLDAPList
+func (mlr *LDAPResource) List() (*LDAPList, error) {
+	var mlcl LDAPList
 	res, err := mlr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorLDAPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(LDAPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -57,10 +57,10 @@ func (mlr *MonitorLDAPResource) List() (*MonitorLDAPList, error) {
 	return &mlcl, nil
 }
 
-func (mlr *MonitorLDAPResource) Get(fullPathName string) (*MonitorLDAP, error) {
-	var mlc MonitorLDAP
+func (mlr *LDAPResource) Get(fullPathName string) (*LDAP, error) {
+	var mlc LDAP
 	res, err := mlr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorLDAPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(LDAPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -70,37 +70,37 @@ func (mlr *MonitorLDAPResource) Get(fullPathName string) (*MonitorLDAP, error) {
 	return &mlc, nil
 }
 
-func (mlr *MonitorLDAPResource) Create(item MonitorLDAP) error {
+func (mlr *LDAPResource) Create(item LDAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mlr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorLDAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(LDAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mlr *MonitorLDAPResource) Update(name string, item MonitorLDAP) error {
+func (mlr *LDAPResource) Update(name string, item LDAP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mlr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorLDAPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(LDAPEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mlr *MonitorLDAPResource) Delete(name string) error {
+func (mlr *LDAPResource) Delete(name string) error {
 	_, err := mlr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorLDAPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(LDAPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

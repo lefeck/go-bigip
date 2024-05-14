@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorGatewayICMPList struct {
-	Items    []MonitorGatewayICMP `json:"items,omitempty"`
-	Kind     string               `json:"kind,omitempty"`
-	SelfLink string               `json:"selflink,omitempty"`
+type GatewayICMPList struct {
+	Items    []GatewayICMP `json:"items,omitempty"`
+	Kind     string        `json:"kind,omitempty"`
+	SelfLink string        `json:"selflink,omitempty"`
 }
-type MonitorGatewayICMP struct {
+type GatewayICMP struct {
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
 	AdaptiveDivergenceValue  int    `json:"adaptiveDivergenceValue,omitempty"`
@@ -37,16 +37,16 @@ type MonitorGatewayICMP struct {
 	UpInterval               int    `json:"upInterval,omitempty"`
 }
 
-const MonitorGatewayICMPEndpoint = "/monitor/gateway-icmp"
+const GatewayICMPEndpoint = "gateway-icmp"
 
-type MonitorGatewayICMPResource struct {
+type GatewayICMPResource struct {
 	b *bigip.BigIP
 }
 
-func (mgir *MonitorGatewayICMPResource) List() (*MonitorGatewayICMPList, error) {
-	var mgicl MonitorGatewayICMPList
+func (mgir *GatewayICMPResource) List() (*GatewayICMPList, error) {
+	var mgicl GatewayICMPList
 	res, err := mgir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorGatewayICMPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -57,10 +57,10 @@ func (mgir *MonitorGatewayICMPResource) List() (*MonitorGatewayICMPList, error) 
 	return &mgicl, nil
 }
 
-func (mgir *MonitorGatewayICMPResource) Get(fullPathName string) (*MonitorGatewayICMP, error) {
-	var mgic MonitorGatewayICMP
+func (mgir *GatewayICMPResource) Get(fullPathName string) (*GatewayICMP, error) {
+	var mgic GatewayICMP
 	res, err := mgir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorGatewayICMPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -70,37 +70,37 @@ func (mgir *MonitorGatewayICMPResource) Get(fullPathName string) (*MonitorGatewa
 	return &mgic, nil
 }
 
-func (mgir *MonitorGatewayICMPResource) Create(item MonitorGatewayICMP) error {
+func (mgir *GatewayICMPResource) Create(item GatewayICMP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mgir.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorGatewayICMPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mgir *MonitorGatewayICMPResource) Update(name string, item MonitorGatewayICMP) error {
+func (mgir *GatewayICMPResource) Update(name string, item GatewayICMP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mgir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorGatewayICMPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mgir *MonitorGatewayICMPResource) Delete(name string) error {
+func (mgir *GatewayICMPResource) Delete(name string) error {
 	_, err := mgir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorGatewayICMPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorVirtualLocationList struct {
-	Items    []MonitorVirtualLocation `json:"items,omitempty"`
-	Kind     string                   `json:"kind,omitempty"`
-	SelfLink string                   `json:"selflink,omitempty"`
+type VirtualLocationList struct {
+	Items    []VirtualLocation `json:"items,omitempty"`
+	Kind     string            `json:"kind,omitempty"`
+	SelfLink string            `json:"selflink,omitempty"`
 }
-type MonitorVirtualLocation struct {
+type VirtualLocation struct {
 	AppService   string `json:"appService,omitempty"`
 	Debug        string `json:"debug,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -32,16 +32,16 @@ type MonitorVirtualLocation struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorVirtualLocationEndpoint = "/monitor/virtual-location"
+const VirtualLocationEndpoint = "virtual-location"
 
-type MonitorVirtualLocationResource struct {
+type VirtualLocationResource struct {
 	b *bigip.BigIP
 }
 
-func (mvlr *MonitorVirtualLocationResource) List() (*MonitorVirtualLocationList, error) {
-	var mvlcl MonitorVirtualLocationList
+func (mvlr *VirtualLocationResource) List() (*VirtualLocationList, error) {
+	var mvlcl VirtualLocationList
 	res, err := mvlr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorVirtualLocationEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -52,10 +52,10 @@ func (mvlr *MonitorVirtualLocationResource) List() (*MonitorVirtualLocationList,
 	return &mvlcl, nil
 }
 
-func (mvlr *MonitorVirtualLocationResource) Get(fullPathName string) (*MonitorVirtualLocation, error) {
-	var mvlc MonitorVirtualLocation
+func (mvlr *VirtualLocationResource) Get(fullPathName string) (*VirtualLocation, error) {
+	var mvlc VirtualLocation
 	res, err := mvlr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorVirtualLocationEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -65,37 +65,37 @@ func (mvlr *MonitorVirtualLocationResource) Get(fullPathName string) (*MonitorVi
 	return &mvlc, nil
 }
 
-func (mvlr *MonitorVirtualLocationResource) Create(item MonitorVirtualLocation) error {
+func (mvlr *VirtualLocationResource) Create(item VirtualLocation) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mvlr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorVirtualLocationEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mvlr *MonitorVirtualLocationResource) Update(name string, item MonitorVirtualLocation) error {
+func (mvlr *VirtualLocationResource) Update(name string, item VirtualLocation) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mvlr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorVirtualLocationEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mvlr *MonitorVirtualLocationResource) Delete(name string) error {
+func (mvlr *VirtualLocationResource) Delete(name string) error {
 	_, err := mvlr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorVirtualLocationEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

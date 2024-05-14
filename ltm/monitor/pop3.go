@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorPOP3List struct {
-	Items    []MonitorPOP3 `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type POP3List struct {
+	Items    []POP3 `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type MonitorPOP3 struct {
+type POP3 struct {
 	AppService   string `json:"appService,omitempty"`
 	Debug        string `json:"debug,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -33,16 +33,16 @@ type MonitorPOP3 struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorPOP3Endpoint = "/monitor/pop3"
+const POP3Endpoint = "pop3"
 
-type MonitorPOP3Resource struct {
+type POP3Resource struct {
 	b *bigip.BigIP
 }
 
-func (mpr *MonitorPOP3Resource) List() (*MonitorPOP3List, error) {
-	var mpcl MonitorPOP3List
+func (mpr *POP3Resource) List() (*POP3List, error) {
+	var mpcl POP3List
 	res, err := mpr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPOP3Endpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(POP3Endpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -53,10 +53,10 @@ func (mpr *MonitorPOP3Resource) List() (*MonitorPOP3List, error) {
 	return &mpcl, nil
 }
 
-func (mpr *MonitorPOP3Resource) Get(fullPathName string) (*MonitorPOP3, error) {
-	var mpc MonitorPOP3
+func (mpr *POP3Resource) Get(fullPathName string) (*POP3, error) {
+	var mpc POP3
 	res, err := mpr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPOP3Endpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(POP3Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -66,37 +66,37 @@ func (mpr *MonitorPOP3Resource) Get(fullPathName string) (*MonitorPOP3, error) {
 	return &mpc, nil
 }
 
-func (mpr *MonitorPOP3Resource) Create(item MonitorPOP3) error {
+func (mpr *POP3Resource) Create(item POP3) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mpr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPOP3Endpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(POP3Endpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mpr *MonitorPOP3Resource) Update(name string, item MonitorPOP3) error {
+func (mpr *POP3Resource) Update(name string, item POP3) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mpr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPOP3Endpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(POP3Endpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mpr *MonitorPOP3Resource) Delete(name string) error {
+func (mpr *POP3Resource) Delete(name string) error {
 	_, err := mpr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorPOP3Endpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(POP3Endpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

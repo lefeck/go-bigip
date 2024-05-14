@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorHTTPSList struct {
-	Items    []MonitorHTTPS `json:"items"`
-	Kind     string         `json:"kind"`
-	SelfLink string         `json:"selflink"`
+type HTTPSList struct {
+	Items    []HTTPS `json:"items"`
+	Kind     string  `json:"kind"`
+	SelfLink string  `json:"selflink"`
 }
-type MonitorHTTPS struct {
+type HTTPS struct {
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
 	AdaptiveDivergenceValue  int    `json:"adaptiveDivergenceValue,omitempty"`
@@ -44,16 +44,16 @@ type MonitorHTTPS struct {
 	UpInterval               int    `json:"upInterval,omitempty"`
 }
 
-const MonitorHTTPSEndpoint = "/monitor/https"
+const HTTPSEndpoint = "https"
 
-type MonitorHTTPSResource struct {
+type HTTPSResource struct {
 	b *bigip.BigIP
 }
 
-func (mhr *MonitorHTTPSResource) List() (*MonitorHTTPSList, error) {
-	var mhcl MonitorHTTPSList
+func (mhr *HTTPSResource) List() (*HTTPSList, error) {
+	var mhcl HTTPSList
 	res, err := mhr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorHTTPSEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(HTTPSEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -64,10 +64,10 @@ func (mhr *MonitorHTTPSResource) List() (*MonitorHTTPSList, error) {
 	return &mhcl, nil
 }
 
-func (mhr *MonitorHTTPSResource) Get(fullPathName string) (*MonitorHTTPS, error) {
-	var mhc MonitorHTTPS
+func (mhr *HTTPSResource) Get(fullPathName string) (*HTTPS, error) {
+	var mhc HTTPS
 	res, err := mhr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorHTTPSEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(HTTPSEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -77,37 +77,37 @@ func (mhr *MonitorHTTPSResource) Get(fullPathName string) (*MonitorHTTPS, error)
 	return &mhc, nil
 }
 
-func (mhr *MonitorHTTPSResource) Create(item MonitorHTTPS) error {
+func (mhr *HTTPSResource) Create(item HTTPS) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mhr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorHTTPSEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(HTTPSEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mhr *MonitorHTTPSResource) Update(name string, item MonitorHTTPS) error {
+func (mhr *HTTPSResource) Update(name string, item HTTPS) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mhr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorHTTPSEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(HTTPSEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mhr *MonitorHTTPSResource) Delete(name string) error {
+func (mhr *HTTPSResource) Delete(name string) error {
 	_, err := mhr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorHTTPSEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(HTTPSEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

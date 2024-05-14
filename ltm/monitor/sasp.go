@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type MonitorSASPList struct {
-	Items    []MonitorSASP `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type SASPList struct {
+	Items    []SASP `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
-type MonitorSASP struct {
+type SASP struct {
 	AppService       string `json:"appService,omitempty"`
 	DefaultsFrom     string `json:"defaultsFrom,omitempty"`
 	Description      string `json:"description,omitempty"`
@@ -35,16 +35,16 @@ type MonitorSASP struct {
 	TimeUntilUp      int    `json:"timeUntilUp,omitempty"`
 }
 
-const MonitorSASPEndpoint = "/monitor/sasp"
+const SASPEndpoint = "sasp"
 
-type MonitorSASPResource struct {
+type SASPResource struct {
 	b *bigip.BigIP
 }
 
-func (msr *MonitorSASPResource) List() (*MonitorSASPList, error) {
-	var mscl MonitorSASPList
+func (msr *SASPResource) List() (*SASPList, error) {
+	var mscl SASPList
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSASPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SASPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -55,10 +55,10 @@ func (msr *MonitorSASPResource) List() (*MonitorSASPList, error) {
 	return &mscl, nil
 }
 
-func (msr *MonitorSASPResource) Get(fullPathName string) (*MonitorSASP, error) {
-	var msc MonitorSASP
+func (msr *SASPResource) Get(fullPathName string) (*SASP, error) {
+	var msc SASP
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSASPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SASPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -68,37 +68,37 @@ func (msr *MonitorSASPResource) Get(fullPathName string) (*MonitorSASP, error) {
 	return &msc, nil
 }
 
-func (msr *MonitorSASPResource) Create(item MonitorSASP) error {
+func (msr *SASPResource) Create(item SASP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSASPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SASPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSASPResource) Update(name string, item MonitorSASP) error {
+func (msr *SASPResource) Update(name string, item SASP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSASPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SASPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorSASPResource) Delete(name string) error {
+func (msr *SASPResource) Delete(name string) error {
 	_, err := msr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorSASPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(SASPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

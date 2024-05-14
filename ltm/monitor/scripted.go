@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorScriptedList struct {
-	Items    []MonitorScripted `json:"items,omitempty"`
-	Kind     string            `json:"kind,omitempty"`
-	SelfLink string            `json:"selflink,omitempty"`
+type ScriptedList struct {
+	Items    []Scripted `json:"items,omitempty"`
+	Kind     string     `json:"kind,omitempty"`
+	SelfLink string     `json:"selflink,omitempty"`
 }
 
-type MonitorScripted struct {
+type Scripted struct {
 	AppService   string `json:"appService,omitempty"`
 	Debug        string `json:"debug,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -34,16 +34,16 @@ type MonitorScripted struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorScriptedEndpoint = "/monitor/scripted"
+const ScriptedEndpoint = "scripted"
 
-type MonitorScriptedResource struct {
+type ScriptedResource struct {
 	b *bigip.BigIP
 }
 
-func (msr *MonitorScriptedResource) List() (*MonitorScriptedList, error) {
-	var mscl MonitorScriptedList
+func (msr *ScriptedResource) List() (*ScriptedList, error) {
+	var mscl ScriptedList
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorScriptedEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ScriptedEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -54,10 +54,10 @@ func (msr *MonitorScriptedResource) List() (*MonitorScriptedList, error) {
 	return &mscl, nil
 }
 
-func (msr *MonitorScriptedResource) Get(fullPathName string) (*MonitorScripted, error) {
-	var msc MonitorScripted
+func (msr *ScriptedResource) Get(fullPathName string) (*Scripted, error) {
+	var msc Scripted
 	res, err := msr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorScriptedEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ScriptedEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -67,37 +67,37 @@ func (msr *MonitorScriptedResource) Get(fullPathName string) (*MonitorScripted, 
 	return &msc, nil
 }
 
-func (msr *MonitorScriptedResource) Create(item MonitorScripted) error {
+func (msr *ScriptedResource) Create(item Scripted) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorScriptedEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ScriptedEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorScriptedResource) Update(name string, item MonitorScripted) error {
+func (msr *ScriptedResource) Update(name string, item Scripted) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = msr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorScriptedEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ScriptedEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (msr *MonitorScriptedResource) Delete(name string) error {
+func (msr *ScriptedResource) Delete(name string) error {
 	_, err := msr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorScriptedEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ScriptedEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

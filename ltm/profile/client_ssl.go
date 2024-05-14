@@ -172,23 +172,23 @@ func (mir *ClientSSLResource) Create(item ClientSSL) error {
 	return nil
 }
 
-func (mir *ClientSSLResource) Update(name string, item ClientSSL) error {
+func (mir *ClientSSLResource) Update(fullPathName string, item ClientSSL) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mir *ClientSSLResource) Delete(name string) error {
+func (mir *ClientSSLResource) Delete(fullPathName string) error {
 	_, err := mir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).SubResourceInstance(name).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(ClientSSLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

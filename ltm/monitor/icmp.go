@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorICMPList struct {
-	Items    []MonitorICMP `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type ICMPList struct {
+	Items    []ICMP `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type MonitorICMP struct {
+type ICMP struct {
 	Adaptive                 string `json:"adaptive,omitempty"`
 	AdaptiveDivergenceType   string `json:"adaptiveDivergenceType,omitempty"`
 	AdaptiveDivergenceValue  int    `json:"adaptiveDivergenceValue,omitempty"`
@@ -40,12 +40,12 @@ type MonitorICMP struct {
 
 const ICMPEndpoint = "icmp"
 
-type MonitorICMPResource struct {
+type ICMPResource struct {
 	b *bigip.BigIP
 }
 
-func (mir *MonitorICMPResource) List() (*MonitorICMPList, error) {
-	var micl MonitorICMPList
+func (mir *ICMPResource) List() (*ICMPList, error) {
+	var micl ICMPList
 	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ICMPEndpoint).DoRaw(context.Background())
 	if err != nil {
@@ -58,8 +58,8 @@ func (mir *MonitorICMPResource) List() (*MonitorICMPList, error) {
 	return &micl, nil
 }
 
-func (mir *MonitorICMPResource) Get(fullPathName string) (*MonitorICMP, error) {
-	var mic MonitorICMP
+func (mir *ICMPResource) Get(fullPathName string) (*ICMP, error) {
+	var mic ICMP
 	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ICMPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
@@ -71,7 +71,7 @@ func (mir *MonitorICMPResource) Get(fullPathName string) (*MonitorICMP, error) {
 	return &mic, nil
 }
 
-func (mir *MonitorICMPResource) Create(item MonitorICMP) error {
+func (mir *ICMPResource) Create(item ICMP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
@@ -85,7 +85,7 @@ func (mir *MonitorICMPResource) Create(item MonitorICMP) error {
 	return nil
 }
 
-func (mir *MonitorICMPResource) Update(fullPathName string, item MonitorICMP) error {
+func (mir *ICMPResource) Update(fullPathName string, item ICMP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
@@ -99,7 +99,7 @@ func (mir *MonitorICMPResource) Update(fullPathName string, item MonitorICMP) er
 	return nil
 }
 
-func (mir *MonitorICMPResource) Delete(fullPathName string) error {
+func (mir *ICMPResource) Delete(fullPathName string) error {
 	_, err := mir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ICMPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {

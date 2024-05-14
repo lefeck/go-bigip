@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorNNTPList struct {
-	Items    []MonitorNNTP `json:"items,omitempty"`
-	Kind     string        `json:"kind,omitempty"`
-	SelfLink string        `json:"selflink,omitempty"`
+type NNTPList struct {
+	Items    []NNTP `json:"items,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selflink,omitempty"`
 }
 
-type MonitorNNTP struct {
+type NNTP struct {
 	AppService   string `json:"appService,omitempty"`
 	Debug        string `json:"debug,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -34,16 +34,16 @@ type MonitorNNTP struct {
 	UpInterval   int    `json:"upInterval,omitempty"`
 }
 
-const MonitorNNTPEndpoint = "/monitor/nntp"
+const NNTPEndpoint = "nntp"
 
-type MonitorNNTPResource struct {
+type NNTPResource struct {
 	b *bigip.BigIP
 }
 
-func (mnr *MonitorNNTPResource) List() (*MonitorNNTPList, error) {
-	var mncl MonitorNNTPList
+func (mnr *NNTPResource) List() (*NNTPList, error) {
+	var mncl NNTPList
 	res, err := mnr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorNNTPEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(NNTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -54,10 +54,10 @@ func (mnr *MonitorNNTPResource) List() (*MonitorNNTPList, error) {
 	return &mncl, nil
 }
 
-func (mnr *MonitorNNTPResource) Get(fullPathName string) (*MonitorNNTP, error) {
-	var mnc MonitorNNTP
+func (mnr *NNTPResource) Get(fullPathName string) (*NNTP, error) {
+	var mnc NNTP
 	res, err := mnr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorNNTPEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(NNTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -67,37 +67,37 @@ func (mnr *MonitorNNTPResource) Get(fullPathName string) (*MonitorNNTP, error) {
 	return &mnc, nil
 }
 
-func (mnr *MonitorNNTPResource) Create(item MonitorNNTP) error {
+func (mnr *NNTPResource) Create(item NNTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mnr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorNNTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(NNTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mnr *MonitorNNTPResource) Update(name string, item MonitorNNTP) error {
+func (mnr *NNTPResource) Update(name string, item NNTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mnr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorNNTPEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(NNTPEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mnr *MonitorNNTPResource) Delete(name string) error {
+func (mnr *NNTPResource) Delete(name string) error {
 	_, err := mnr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorNNTPEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(NNTPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

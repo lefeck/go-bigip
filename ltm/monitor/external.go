@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type MonitorExternalList struct {
-	Items    []MonitorExternal `json:"items,omitempty"`
-	Kind     string            `json:"kind,omitempty"`
-	SelfLink string            `json:"selflink,omitempty"`
+type ExternalList struct {
+	Items    []External `json:"items,omitempty"`
+	Kind     string     `json:"kind,omitempty"`
+	SelfLink string     `json:"selflink,omitempty"`
 }
 
-type MonitorExternal struct {
+type External struct {
 	AppService   string `json:"appService,omitempty"`
 	Args         string `json:"args,omitempty"`
 	DefaultsFrom string `json:"defaultsFrom,omitempty"`
@@ -35,16 +35,16 @@ type MonitorExternal struct {
 	UserDefined  string `json:"userDefined,omitempty"`
 }
 
-const MonitorExternalEndpoint = "/monitor/external"
+const ExternalEndpoint = "external"
 
-type MonitorExternalResource struct {
+type ExternalResource struct {
 	b *bigip.BigIP
 }
 
-func (mer *MonitorExternalResource) List() (*MonitorExternalList, error) {
-	var mecl MonitorExternalList
+func (mer *ExternalResource) List() (*ExternalList, error) {
+	var mecl ExternalList
 	res, err := mer.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorExternalEndpoint).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ExternalEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -55,10 +55,10 @@ func (mer *MonitorExternalResource) List() (*MonitorExternalList, error) {
 	return &mecl, nil
 }
 
-func (mer *MonitorExternalResource) Get(fullPathName string) (*MonitorExternal, error) {
-	var mec MonitorExternal
+func (mer *ExternalResource) Get(fullPathName string) (*External, error) {
+	var mec External
 	res, err := mer.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorExternalEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ExternalEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -68,37 +68,37 @@ func (mer *MonitorExternalResource) Get(fullPathName string) (*MonitorExternal, 
 	return &mec, nil
 }
 
-func (mer *MonitorExternalResource) Create(item MonitorExternal) error {
+func (mer *ExternalResource) Create(item External) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mer.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorExternalEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ExternalEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mer *MonitorExternalResource) Update(name string, item MonitorExternal) error {
+func (mer *ExternalResource) Update(name string, item External) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = mer.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorExternalEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ExternalEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (mer *MonitorExternalResource) Delete(name string) error {
+func (mer *ExternalResource) Delete(name string) error {
 	_, err := mer.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(MonitorExternalEndpoint).ResourceInstance(name).DoRaw(context.Background())
+		Resource(MonitorEndpoint).SubResource(ExternalEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
