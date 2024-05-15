@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type FasthttpList struct {
-	Items    []Fasthttp `json:"items,omitempty"`
+type FastHTTPList struct {
+	Items    []FastHTTP `json:"items,omitempty"`
 	Kind     string     `json:"kind,omitempty"`
 	SelfLink string     `json:"selflink,omitempty"`
 }
 
-type Fasthttp struct {
+type FastHTTP struct {
 	Kind                        string `json:"kind"`
 	Name                        string `json:"name"`
 	Partition                   string `json:"partition"`
@@ -49,16 +49,16 @@ type Fasthttp struct {
 	UncleanShutdown             string `json:"uncleanShutdown"`
 }
 
-const FasthttpEndpoint = "fasthttp"
+const FastHTTPEndpoint = "fasthttp"
 
-type FasthttpResource struct {
+type FastHTTPResource struct {
 	b *bigip.BigIP
 }
 
-func (fr *FasthttpResource) List() (*FasthttpList, error) {
-	var items FasthttpList
+func (fr *FastHTTPResource) List() (*FastHTTPList, error) {
+	var items FastHTTPList
 	res, err := fr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastHTTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -69,10 +69,10 @@ func (fr *FasthttpResource) List() (*FasthttpList, error) {
 	return &items, nil
 }
 
-func (fr *FasthttpResource) Get(fullPathName string) (*Fasthttp, error) {
-	var item Fasthttp
+func (fr *FastHTTPResource) Get(fullPathName string) (*FastHTTP, error) {
+	var item FastHTTP
 	res, err := fr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastHTTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -82,37 +82,37 @@ func (fr *FasthttpResource) Get(fullPathName string) (*Fasthttp, error) {
 	return &item, nil
 }
 
-func (fr *FasthttpResource) Create(item Fasthttp) error {
+func (fr *FastHTTPResource) Create(item FastHTTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = fr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastHTTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (fr *FasthttpResource) Update(fullPathName string, item Fasthttp) error {
+func (fr *FastHTTPResource) Update(fullPathName string, item FastHTTP) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = fr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastHTTPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (fr *FasthttpResource) Delete(fullPathName string) error {
+func (fr *FastHTTPResource) Delete(fullPathName string) error {
 	_, err := fr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FasthttpEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastHTTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

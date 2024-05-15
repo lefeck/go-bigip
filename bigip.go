@@ -28,13 +28,16 @@ func NewSession(host, username, password string) (*BigIP, error) {
 	}, nil
 }
 
-func NewToken(host, token string) (*BigIP, error) {
+func NewToken(host, username, password, loginProviderName string) (*BigIP, error) {
 	config := &rest.Config{
-		Host: host,
+		Host:              host,
+		Username:          username,
+		Password:          password,
+		LoginProviderName: loginProviderName,
 		ContentConfig: rest.ContentConfig{
 			ContentType: "application/json",
 		},
-		BearerToken: token,
+		//BearerToken: token,
 		//Timeout:     10 * time.Second,
 	}
 

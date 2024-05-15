@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type FixList struct {
-	Items    []Fix  `json:"items,omitempty"`
+type FIXList struct {
+	Items    []FIX  `json:"items,omitempty"`
 	Kind     string `json:"kind,omitempty"`
 	SelfLink string `json:"selflink,omitempty"`
 }
 
-type Fix struct {
+type FIX struct {
 	Kind                     string        `json:"kind"`
 	Name                     string        `json:"name"`
 	Partition                string        `json:"partition"`
@@ -34,16 +34,16 @@ type Fix struct {
 	StatisticsSampleInterval int           `json:"statisticsSampleInterval"`
 }
 
-const FixEndpoint = "fix"
+const FIXEndpoint = "fix"
 
-type FixResource struct {
+type FIXResource struct {
 	b *bigip.BigIP
 }
 
-func (cr *FixResource) List() (*FixList, error) {
-	var items FixList
+func (cr *FIXResource) List() (*FIXList, error) {
+	var items FIXList
 	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FixEndpoint).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FIXEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -54,10 +54,10 @@ func (cr *FixResource) List() (*FixList, error) {
 	return &items, nil
 }
 
-func (cr *FixResource) Get(fullPathName string) (*Fix, error) {
-	var item Fix
+func (cr *FIXResource) Get(fullPathName string) (*FIX, error) {
+	var item FIX
 	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FixEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FIXEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -67,37 +67,37 @@ func (cr *FixResource) Get(fullPathName string) (*Fix, error) {
 	return &item, nil
 }
 
-func (cr *FixResource) Create(item Fix) error {
+func (cr *FIXResource) Create(item FIX) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FixEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FIXEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (cr *FixResource) Update(fullPathName string, item Fix) error {
+func (cr *FIXResource) Update(fullPathName string, item FIX) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FixEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FIXEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (cr *FixResource) Delete(fullPathName string) error {
+func (cr *FIXResource) Delete(fullPathName string) error {
 	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(FixEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FIXEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

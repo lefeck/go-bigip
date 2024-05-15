@@ -67,7 +67,7 @@ func main() {
 	//bs.UpdateICMP()
 	//bs.DeleteICMP()
 	// profile
-	//bs.ListProfileFastHttp()
+	bs.ListProfileFastHttp()
 }
 
 // this is a testing struct for bigip api
@@ -100,13 +100,13 @@ func (bs *bigipTest) ListICMP() {
 
 func (bs *bigipTest) ListProfileFastHttp() {
 	bg := ltm.New(bs.bigIP)
-	fasthttp, _ := bg.Profile().FASTHTTP().List()
+	fasthttp, _ := bg.Profile().FastHTTP().List()
 
 	fmt.Println(fasthttp)
 
 	for _, icmp := range fasthttp.Items {
 		fullpath := icmp.FullPath
-		item, err := bg.Profile().FASTHTTP().Get(fullpath)
+		item, err := bg.Profile().FastHTTP().Get(fullpath)
 		if err != nil {
 			panic(err)
 		}

@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type Fastl4List struct {
-	Items    []Fastl4 `json:"items,omitempty"`
+type FastL4List struct {
+	Items    []FastL4 `json:"items,omitempty"`
 	Kind     string   `json:"kind,omitempty"`
 	SelfLink string   `json:"selflink,omitempty"`
 }
 
-type Fastl4 struct {
+type FastL4 struct {
 	Kind                  string `json:"kind"`
 	Name                  string `json:"name"`
 	Partition             string `json:"partition"`
@@ -83,16 +83,16 @@ type Fastl4 struct {
 	TimeoutRecovery             string `json:"timeoutRecovery"`
 }
 
-const Fastl4Endpoint = "fastl4"
+const FastL4Endpoint = "fastl4"
 
-type Fastl4Resource struct {
+type FastL4Resource struct {
 	b *bigip.BigIP
 }
 
-func (cr *Fastl4Resource) List() (*Fastl4List, error) {
-	var items Fastl4List
+func (cr *FastL4Resource) List() (*FastL4List, error) {
+	var items FastL4List
 	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(Fastl4Endpoint).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastL4Endpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -103,10 +103,10 @@ func (cr *Fastl4Resource) List() (*Fastl4List, error) {
 	return &items, nil
 }
 
-func (cr *Fastl4Resource) Get(fullPathName string) (*Fastl4, error) {
-	var item Fastl4
+func (cr *FastL4Resource) Get(fullPathName string) (*FastL4, error) {
+	var item FastL4
 	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(Fastl4Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastL4Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -116,37 +116,37 @@ func (cr *Fastl4Resource) Get(fullPathName string) (*Fastl4, error) {
 	return &item, nil
 }
 
-func (cr *Fastl4Resource) Create(item Fastl4) error {
+func (cr *FastL4Resource) Create(item FastL4) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(Fastl4Endpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastL4Endpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (cr *Fastl4Resource) Update(fullPathName string, item Fastl4) error {
+func (cr *FastL4Resource) Update(fullPathName string, item FastL4) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
 	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(Fastl4Endpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastL4Endpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (cr *Fastl4Resource) Delete(fullPathName string) error {
+func (cr *FastL4Resource) Delete(fullPathName string) error {
 	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(ProfileEndpoint).SubResource(Fastl4Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
+		Resource(ProfileEndpoint).SubResource(FastL4Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
