@@ -48,9 +48,9 @@ https://${BIGIP_ADDRESS}/mgmt/tm/ltm/rule
 
 curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X DELETE https://${BIGIP_ADDRESS}/mgmt/tm/ltm/pool/~Common~hello-pool
 
+curl -sku ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -X PATCH -H "Content-Type: application/json" -d '{"banner": "hello welcome to bigip"}' https://${BIGIP_ADDRESS}/mgmt/tm/sys/sshd
 
-
-curl -sku admin:MsTac@2001 -X POST -H "Content-Type: application/json" -d '{"name": "example_ifile", "sourcePath": "http://example.com/path/to/your-file"}' https://192.168.13.91/mgmt/tm/ltm/ifile
+curl -sku admin:MsTac@2001 -X POST -H "Content-Type: application/json" -d '{"name": "example_ifile", "sourcePath": "http://example.com/path/to/your-file"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/ifile
 
 curl -sk -u ${BIGIP_USERNAME}:${BIGIP_PASSWORD} -H "Content-Type: application/json" -X PUT -d '{"": "<_state>"}' https://${BIGIP_ADDRESS}/mgmt/tm/ltm/pool/~Common~<pool_name>/members/~Common~<member_address>:<member_port>
 
