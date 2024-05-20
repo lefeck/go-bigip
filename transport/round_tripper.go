@@ -65,7 +65,7 @@ type tokenAuthRoundTripper struct {
 
 var _ RoundTripperWrapper = &tokenAuthRoundTripper{}
 
-// NewBearerAuthRoundTripper adds the provided bearer token to a request
+// NewTokenAuthRoundTripper adds the provided bearer token to a request
 // unless the authorization header has already been set.
 func NewTokenAuthRoundTripper(token string, rt http.RoundTripper) http.RoundTripper {
 	return &tokenAuthRoundTripper{token, nil, rt}
@@ -82,6 +82,7 @@ func (rt *tokenAuthRoundTripper) RoundTrip(req *http.Request) (*http.Response, e
 			token = refreshedToken.AccessToken
 		}
 	}
+
 	req.Header.Set("X-F5-Auth-Token", token)
 	return rt.rt.RoundTrip(req)
 }

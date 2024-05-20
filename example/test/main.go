@@ -94,6 +94,12 @@ func NewTokenSession(baseURL, token string) (*BigIP, error) {
 	return c, nil
 }
 
+type authProvider struct {
+	UserName      string `json:"username"`
+	Password      string `json:"password"`
+	LoginProvider string `json:"loginProviderName"`
+}
+
 // CreateToken creates a new token with the given baseURL, user, password and loginProvName.
 func CreateToken(baseURL, user, password, loginProvName string) (string, time.Time, error) {
 	t := &http.Transport{}
@@ -101,7 +107,14 @@ func CreateToken(baseURL, user, password, loginProvName string) (string, time.Ti
 	c.transport.TLSClientConfig = &tls.Config{
 		InsecureSkipVerify: true}
 	// Negociate token with a pair of username/password.
-	data, err := json.Marshal(map[string]string{"username": user, "password": password, "loginProviderName": loginProvName})
+
+	auth := authProvider{
+		UserName:      user,
+		Password:      password,
+		LoginProvider: loginProvName,
+	}
+
+	data, err := json.Marshal(auth)
 	if err != nil {
 		return "", time.Time{}, fmt.Errorf("failed to create token client (cannot marshal user credentials): %v", err)
 	}
@@ -136,7 +149,7 @@ func CreateToken(baseURL, user, password, loginProvName string) (string, time.Ti
 
 	// Compate time at which the token will expire (minus a minute).
 	expireAt := tok.Token.StartTime.Add(time.Duration(tok.Token.Timeout-60) * time.Second)
-
+	fmt.Println(expireAt)
 	return tok.Token.Token, expireAt, nil
 }
 
@@ -560,7 +573,7 @@ func (ltm LTM) Virtual() *VirtualResource {
 }
 
 func main() {
-	bg, _ := NewTokenClient("https://192.168.13.91", "admin", "MsTac@2001", " ")
+	bg, _ := NewTokenClient("https://192.168.13.91", "admin", "MsTac@2001", "local")
 	//bg, _ := NewCredentials("https://192.168.13.91", "admin", "MsTac@2001")
 	bg.DisableCertCheck()
 	ltm := New(bg)

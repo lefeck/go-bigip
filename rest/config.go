@@ -10,11 +10,10 @@ type Config struct {
 	Host    string
 	APIPath string
 	ContentConfig
-	Username          string
-	Password          string
-	LoginProviderName string
-	BearerToken       string
-	BearerTokenFile   string
+	Username    string
+	Password    string
+	BearerToken string
+	//BearerTokenFile   string
 	// The maximum length of time to wait before giving up on a server request. A value of zero means no timeout.
 	Timeout       time.Duration
 	Transport     http.RoundTripper

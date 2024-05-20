@@ -48,12 +48,12 @@ func HTTPWrappersFor(config *Config, rt http.RoundTripper) (http.RoundTripper, e
 // Transport converts a client  to an appropriate transport .
 func (c *Config) TransportConfig() (*transport.Config, error) {
 	conf := &transport.Config{
-		Transport:       c.Transport,
-		WrapTransport:   c.WrapTransport,
-		Username:        c.Username,
-		Password:        c.Password,
-		BearerToken:     c.BearerToken,
-		BearerTokenFile: c.BearerTokenFile,
+		Transport:     c.Transport,
+		WrapTransport: c.WrapTransport,
+		Username:      c.Username,
+		Password:      c.Password,
+		BearerToken:   c.BearerToken,
+		//BearerTokenFile: c.BearerTokenFile,
 	}
 	return conf, nil
 }

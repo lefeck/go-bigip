@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/sys/disk/const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/curl.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/curl.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigip.go" beforeDir="false" afterPath="$PROJECT_DIR$/bigip.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/test/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/test/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/test/test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/transport.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/round_tripper.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +94,7 @@
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/Johnny/go/src/go-bigip/sys/disk",
+    "last_opened_file_path": "/Users/Johnny",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -121,6 +126,15 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="go build bigip.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/lefeck/go-bigip" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/bigip.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build github.com/lefeck/go-bigip/example (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="go-bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -130,6 +144,15 @@
       <filePath value="$PROJECT_DIR$/example/struct.go" />
       <method v="2" />
     </configuration>
+    <configuration name="go build github.com/lefeck/go-bigip/example/test" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/lefeck/go-bigip/example/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/example/test/main.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="go-bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -137,6 +160,15 @@
       <package value="github.com/lefeck/go-bigip" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/example/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build test.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/lefeck/go-bigip" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/example/test/test.go" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -149,48 +181,13 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestMonitorFTPResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$/ltm" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/go-bigip/ltm" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestMonitorFTPResource\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestVirtualResource_CRUD" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$/ltm" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/go-bigip/ltm" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestVirtualResource_CRUD\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="virtual_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$/ltm" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/ltm/virtual_test.go" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go 构建.go build main.go" />
+        <item itemvalue="Go 构建.go build test.go" />
+        <item itemvalue="Go 构建.go build github.com/lefeck/go-bigip/example/test" />
+        <item itemvalue="Go 构建.go build bigip.go" />
         <item itemvalue="Go 构建.go build github.com/lefeck/go-bigip/example (1)" />
-        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestVirtualResource_CRUD" />
-        <item itemvalue="Go 测试.virtual_test.go" />
-        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestMonitorFTPResource" />
       </list>
     </recent_temporary>
   </component>
@@ -227,5 +224,21 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/example/test/main.go</url>
+          <line>575</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/transport/round_tripper.go</url>
+          <line>8</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

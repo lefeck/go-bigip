@@ -550,31 +550,3 @@ func (r *Request) newHTTPRequest(ctx context.Context) (*http.Request, error) {
 	req.Header = r.headers
 	return req, nil
 }
-
-func (r *Request) newHTTPRequestForToken(ctx context.Context) (*http.Request, error) {
-	var body io.Reader
-	switch {
-	case r.body != nil && r.bodyBytes != nil:
-		return nil, fmt.Errorf("cannot set both body and bodyBytes")
-	case r.body != nil:
-		body = r.body
-	case r.bodyBytes != nil:
-		// Create a new reader specifically for this request.
-		// Giving each request a dedicated reader allows retries to avoid races resetting the request body.
-		body = bytes.NewReader(r.bodyBytes)
-	default:
-		body = nil
-	}
-	url := "mgmt/shared/authn/login"
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
-	if err != nil {
-		return nil, err
-	}
-	req.Header = r.headers
-
-	username := ""
-	password := ""
-
-	req.SetBasicAuth(username, password)
-	return req, nil
-}

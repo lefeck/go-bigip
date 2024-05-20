@@ -13,26 +13,6 @@ import (
 	"os"
 )
 
-//	func virtualtoken() {
-//		token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJNc1RhY0AyMDAxIiwic3ViIjoiZGVtbyIsImlhdCI6MTcxMzQ5NDYzNSwibmJmIjoxNzEzNDk0NjM1LCJleHAiOjE3MTM1ODEwMzV9.j1vnb6LonkCDxs7bbfDovjbFHSjRk7vCZAns5Bwiqf8"
-//		b, err := bigip.Token("192.168.13.91", token)
-//		if err != nil {
-//			panic(err)
-//		}
-//		bg := (b)
-//		val, _ := bg.VirtualAddress().List()
-//		fmt.Println(val)
-//		for _, va := range val.Items {
-//			name := va.FullPath
-//			_, err := bg.VirtualAddress().GetAddressByVirtualServerName(name)
-//			if err != nil {
-//				panic(err)
-//			}
-//			//fmt.Println(address)
-//		}
-//	}
-//
-
 /*
   for example:
     https://192.168.13.91/mgmt/tm/ltm/virtual-address/~Common~1.1.1.1
@@ -67,7 +47,7 @@ func main() {
 	//bs.UpdateICMP()
 	//bs.DeleteICMP()
 	// profile
-	bs.ListProfileFastHttp()
+	//bs.ListProfileFastHttp()
 }
 
 // this is a testing struct for bigip api
@@ -76,7 +56,8 @@ type bigipTest struct {
 }
 
 func (bs *bigipTest) init() {
-	b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	//b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	b, err := bigip.NewToken("192.168.13.91", "admin", "MsTac@2001", "local")
 	if err != nil {
 		panic(err)
 	}
