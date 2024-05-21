@@ -14,6 +14,9 @@ import (
 
 const TimeFormat = "2006-01-02T15:04:05.000-0700"
 
+// DefaultTimeout defines the default timeout for HTTP clients.
+var DefaultTimeout = 60 * time.Second
+
 // BigIP struct contains a pointer to the RESTClient
 type BigIP struct {
 	RestClient *rest.RESTClient
@@ -103,7 +106,7 @@ func newAuthPayload(host, username, password, loginProviderName string, options 
 		UserName:          username,
 		Password:          password,
 		LoginProviderName: loginProviderName,
-		Timeout:           60 * time.Second,
+		Timeout:           DefaultTimeout,
 		Client: &http.Client{
 			Transport: &http.Transport{
 				TLSClientConfig: &tls.Config{

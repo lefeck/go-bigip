@@ -6,8 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"k8s.io/klog/v2"
-
 	"net/http"
 	"net/url"
 	"os"
@@ -17,9 +15,9 @@ import (
 )
 
 type Request struct {
-	c                *RESTClient
-	timeout          time.Duration
-	maxRetries       int
+	c       *RESTClient
+	timeout time.Duration
+	//maxRetries       int
 	verb             string
 	pathPrefix       string
 	subpath          string
@@ -49,9 +47,9 @@ func NewRequest(c *RESTClient) *Request {
 		timeout = c.Client.Timeout
 	}
 	r := Request{
-		c:          c,
-		timeout:    timeout,
-		maxRetries: 10,
+		c:       c,
+		timeout: timeout,
+		//maxRetries: 10,
 		pathPrefix: pathPrefix,
 	}
 	switch {
@@ -267,22 +265,6 @@ func (r *Request) SetHeader(key string, values ...string) *Request {
 	return r
 }
 
-func (r *Request) Timeout(d time.Duration) *Request {
-	if r.err != nil {
-		return r
-	}
-	r.timeout = d
-	return r
-}
-
-func (r *Request) MaxRetries(maxRetries int) *Request {
-	if maxRetries < 0 {
-		r.maxRetries = 0
-	}
-	r.maxRetries = maxRetries
-	return r
-}
-
 func (r *Request) Error() error {
 	return r.err
 }
@@ -407,17 +389,6 @@ func (r *Request) Body(obj interface{}) *Request {
 	return r
 }
 
-func (r *Request) Do(ctx context.Context) Result {
-	var result Result
-	err := r.request(ctx, func(req *http.Request, resp *http.Response) {
-		result = r.transformResponse(resp, req)
-	})
-	if err != nil {
-		return Result{Err: err}
-	}
-	return result
-}
-
 // DoRaw executes the request but does not process the response body.
 func (r *Request) DoRaw(ctx context.Context) ([]byte, error) {
 	var result Result
@@ -428,64 +399,6 @@ func (r *Request) DoRaw(ctx context.Context) ([]byte, error) {
 		return nil, err
 	}
 	return result.Body, result.Err
-}
-
-// transformResponse converts an API response into a structured API object
-func (r *Request) transformResponse(resp *http.Response, req *http.Request) Result {
-	var body []byte
-	if resp.Body != nil {
-		data, err := io.ReadAll(resp.Body)
-		switch err.(type) {
-		case nil:
-			body = data
-		default:
-			klog.Errorf("Unexpected error when reading response body: %v", err)
-			unexpectedErr := fmt.Errorf("unexpected error when reading response body. Please retry. Original error: %w", err)
-			return Result{
-				Err: unexpectedErr,
-			}
-		}
-	}
-
-	contentType := resp.Header.Get("Content-Type")
-	if len(contentType) == 0 {
-		contentType = r.c.content.ContentType
-	}
-	if len(contentType) > 0 {
-		var err error
-		if err != nil {
-			// if we fail to negotiate a decoder, treat this as an unstructured error
-			switch {
-			case resp.StatusCode == http.StatusSwitchingProtocols:
-				// no-op, we've been upgraded
-			case resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent:
-				return Result{}
-			}
-			return Result{
-				Body:        body,
-				ContentType: contentType,
-				Code:        resp.StatusCode,
-			}
-		}
-	}
-
-	switch {
-	case resp.StatusCode == http.StatusSwitchingProtocols:
-		// no-op, we've been upgraded
-	case resp.StatusCode < http.StatusOK || resp.StatusCode > http.StatusPartialContent:
-
-		return Result{
-			Body:        body,
-			ContentType: contentType,
-			Code:        resp.StatusCode,
-		}
-	}
-
-	return Result{
-		Body:        body,
-		ContentType: contentType,
-		Code:        resp.StatusCode,
-	}
 }
 
 // Result contains the result of calling Request.Do().
