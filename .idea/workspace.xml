@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
+    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="adding token login function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bigip.go" beforeDir="false" afterPath="$PROJECT_DIR$/bigip.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/test/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/test/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/test/test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/request.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/rest/transport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/round_tripper.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,36 +67,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultGoTemplateProperty": "Go File",
-    "Go 构建.go build dynamic_key_for_map.go.executor": "Run",
-    "Go 构建.go build github.com/lefeck/bigip/example.executor": "Run",
-    "Go 构建.go build github.com/lefeck/go-bigip/example.executor": "Debug",
-    "Go 构建.go build main.go.executor": "Run",
-    "Go 构建.go build test.go.executor": "Run",
-    "Go 构建.go build url.go.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "configurable..is.expanded": "false",
-    "configurable.GoLibrariesConfigurable.is.expanded": "true",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/Johnny",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.general",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Go 构建.go build dynamic_key_for_map.go.executor&quot;: &quot;Run&quot;,
+    &quot;Go 构建.go build github.com/lefeck/bigip/example.executor&quot;: &quot;Run&quot;,
+    &quot;Go 构建.go build github.com/lefeck/go-bigip/example.executor&quot;: &quot;Debug&quot;,
+    &quot;Go 构建.go build main.go.executor&quot;: &quot;Run&quot;,
+    &quot;Go 构建.go build test.go.executor&quot;: &quot;Run&quot;,
+    &quot;Go 构建.go build url.go.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;configurable..is.expanded&quot;: &quot;false&quot;,
+    &quot;configurable.GoLibrariesConfigurable.is.expanded&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/Johnny&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/sys/disk" />
@@ -220,7 +215,8 @@
     <MESSAGE value="v0.6" />
     <MESSAGE value="adding profile and monitor function" />
     <MESSAGE value="modify profile and monitor function" />
-    <option name="LAST_COMMIT_MESSAGE" value="modify profile and monitor function" />
+    <MESSAGE value="adding token login function" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding token login function" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

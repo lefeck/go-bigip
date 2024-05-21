@@ -57,7 +57,10 @@ type bigipTest struct {
 
 func (bs *bigipTest) init() {
 	//b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
+	//optionTimeout := bigip.WithTimeout(1200 * time.Second)
+
 	b, err := bigip.NewToken("192.168.13.91", "admin", "MsTac@2001", "local")
+	//b, err := bigip.NewToken("192.168.13.91", "admin", "MsTac@2001", "local", optionTimeout)
 	if err != nil {
 		panic(err)
 	}

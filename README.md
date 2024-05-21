@@ -1,6 +1,6 @@
 # go-bigip
 
-go-bigip provides a flexible Restfull API interface for users using bigip, users can flexibly bigip all features.
+go-bigip provides a flexible Restfull API interface for users using bigip, so users can easily use it to solve various problems according to their own situation.
 
 ## Installation
 
@@ -11,6 +11,7 @@ go get -u github.com/lefeck/go-bigip
 
 ## Usage
 
+### Basic Authentication
 ```go
 package main
 
@@ -39,11 +40,41 @@ func main() {
 }
 ```
 
+### Token Authentication
+```go
+package main
+
+import (
+	"log"
+	"github.com/lefeck/go-bigip"
+	"github.com/lefeck/go-bigip/ltm"
+)
+
+func main() {
+	// setup F5 BigIP client
+	// default timeout value is 60s
+	optionTimeout := bigip.WithTimeout(1200*time.Second)
+	client, err := bigip.NewToken("192.168.13.91", "admin", "MsTac@2001", "local", optionTimeout)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// setup client for the LTM API
+	ltmClient := ltm.New(client)
+
+	// query the /ltm/virtual API
+	vsl, err := ltmClient.Virtual().List()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Print(vsl)
+}
+```
 
 ## Features
 
 - [x] Add support for HTTP Basic Authentication
-- [ ] Add support for token based authentication
+- [x] Add support for token based authentication
 - [ ] Add support for authentication through external providers
 - [x] Manage Virtual Server, pool, node, irules, monitors (/ltm)
 - [x] Manage Cluster Management (/cm)
