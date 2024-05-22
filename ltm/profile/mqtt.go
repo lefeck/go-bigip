@@ -36,7 +36,7 @@ type MQTTResource struct {
 func (cr *MQTTResource) List() (*MQTTList, error) {
 	var items MQTTList
 	// Perform a GET request to retrieve a list of MQTT resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(MQTTEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (cr *MQTTResource) List() (*MQTTList, error) {
 func (cr *MQTTResource) Get(fullPathName string) (*MQTT, error) {
 	var item MQTT
 	// Perform a GET request to retrieve a specific MQTT resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(MQTTEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (cr *MQTTResource) Create(item MQTT) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new MQTT resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(MQTTEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -94,7 +94,7 @@ func (cr *MQTTResource) Update(fullPathName string, item MQTT) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified MQTT resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(MQTTEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -105,7 +105,7 @@ func (cr *MQTTResource) Update(fullPathName string, item MQTT) error {
 // Delete removes an MQTT resource by its full path name.
 func (cr *MQTTResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified MQTT resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(MQTTEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

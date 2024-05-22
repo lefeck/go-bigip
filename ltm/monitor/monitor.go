@@ -2,7 +2,9 @@ package monitor
 
 import "github.com/lefeck/go-bigip"
 
-// Endpoint is a commonly used basepath, providing a large number of api resource types
+const LtmManager = "ltm"
+
+// Endpoint is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
 const MonitorEndpoint = "monitor"
 
 type MonitorResource struct {

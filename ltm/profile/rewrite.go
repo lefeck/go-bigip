@@ -71,7 +71,7 @@ type RewriteResource struct {
 func (cr *RewriteResource) List() (*RewriteList, error) {
 	var items RewriteList
 	// Perform a GET request to retrieve a list of Rewrite resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RewriteEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (cr *RewriteResource) List() (*RewriteList, error) {
 func (cr *RewriteResource) Get(fullPathName string) (*Rewrite, error) {
 	var item Rewrite
 	// Perform a GET request to retrieve a specific Rewrite resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RewriteEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (cr *RewriteResource) Create(item Rewrite) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new Rewrite resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RewriteEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -129,7 +129,7 @@ func (cr *RewriteResource) Update(fullPathName string, item Rewrite) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified Rewrite resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RewriteEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -140,7 +140,7 @@ func (cr *RewriteResource) Update(fullPathName string, item Rewrite) error {
 // Delete removes a Rewrite resource by its full path name.
 func (cr *RewriteResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified Rewrite resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RewriteEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

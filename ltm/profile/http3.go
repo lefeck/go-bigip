@@ -37,7 +37,7 @@ type HTTP3Resource struct {
 func (cr *HTTP3Resource) List() (*HTTP3List, error) {
 	var items HTTP3List
 	// Perform a GET request to retrieve a list of HTTP3 resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP3Endpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (cr *HTTP3Resource) List() (*HTTP3List, error) {
 func (cr *HTTP3Resource) Get(fullPathName string) (*HTTP3, error) {
 	var item HTTP3
 	// Perform a GET request to retrieve a specific HTTP3 resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP3Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (cr *HTTP3Resource) Create(item HTTP3) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new HTTP3 resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP3Endpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -95,7 +95,7 @@ func (cr *HTTP3Resource) Update(fullPathName string, item HTTP3) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified HTTP3 resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP3Endpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -106,7 +106,7 @@ func (cr *HTTP3Resource) Update(fullPathName string, item HTTP3) error {
 // Delete removes an HTTP3 resource by its full path name.
 func (cr *HTTP3Resource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified HTTP3 resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP3Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

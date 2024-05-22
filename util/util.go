@@ -19,5 +19,5 @@ func (util Util) Bash() *BashResource {
 	return &util.bash
 }
 
-// UtilManager is a commonly used basepath, providing a large number of api resource types
+// UtilManager is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
 const UtilManager = "util"

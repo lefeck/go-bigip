@@ -41,7 +41,7 @@ type IMAPResource struct {
 
 func (mir *IMAPResource) List() (*IMAPList, error) {
 	var micl IMAPList
-	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (mir *IMAPResource) List() (*IMAPList, error) {
 
 func (mir *IMAPResource) Get(fullPathName string) (*IMAP, error) {
 	var mic IMAP
-	res, err := mir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func (mir *IMAPResource) Create(item IMAP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mir.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mir.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func (mir *IMAPResource) Update(name string, item IMAP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mir.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -95,7 +95,7 @@ func (mir *IMAPResource) Update(name string, item IMAP) error {
 }
 
 func (mir *IMAPResource) Delete(name string) error {
-	_, err := mir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mir.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(IMAPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

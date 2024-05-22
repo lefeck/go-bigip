@@ -36,7 +36,7 @@ type HTTPRouterResource struct {
 func (cr *HTTPRouterResource) List() (*HTTPRouterList, error) {
 	var items HTTPRouterList
 	// Perform a GET request to retrieve a list of HTTPRouter resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPRouterEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (cr *HTTPRouterResource) List() (*HTTPRouterList, error) {
 func (cr *HTTPRouterResource) Get(fullPathName string) (*HTTPRouter, error) {
 	var item HTTPRouter
 	// Perform a GET request to retrieve a specific HTTPRouter resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPRouterEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (cr *HTTPRouterResource) Create(item HTTPRouter) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new HTTPRouter resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPRouterEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -94,7 +94,7 @@ func (cr *HTTPRouterResource) Update(fullPathName string, item HTTPRouter) error
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified HTTPRouter resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPRouterEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -105,7 +105,7 @@ func (cr *HTTPRouterResource) Update(fullPathName string, item HTTPRouter) error
 // Delete removes an HTTPRouter resource by its full path name.
 func (cr *HTTPRouterResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified HTTPRouter resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPRouterEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

@@ -49,7 +49,7 @@ type WAPResource struct {
 
 func (mwr *WAPResource) List() (*WAPList, error) {
 	var mwcl WAPList
-	res, err := mwr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mwr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(WAPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (mwr *WAPResource) List() (*WAPList, error) {
 
 func (mwr *WAPResource) Get(fullPathName string) (*WAP, error) {
 	var mwc WAP
-	res, err := mwr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mwr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(WAPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (mwr *WAPResource) Create(item WAP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mwr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mwr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(WAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -94,7 +94,7 @@ func (mwr *WAPResource) Update(name string, item WAP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mwr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mwr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(WAPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -103,7 +103,7 @@ func (mwr *WAPResource) Update(name string, item WAP) error {
 }
 
 func (mwr *WAPResource) Delete(name string) error {
-	_, err := mwr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mwr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(WAPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

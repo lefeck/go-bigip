@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/lefeck/go-bigip"
 )
 
 // Get the stats of a specific member under a pool
@@ -99,7 +100,7 @@ type MemberStats struct {
 // Specify pool and member, get the specified member stats.
 func (psr *PoolStatsResource) GetMemberStats(poolFullPathName, memberFullPathName string) (*MemberStatsList, error) {
 	var msl MemberStatsList
-	res, err := psr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := psr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(poolFullPathName).SubResource(poolMembersEndpoint).
 		SubResourceInstance(memberFullPathName).SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
@@ -125,7 +126,7 @@ type PoolAllMemberStatsEntries struct {
 // Get the stats of all members in a pool.
 func (psr *PoolStatsResource) GetPoolAllMemberStats(poolFullPathName string) (*PoolAllMemberStatsList, error) {
 	var pams PoolAllMemberStatsList
-	res, err := psr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := psr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(poolFullPathName).SubResource(poolMembersEndpoint).
 		SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {

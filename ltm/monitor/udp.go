@@ -51,7 +51,7 @@ type UDPResource struct {
 
 func (mur *UDPResource) List() (*UDPList, error) {
 	var mucl UDPList
-	res, err := mur.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mur.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(UDPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (mur *UDPResource) List() (*UDPList, error) {
 
 func (mur *UDPResource) Get(fullPathName string) (*UDP, error) {
 	var muc UDP
-	res, err := mur.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mur.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(UDPEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (mur *UDPResource) Create(item UDP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mur.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mur.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(UDPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -96,7 +96,7 @@ func (mur *UDPResource) Update(name string, item UDP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mur.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mur.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(UDPEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -105,7 +105,7 @@ func (mur *UDPResource) Update(name string, item UDP) error {
 }
 
 func (mur *UDPResource) Delete(name string) error {
-	_, err := mur.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mur.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(UDPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

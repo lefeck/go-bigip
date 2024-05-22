@@ -2,7 +2,7 @@ package cli
 
 import "github.com/lefeck/go-bigip"
 
-// CliManager is a commonly used basepath, providing a large number of api resource types
+// CliManager is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
 const CliManager = "cli"
 
 type Cli struct {

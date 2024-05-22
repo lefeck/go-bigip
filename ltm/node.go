@@ -48,7 +48,7 @@ type NodeResource struct {
 // List all node details
 func (nr *NodeResource) List() (*NodeList, error) {
 	var nl NodeList
-	res, err := nr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := nr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (nr *NodeResource) List() (*NodeList, error) {
 // Get a single node details by the node name
 func (nr *NodeResource) Get(name string) (*Node, error) {
 	var node Node
-	res, err := nr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := nr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -81,7 +81,7 @@ func (nr *NodeResource) Create(item Node) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = nr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = nr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -96,7 +96,7 @@ func (nr *NodeResource) Update(name string, item Node) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = nr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = nr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func (nr *NodeResource) Enable(name string) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = nr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = nr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -128,7 +128,7 @@ func (nr *NodeResource) Disable(name string) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = nr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = nr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -144,7 +144,7 @@ func (nr *NodeResource) ForceOffline(name string) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = nr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = nr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -154,7 +154,7 @@ func (nr *NodeResource) ForceOffline(name string) error {
 
 // Delete a single node identified by the node name. if it is not exist return error
 func (nr *NodeResource) Delete(name string) error {
-	_, err := nr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := nr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -165,7 +165,7 @@ func (nr *NodeResource) Delete(name string) error {
 
 //func (nr *NodeResource) ShowStats(id string) (*NodeStatsList, error) {
 //	var item NodeStatsList
-//	if err := nr.c.ReadQuery(BasePath+NodeEndpoint+"/"+id+"/stats", &item); err != nil {
+//	if err := nr.c.ReadQuery(bigip.GetBaseResource()+NodeEndpoint+"/"+id+"/stats", &item); err != nil {
 //		return nil, err
 //	}
 //	return &item, nil

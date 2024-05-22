@@ -41,7 +41,7 @@ type RadiusResource struct {
 
 func (mrr *RadiusResource) List() (*RadiusList, error) {
 	var mrcl RadiusList
-	res, err := mrr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mrr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(RadiusEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (mrr *RadiusResource) List() (*RadiusList, error) {
 
 func (mrr *RadiusResource) Get(fullPathName string) (*Radius, error) {
 	var mrc Radius
-	res, err := mrr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mrr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(RadiusEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func (mrr *RadiusResource) Create(item Radius) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mrr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mrr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(RadiusEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func (mrr *RadiusResource) Update(name string, item Radius) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mrr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mrr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(RadiusEndpoint).SubResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -95,7 +95,7 @@ func (mrr *RadiusResource) Update(name string, item Radius) error {
 }
 
 func (mrr *RadiusResource) Delete(name string) error {
-	_, err := mrr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mrr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(RadiusEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

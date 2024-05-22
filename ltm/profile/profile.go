@@ -2,7 +2,11 @@ package profile
 
 import "github.com/lefeck/go-bigip"
 
-// ProfileEndpoint is a commonly used basepath, providing a large number of api resource types
+const (
+	LtmManager = "ltm"
+)
+
+// ProfileEndpoint is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
 const ProfileEndpoint = "profile"
 
 // 根据这个struct 帮我把下面的补齐

@@ -38,7 +38,7 @@ type HTMLResource struct {
 func (cr *HTMLResource) List() (*HTMLList, error) {
 	var items HTMLList
 	// Perform a GET request to retrieve a list of HTML resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTMLEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (cr *HTMLResource) List() (*HTMLList, error) {
 func (cr *HTMLResource) Get(fullPathName string) (*HTML, error) {
 	var item HTML
 	// Perform a GET request to retrieve a specific HTML resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTMLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func (cr *HTMLResource) Create(item HTML) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new HTML resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTMLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -96,7 +96,7 @@ func (cr *HTMLResource) Update(fullPathName string, item HTML) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified HTML resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTMLEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -107,7 +107,7 @@ func (cr *HTMLResource) Update(fullPathName string, item HTML) error {
 // Delete removes an HTML resource by its full path name.
 func (cr *HTMLResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified HTML resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTMLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

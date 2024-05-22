@@ -47,7 +47,7 @@ type VirtualAddressResource struct {
 
 func (vars *VirtualAddressResource) List() (*VirtualAddressList, error) {
 	var val VirtualAddressList
-	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vars.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualAddressEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -59,10 +59,10 @@ func (vars *VirtualAddressResource) List() (*VirtualAddressList, error) {
 	return &val, nil
 }
 
-func (vars *VirtualAddressResource) GetAddressByVirtualServerName(name string) (string, error) {
+func (vars *VirtualAddressResource) GetAddressByVirtualServerName(fullPathName string) (string, error) {
 	var va VirtualAddress
-	res, err := vars.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
-		Resource(VirtualAddressEndpoint).ResourceInstance(name).DoRaw(context.Background())
+	res, err := vars.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
+		Resource(VirtualAddressEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return "", err
 	}

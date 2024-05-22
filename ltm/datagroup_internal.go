@@ -38,7 +38,7 @@ type DataGroupInternalResource struct {
 func (dgir *DataGroupInternalResource) List() (*DataGroupInternalList, error) {
 	var dgil DataGroupInternalList
 
-	res, err := dgir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := dgir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(DataGroupInternalEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (dgir *DataGroupInternalResource) List() (*DataGroupInternalList, error) {
 
 func (dgir *DataGroupInternalResource) Get(fullPathName string) (*DataGroupInternal, error) {
 	var item DataGroupInternal
-	res, err := dgir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := dgir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(DataGroupInternalEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (dgir *DataGroupInternalResource) Create(item DataGroupInternal) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = dgir.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = dgir.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(DataGroupInternalEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -84,7 +84,7 @@ func (dgir *DataGroupInternalResource) Update(fullPathName string, item DataGrou
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = dgir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = dgir.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(DataGroupInternalEndpoint).ResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -93,7 +93,7 @@ func (dgir *DataGroupInternalResource) Update(fullPathName string, item DataGrou
 }
 
 func (dgir *DataGroupInternalResource) Delete(fullPathName string) error {
-	_, err := dgir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := dgir.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(DataGroupInternalEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

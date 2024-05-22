@@ -33,7 +33,7 @@ type SnatPoolResource struct {
 const SnatPoolEndpoint = "snatpool"
 
 func (spr *SnatPoolResource) List() (*SnatPoolList, error) {
-	res, err := spr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := spr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(SnatPoolEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (spr *SnatPoolResource) List() (*SnatPoolList, error) {
 
 // https://192.168.13.91/mgmt/tm/ltm/snatpool/~Common~snat_pool_yw?expandSubcollections=true
 func (spr *SnatPoolResource) Get(name string) (*SnatPool, error) {
-	res, err := spr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := spr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(SnatPoolEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

@@ -95,8 +95,8 @@ type VirtualResource struct {
 
 // List all virtual server items
 func (vr *VirtualResource) List() (*VirtualServerList, error) {
-	nrn := bigip.NewResourceName()
-	res, err := vr.b.RestClient.Get().Prefix(nrn.BaseResourceNameString()).ResourceCategory(nrn.TMResourceNameString()).ManagerName(LtmManager).
+
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (vr *VirtualResource) List() (*VirtualServerList, error) {
 
 // List all the details of the virtual server, including: profile, policy, etc.
 func (vr *VirtualResource) ListDetail() (*VirtualServerList, error) {
-	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).SetParams("expandSubcollections", "true").DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -140,7 +140,7 @@ func (vr *VirtualResource) ListVirtualServerName() ([]string, error) {
 
 // Get a single virtual server identified by name.
 func (vr *VirtualResource) Get(fullPathName string) (*VirtualServer, error) {
-	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -160,7 +160,7 @@ func (vr *VirtualResource) Create(item VirtualServer) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = vr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -184,7 +184,7 @@ func (vr *VirtualResource) Update(name string, item VirtualServer) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = vr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -194,7 +194,7 @@ func (vr *VirtualResource) Update(name string, item VirtualServer) error {
 
 // Delete a single virtual server identified by the virtual server name. if it is not exist return error
 func (vr *VirtualResource) Delete(name string) error {
-	_, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := vr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -210,7 +210,7 @@ func (vr *VirtualResource) Enable(name string) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Patch().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = vr.b.RestClient.Patch().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -227,7 +227,7 @@ func (vr *VirtualResource) Disable(name string) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Patch().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = vr.b.RestClient.Patch().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -242,7 +242,7 @@ func (vr *VirtualResource) RemoveRuleForVirtualServer(vsName, ruleName string) e
 			ruleName,
 		},
 	}
-	res, err := vr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).ResourceInstance(vsName).Body(item).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -256,7 +256,7 @@ func (vr *VirtualResource) RemoveRuleForVirtualServer(vsName, ruleName string) e
 
 // gets the iRules for a virtual server identified by name.
 func (vr *VirtualResource) GetRulesByVirtualServer(name string) ([]Rule, error) {
-	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -276,7 +276,7 @@ func (vr *VirtualResource) AddRuleForVirtualServer(vsName string, rule Rule) err
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = vr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).SubResource(RuleEndpoint).ResourceInstance(vsName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err

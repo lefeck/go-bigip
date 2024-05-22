@@ -36,7 +36,7 @@ type QOEResource struct {
 // List retrieves a list of QOE resources.
 func (qr *QOEResource) List() (*QOEList, error) {
 	var items QOEList
-	res, err := qr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := qr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QOEEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (qr *QOEResource) List() (*QOEList, error) {
 // Get retrieves a QOE resource by its full path name.
 func (qr *QOEResource) Get(fullPathName string) (*QOE, error) {
 	var item QOE
-	res, err := qr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := qr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QOEEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (qr *QOEResource) Create(item QOE) error {
 	}
 	jsonString := string(jsonData)
 
-	_, err = qr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = qr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QOEEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -87,7 +87,7 @@ func (qr *QOEResource) Update(fullPathName string, item QOE) error {
 	}
 	jsonString := string(jsonData)
 
-	_, err = qr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = qr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QOEEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -97,7 +97,7 @@ func (qr *QOEResource) Update(fullPathName string, item QOE) error {
 
 // Delete removes a QOE resource by its full path name.
 func (qr *QOEResource) Delete(fullPathName string) error {
-	_, err := qr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := qr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QOEEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

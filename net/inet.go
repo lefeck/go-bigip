@@ -57,7 +57,7 @@ type InetResource struct {
 // ListAll lists all interfaces uration.
 func (ir *InetResource) List() (*InterfaceList, error) {
 	var items InterfaceList
-	res, err := ir.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).Resource(InterfaceEndpoint).DoRaw(context.Background())
+	res, err := ir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).Resource(InterfaceEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (ir *InetResource) List() (*InterfaceList, error) {
 // Get a single interface uration identified by id.
 func (ir *InetResource) Get(fullPathName string) (*Interface, error) {
 	var item Interface
-	res, err := ir.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := ir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(InterfaceEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (ir *InetResource) Get(fullPathName string) (*Interface, error) {
 
 func (ir *InetResource) ShowStats(fullPathName string) (*InterfaceStatsList, error) {
 	var item InterfaceStatsList
-	res, err := ir.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := ir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(InterfaceEndpoint).SubResourceInstance(fullPathName).SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

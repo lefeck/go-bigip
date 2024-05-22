@@ -47,7 +47,7 @@ type TDRResource struct {
 func (cr *TDRResource) List() (*TDRList, error) {
 	var items TDRList
 	// Perform a GET request to retrieve a list of TDR resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TDREndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (cr *TDRResource) List() (*TDRList, error) {
 func (cr *TDRResource) Get(fullPathName string) (*TDR, error) {
 	var item TDR
 	// Perform a GET request to retrieve a specific TDR resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TDREndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -87,7 +87,7 @@ func (cr *TDRResource) Create(item TDR) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new TDR resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TDREndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -105,7 +105,7 @@ func (cr *TDRResource) Update(fullPathName string, item TDR) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified TDR resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TDREndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -116,7 +116,7 @@ func (cr *TDRResource) Update(fullPathName string, item TDR) error {
 // Delete removes a TDR resource by its full path name.
 func (cr *TDRResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified TDR resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TDREndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

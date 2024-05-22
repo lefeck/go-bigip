@@ -50,7 +50,7 @@ type NodeStatsResource struct {
 
 func (nsr *NodeStatsResource) List() (*NodeStatsList, error) {
 	var nsl NodeStatsList
-	res, err := nsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := nsr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(NodeEndpoint).SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

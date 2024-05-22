@@ -36,7 +36,7 @@ type ClientLDAPResource struct {
 // List retrieves a list of ClientLDAP resources.
 func (cr *ClientLDAPResource) List() (*ClientLDAPList, error) {
 	var items ClientLDAPList
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientLDAPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (cr *ClientLDAPResource) List() (*ClientLDAPList, error) {
 // Get retrieves a ClientLDAP resource by its full path name.
 func (cr *ClientLDAPResource) Get(fullPathName string) (*ClientLDAP, error) {
 	var item ClientLDAP
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientLDAPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (cr *ClientLDAPResource) Create(item ClientLDAP) error {
 	}
 	jsonString := string(jsonData)
 
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientLDAPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -87,7 +87,7 @@ func (cr *ClientLDAPResource) Update(fullPathName string, item ClientLDAP) error
 	}
 	jsonString := string(jsonData)
 
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientLDAPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -97,7 +97,7 @@ func (cr *ClientLDAPResource) Update(fullPathName string, item ClientLDAP) error
 
 // Delete removes a ClientLDAP resource by its full path name.
 func (cr *ClientLDAPResource) Delete(fullPathName string) error {
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ClientLDAPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

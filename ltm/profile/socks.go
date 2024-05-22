@@ -48,7 +48,7 @@ type SocksResource struct {
 func (cr *SocksResource) List() (*SocksList, error) {
 	var items SocksList
 	// Perform a GET request to retrieve a list of Socks resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SocksEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (cr *SocksResource) List() (*SocksList, error) {
 func (cr *SocksResource) Get(fullPathName string) (*Socks, error) {
 	var item Socks
 	// Perform a GET request to retrieve a specific Socks resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SocksEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (cr *SocksResource) Create(item Socks) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new Socks resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SocksEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -106,7 +106,7 @@ func (cr *SocksResource) Update(fullPathName string, item Socks) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified Socks resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SocksEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -117,7 +117,7 @@ func (cr *SocksResource) Update(fullPathName string, item Socks) error {
 // Delete removes a Socks resource by its full path name.
 func (cr *SocksResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified Socks resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SocksEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

@@ -44,7 +44,7 @@ type ModuleScoreResource struct {
 
 func (mmsr *ModuleScoreResource) List() (*ModuleScoreList, error) {
 	var mmscl ModuleScoreList
-	res, err := mmsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mmsr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (mmsr *ModuleScoreResource) List() (*ModuleScoreList, error) {
 
 func (mmsr *ModuleScoreResource) Get(fullPathName string) (*ModuleScore, error) {
 	var mmsc ModuleScore
-	res, err := mmsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mmsr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (mmsr *ModuleScoreResource) Create(item ModuleScore) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mmsr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mmsr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -89,7 +89,7 @@ func (mmsr *ModuleScoreResource) Update(name string, item ModuleScore) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mmsr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mmsr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -98,7 +98,7 @@ func (mmsr *ModuleScoreResource) Update(name string, item ModuleScore) error {
 }
 
 func (mmsr *ModuleScoreResource) Delete(name string) error {
-	_, err := mmsr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mmsr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(ModuleScoreEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

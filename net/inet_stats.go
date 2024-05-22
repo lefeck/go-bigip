@@ -60,7 +60,7 @@ type InetStatsResource struct {
 
 func (isr *InetStatsResource) List() (*InterfaceStatsList, error) {
 	var item InterfaceStatsList
-	res, err := isr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).Resource(InterfaceStatsEndpoint).SubResource(StatsEndpoint).DoRaw(context.Background())
+	res, err := isr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).Resource(InterfaceStatsEndpoint).SubResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}

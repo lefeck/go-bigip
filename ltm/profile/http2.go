@@ -48,7 +48,7 @@ type HTTP2Resource struct {
 func (cr *HTTP2Resource) List() (*HTTP2List, error) {
 	var items HTTP2List
 	// Perform a GET request to retrieve a list of HTTP2 resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP2Endpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (cr *HTTP2Resource) List() (*HTTP2List, error) {
 func (cr *HTTP2Resource) Get(fullPathName string) (*HTTP2, error) {
 	var item HTTP2
 	// Perform a GET request to retrieve a specific HTTP2 resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP2Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (cr *HTTP2Resource) Create(item HTTP2) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new HTTP2 resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP2Endpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -106,7 +106,7 @@ func (cr *HTTP2Resource) Update(fullPathName string, item HTTP2) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified HTTP2 resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP2Endpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -117,7 +117,7 @@ func (cr *HTTP2Resource) Update(fullPathName string, item HTTP2) error {
 // Delete removes an HTTP2 resource by its full path name.
 func (cr *HTTP2Resource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified HTTP2 resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTP2Endpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

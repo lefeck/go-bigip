@@ -8,6 +8,7 @@ import (
 	"github.com/lefeck/go-bigip/cli"
 	"github.com/lefeck/go-bigip/ltm"
 	"github.com/lefeck/go-bigip/ltm/monitor"
+	"github.com/lefeck/go-bigip/net"
 	"github.com/lefeck/go-bigip/util"
 	"log"
 	"os"
@@ -42,7 +43,8 @@ func main() {
 	//bs.listVirtualServerDetail()
 	//bs.listSnatPool()
 
-	bs.ListICMP()
+	//bs.ListICMP()
+	bs.ListNetAddressList()
 	//bs.CreateICMP()
 	//bs.UpdateICMP()
 	//bs.DeleteICMP()
@@ -65,6 +67,21 @@ func (bs *bigipTest) init() {
 		panic(err)
 	}
 	bs.bigIP = b
+}
+
+func (bs *bigipTest) ListNetAddressList() {
+	bg := net.New(bs.bigIP)
+	addrList, _ := bg.AddressList().List()
+	fmt.Println(addrList)
+
+	for _, icmp := range addrList.Items {
+		fullpath := icmp.FullPath
+		item, err := bg.AddressList().Get(fullpath)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(item)
+	}
 }
 
 func (bs *bigipTest) ListICMP() {

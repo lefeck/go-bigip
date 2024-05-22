@@ -66,7 +66,7 @@ type SCTPResource struct {
 func (cr *SCTPResource) List() (*SCTPList, error) {
 	var items SCTPList
 	// Perform a GET request to retrieve a list of SCTP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SCTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (cr *SCTPResource) List() (*SCTPList, error) {
 func (cr *SCTPResource) Get(fullPathName string) (*SCTP, error) {
 	var item SCTP
 	// Perform a GET request to retrieve a specific SCTP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SCTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (cr *SCTPResource) Create(item SCTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new SCTP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SCTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -124,7 +124,7 @@ func (cr *SCTPResource) Update(fullPathName string, item SCTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified SCTP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SCTPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -135,7 +135,7 @@ func (cr *SCTPResource) Update(fullPathName string, item SCTP) error {
 // Delete removes an SCTP resource by its full path name.
 func (cr *SCTPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified SCTP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SCTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

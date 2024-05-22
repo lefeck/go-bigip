@@ -45,7 +45,7 @@ type GatewayICMPResource struct {
 
 func (mgir *GatewayICMPResource) List() (*GatewayICMPList, error) {
 	var mgicl GatewayICMPList
-	res, err := mgir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mgir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (mgir *GatewayICMPResource) List() (*GatewayICMPList, error) {
 
 func (mgir *GatewayICMPResource) Get(fullPathName string) (*GatewayICMP, error) {
 	var mgic GatewayICMP
-	res, err := mgir.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mgir.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (mgir *GatewayICMPResource) Create(item GatewayICMP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mgir.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mgir.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -90,7 +90,7 @@ func (mgir *GatewayICMPResource) Update(name string, item GatewayICMP) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mgir.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mgir.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -99,7 +99,7 @@ func (mgir *GatewayICMPResource) Update(name string, item GatewayICMP) error {
 }
 
 func (mgir *GatewayICMPResource) Delete(name string) error {
-	_, err := mgir.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mgir.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(GatewayICMPEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

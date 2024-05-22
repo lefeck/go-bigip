@@ -51,7 +51,7 @@ func (br *BashResource) Run(item Bash) (*Bash, error) {
 		return nil, fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	res, err := br.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).
+	res, err := br.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).
 		ManagerName(UtilManager).Resource(BashEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

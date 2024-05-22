@@ -158,7 +158,7 @@ type VirtualStatsResource struct {
 }
 
 func (vsr *VirtualStatsResource) List() (*VirtualStatsList, error) {
-	res, err := vsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vsr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -172,7 +172,7 @@ func (vsr *VirtualStatsResource) List() (*VirtualStatsList, error) {
 }
 
 func (vsr *VirtualStatsResource) Get(name string) (*VirtualStatsList, error) {
-	res, err := vsr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vsr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(VirtualEndpoint).SubResourceInstance(name).SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

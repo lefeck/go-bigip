@@ -53,7 +53,7 @@ type TrunkResource struct {
 // ListAll lists all the trunk urations.
 func (tr *TrunkResource) List() (*TrunkList, error) {
 	var tl TrunkList
-	res, err := tr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := tr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(TrunkEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (tr *TrunkResource) List() (*TrunkList, error) {
 // Get a single trunk uration identified by id.
 func (tr *TrunkResource) Get(fullPathName string) (*Trunk, error) {
 	var trunk Trunk
-	res, err := tr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := tr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(TrunkEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -87,7 +87,7 @@ func (tr *TrunkResource) Create(item Trunk) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = tr.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = tr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(TrunkEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func (tr *TrunkResource) Edit(name string, item Trunk) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = tr.b.RestClient.Put().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = tr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(TrunkEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func (tr *TrunkResource) Edit(name string, item Trunk) error {
 
 // Delete a single trunk uration identified by id.
 func (tr *TrunkResource) Delete(name string) error {
-	_, err := tr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err := tr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(TrunkEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

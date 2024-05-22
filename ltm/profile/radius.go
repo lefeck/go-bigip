@@ -43,7 +43,7 @@ type RADIUSResource struct {
 func (cr *RADIUSResource) List() (*RADIUSList, error) {
 	var items RADIUSList
 	// Perform a GET request to retrieve a list of RADIUS resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RADIUSEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -60,7 +60,7 @@ func (cr *RADIUSResource) List() (*RADIUSList, error) {
 func (cr *RADIUSResource) Get(fullPathName string) (*RADIUS, error) {
 	var item RADIUS
 	// Perform a GET request to retrieve a specific RADIUS resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RADIUSEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (cr *RADIUSResource) Create(item RADIUS) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new RADIUS resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RADIUSEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -101,7 +101,7 @@ func (cr *RADIUSResource) Update(fullPathName string, item RADIUS) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified RADIUS resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RADIUSEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func (cr *RADIUSResource) Update(fullPathName string, item RADIUS) error {
 // Delete removes a RADIUS resource by its full path name.
 func (cr *RADIUSResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified RADIUS resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RADIUSEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

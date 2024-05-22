@@ -538,10 +538,10 @@ func (vr *VirtualResource) readError(resp *http.Response) error {
 }
 
 const VirtualEndpoint = "/virtual"
-const BasePath = "mgmt/tm/ltm"
+const bigip.GetBaseResource() = "mgmt/tm/ltm"
 
 func (vr *VirtualResource) doRequest(method, id string, data interface{}) (*http.Response, error) {
-	req, err := vr.c.MakeRequest(method, BasePath+VirtualEndpoint+"/"+id, data)
+	req, err := vr.c.MakeRequest(method, bigip.GetBaseResource()+VirtualEndpoint+"/"+id, data)
 	if err != nil {
 		return nil, err
 	}

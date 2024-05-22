@@ -37,7 +37,7 @@ type GTPResource struct {
 func (cr *GTPResource) List() (*GTPList, error) {
 	var items GTPList
 	// Perform a GET request to retrieve a list of GTP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(GTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (cr *GTPResource) List() (*GTPList, error) {
 func (cr *GTPResource) Get(fullPathName string) (*GTP, error) {
 	var item GTP
 	// Perform a GET request to retrieve a specific GTP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(GTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (cr *GTPResource) Create(item GTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new GTP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(GTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -95,7 +95,7 @@ func (cr *GTPResource) Update(fullPathName string, item GTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified GTP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(GTPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -106,7 +106,7 @@ func (cr *GTPResource) Update(fullPathName string, item GTP) error {
 // Delete removes a GTP resource by its full path name.
 func (cr *GTPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified GTP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(GTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

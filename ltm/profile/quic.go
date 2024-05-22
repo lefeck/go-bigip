@@ -39,7 +39,7 @@ type QUICResource struct {
 func (cr *QUICResource) List() (*QUICList, error) {
 	var items QUICList
 	// Perform a GET request to retrieve a list of QUIC resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QUICEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (cr *QUICResource) List() (*QUICList, error) {
 func (cr *QUICResource) Get(fullPathName string) (*QUIC, error) {
 	var item QUIC
 	// Perform a GET request to retrieve a specific QUIC resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QUICEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -79,7 +79,7 @@ func (cr *QUICResource) Create(item QUIC) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new QUIC resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QUICEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -97,7 +97,7 @@ func (cr *QUICResource) Update(fullPathName string, item QUIC) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified QUIC resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QUICEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -108,7 +108,7 @@ func (cr *QUICResource) Update(fullPathName string, item QUIC) error {
 // Delete removes a QUIC resource by its full path name.
 func (cr *QUICResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified QUIC resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(QUICEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

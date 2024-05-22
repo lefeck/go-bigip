@@ -101,7 +101,7 @@ type HTTPResource struct {
 func (cr *HTTPResource) List() (*HTTPList, error) {
 	var items HTTPList
 	// Perform a GET request to retrieve a list of HTTP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -118,7 +118,7 @@ func (cr *HTTPResource) List() (*HTTPList, error) {
 func (cr *HTTPResource) Get(fullPathName string) (*HTTP, error) {
 	var item HTTP
 	// Perform a GET request to retrieve a specific HTTP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (cr *HTTPResource) Create(item HTTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new HTML resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -159,7 +159,7 @@ func (cr *HTTPResource) Update(fullPathName string, item HTTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified HTTP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -170,7 +170,7 @@ func (cr *HTTPResource) Update(fullPathName string, item HTTP) error {
 // Delete removes an HTTP resource by its full path name.
 func (cr *HTTPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified HTTP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

@@ -68,7 +68,7 @@ type StatisticsResource struct {
 func (cr *StatisticsResource) List() (*StatisticsList, error) {
 	var items StatisticsList
 	// Perform a GET request to retrieve a list of Statistics resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StatisticsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (cr *StatisticsResource) List() (*StatisticsList, error) {
 func (cr *StatisticsResource) Get(fullPathName string) (*Statistics, error) {
 	var item Statistics
 	// Perform a GET request to retrieve a specific Statistics resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StatisticsEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ func (cr *StatisticsResource) Create(item Statistics) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new Statistics resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StatisticsEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -126,7 +126,7 @@ func (cr *StatisticsResource) Update(fullPathName string, item Statistics) error
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified Statistics resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StatisticsEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -137,7 +137,7 @@ func (cr *StatisticsResource) Update(fullPathName string, item Statistics) error
 // Delete removes a Statistics resource by its full path name.
 func (cr *StatisticsResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified Statistics resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StatisticsEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

@@ -51,7 +51,7 @@ type PoolMembersResource struct {
 // lists all the pool members urations.
 func (pmr *PoolMembersResource) List(pool string) (*PoolMembersList, error) {
 	var pml PoolMembersList
-	res, err := pmr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := pmr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(pool).SubResource(poolMembersEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (pmr *PoolMembersResource) List(pool string) (*PoolMembersList, error) {
 // Get a single pool members identified by pool name and member name.
 func (pmr *PoolMembersResource) Get(poolName string, memberName string) (*PoolMembers, error) {
 	var pm PoolMembers
-	res, err := pmr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := pmr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(poolName).SubResource(poolMembersEndpoint).SubResourceInstance(memberName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (pmr *PoolMembersResource) Create(pool string, item PoolMembers) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = pmr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = pmr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(pool).SubResource(poolMembersEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -100,7 +100,7 @@ func (pmr *PoolMembersResource) Update(poolName string, memberName string, item 
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = pmr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = pmr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(poolName).SubResource(poolMembersEndpoint).SubResourceInstance(memberName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -110,7 +110,7 @@ func (pmr *PoolMembersResource) Update(poolName string, memberName string, item 
 
 // Delete a single pool members identified by pool name and member name.
 func (pmr *PoolMembersResource) Delete(poolName string, memberName string) error {
-	_, err := pmr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := pmr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(poolName).SubResource(poolMembersEndpoint).SubResourceInstance(memberName).DoRaw(context.Background())
 	if err != nil {
 		return err

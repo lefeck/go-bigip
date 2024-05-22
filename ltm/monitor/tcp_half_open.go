@@ -40,7 +40,7 @@ type TCPHalfOpenResource struct {
 
 func (mthor *TCPHalfOpenResource) List() (*TCPHalfOpenList, error) {
 	var mthocl TCPHalfOpenList
-	res, err := mthor.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mthor.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (mthor *TCPHalfOpenResource) List() (*TCPHalfOpenList, error) {
 
 func (mthor *TCPHalfOpenResource) Get(fullPathName string) (*TCPHalfOpen, error) {
 	var mthoc TCPHalfOpen
-	res, err := mthor.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mthor.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (mthor *TCPHalfOpenResource) Create(item TCPHalfOpen) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mthor.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mthor.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -85,7 +85,7 @@ func (mthor *TCPHalfOpenResource) Update(name string, item TCPHalfOpen) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mthor.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mthor.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -94,7 +94,7 @@ func (mthor *TCPHalfOpenResource) Update(name string, item TCPHalfOpen) error {
 }
 
 func (mthor *TCPHalfOpenResource) Delete(name string) error {
-	_, err := mthor.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mthor.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPHalfOpenEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

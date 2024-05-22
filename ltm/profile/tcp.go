@@ -117,7 +117,7 @@ type TCPResource struct {
 func (cr *TCPResource) List() (*TCPList, error) {
 	var items TCPList
 	// Perform a GET request to retrieve a list of TCP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -134,7 +134,7 @@ func (cr *TCPResource) List() (*TCPList, error) {
 func (cr *TCPResource) Get(fullPathName string) (*TCP, error) {
 	var item TCP
 	// Perform a GET request to retrieve a specific TCP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -157,7 +157,7 @@ func (cr *TCPResource) Create(item TCP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new TCP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -175,7 +175,7 @@ func (cr *TCPResource) Update(fullPathName string, item TCP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified TCP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -186,7 +186,7 @@ func (cr *TCPResource) Update(fullPathName string, item TCP) error {
 // Delete removes a TCP resource by its full path name.
 func (cr *TCPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified TCP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

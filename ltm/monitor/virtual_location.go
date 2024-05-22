@@ -40,7 +40,7 @@ type VirtualLocationResource struct {
 
 func (mvlr *VirtualLocationResource) List() (*VirtualLocationList, error) {
 	var mvlcl VirtualLocationList
-	res, err := mvlr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mvlr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (mvlr *VirtualLocationResource) List() (*VirtualLocationList, error) {
 
 func (mvlr *VirtualLocationResource) Get(fullPathName string) (*VirtualLocation, error) {
 	var mvlc VirtualLocation
-	res, err := mvlr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mvlr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (mvlr *VirtualLocationResource) Create(item VirtualLocation) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mvlr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mvlr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -85,7 +85,7 @@ func (mvlr *VirtualLocationResource) Update(name string, item VirtualLocation) e
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mvlr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mvlr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -94,7 +94,7 @@ func (mvlr *VirtualLocationResource) Update(name string, item VirtualLocation) e
 }
 
 func (mvlr *VirtualLocationResource) Delete(name string) error {
-	_, err := mvlr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mvlr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(VirtualLocationEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

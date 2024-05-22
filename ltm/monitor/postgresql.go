@@ -46,7 +46,7 @@ type PostgreSQLResource struct {
 
 func (mpr *PostgreSQLResource) List() (*PostgreSQLList, error) {
 	var mpcl PostgreSQLList
-	res, err := mpr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mpr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -60,7 +60,7 @@ func (mpr *PostgreSQLResource) List() (*PostgreSQLList, error) {
 
 func (mpr *PostgreSQLResource) Get(fullPathName string) (*PostgreSQL, error) {
 	var mpc PostgreSQL
-	res, err := mpr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mpr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (mpr *PostgreSQLResource) Create(item PostgreSQL) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mpr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mpr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -91,7 +91,7 @@ func (mpr *PostgreSQLResource) Update(name string, item PostgreSQL) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mpr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mpr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).SubResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -100,7 +100,7 @@ func (mpr *PostgreSQLResource) Update(name string, item PostgreSQL) error {
 }
 
 func (mpr *PostgreSQLResource) Delete(name string) error {
-	_, err := mpr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mpr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(PostgreSQLEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

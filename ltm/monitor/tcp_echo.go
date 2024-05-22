@@ -46,7 +46,7 @@ type TCPEchoResource struct {
 
 func (mter *TCPEchoResource) List() (*TCPEchoList, error) {
 	var mtecl TCPEchoList
-	res, err := mter.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mter.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -60,7 +60,7 @@ func (mter *TCPEchoResource) List() (*TCPEchoList, error) {
 
 func (mter *TCPEchoResource) Get(fullPathName string) (*TCPEcho, error) {
 	var mtec TCPEcho
-	res, err := mter.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := mter.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (mter *TCPEchoResource) Create(item TCPEcho) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mter.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mter.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -91,7 +91,7 @@ func (mter *TCPEchoResource) Update(name string, item TCPEcho) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = mter.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = mter.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -100,7 +100,7 @@ func (mter *TCPEchoResource) Update(name string, item TCPEcho) error {
 }
 
 func (mter *TCPEchoResource) Delete(name string) error {
-	_, err := mter.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := mter.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(TCPEchoEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

@@ -53,7 +53,7 @@ type WebAccelerationResource struct {
 func (cr *WebAccelerationResource) List() (*WebAccelerationList, error) {
 	var items WebAccelerationList
 	// Perform a GET request to retrieve a list of WebAcceleration resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(WebAccelerationEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (cr *WebAccelerationResource) List() (*WebAccelerationList, error) {
 func (cr *WebAccelerationResource) Get(fullPathName string) (*WebAcceleration, error) {
 	var item WebAcceleration
 	// Perform a GET request to retrieve a specific WebAcceleration resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(WebAccelerationEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (cr *WebAccelerationResource) Create(item WebAcceleration) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new WebAcceleration resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(WebAccelerationEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -111,7 +111,7 @@ func (cr *WebAccelerationResource) Update(fullPathName string, item WebAccelerat
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified WebAcceleration resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(WebAccelerationEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -122,7 +122,7 @@ func (cr *WebAccelerationResource) Update(fullPathName string, item WebAccelerat
 // Delete removes a WebAcceleration resource by its full path name.
 func (cr *WebAccelerationResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified WebAcceleration resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(WebAccelerationEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

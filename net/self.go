@@ -48,7 +48,7 @@ type SelfResource struct {
 // ListAll lists all the self ip urations.
 func (sr *SelfResource) List() (*SelfList, error) {
 	var sl SelfList
-	res, err := sr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := sr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(SelfEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (sr *SelfResource) List() (*SelfList, error) {
 // Get a single self ip uration identified by id.
 func (sr *SelfResource) Get(fullPathName string) (*Self, error) {
 	var self Self
-	res, err := sr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := sr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(SelfEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (sr *SelfResource) Create(item Self) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = sr.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = sr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(SelfEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -97,7 +97,7 @@ func (sr *SelfResource) Edit(name string, item Self) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = sr.b.RestClient.Put().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = sr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(SelfEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -107,7 +107,7 @@ func (sr *SelfResource) Edit(name string, item Self) error {
 
 // Delete a single self ip uration identified by id.
 func (sr *SelfResource) Delete(name string) error {
-	_, err := sr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err := sr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(SelfEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

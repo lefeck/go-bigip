@@ -37,7 +37,7 @@ type OCSPResource struct {
 func (cr *OCSPResource) List() (*OCSPList, error) {
 	var items OCSPList
 	// Perform a GET request to retrieve a list of OCSP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OCSPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (cr *OCSPResource) List() (*OCSPList, error) {
 func (cr *OCSPResource) Get(fullPathName string) (*OCSP, error) {
 	var item OCSP
 	// Perform a GET request to retrieve a specific OCSP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OCSPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (cr *OCSPResource) Create(item OCSP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new OCSP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OCSPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -95,7 +95,7 @@ func (cr *OCSPResource) Update(fullPathName string, item OCSP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified OCSP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OCSPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -106,7 +106,7 @@ func (cr *OCSPResource) Update(fullPathName string, item OCSP) error {
 // Delete removes an OCSP resource by its full path name.
 func (cr *OCSPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified OCSP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OCSPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

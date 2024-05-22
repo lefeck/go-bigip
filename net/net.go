@@ -10,7 +10,7 @@ import (
 
 const NetManager = "net"
 
-type NET struct {
+type Net struct {
 	b           *bigip.BigIP
 	inet        InetResource
 	inetStats   InetStatsResource
@@ -19,12 +19,12 @@ type NET struct {
 	self        SelfResource
 	routeDomain RouteDomainResource
 	trunk       TrunkResource
+	address     AddressResource
 }
 
 // New creates a new NET client.
-func New(b *bigip.BigIP) NET {
-	return NET{
-		b:           b,
+func New(b *bigip.BigIP) Net {
+	return Net{
 		inet:        InetResource{b: b},
 		inetStats:   InetStatsResource{b: b},
 		route:       RouteResource{b: b},
@@ -32,39 +32,45 @@ func New(b *bigip.BigIP) NET {
 		self:        SelfResource{b: b},
 		routeDomain: RouteDomainResource{b: b},
 		trunk:       TrunkResource{b: b},
+		address:     AddressResource{b: b},
 	}
 }
 
 // Inet returns a InetResource ured to query tm/net/interface API.
-func (net NET) Inet() *InetResource {
+func (net Net) Inet() *InetResource {
 	return &net.inet
 }
 
-func (net NET) InetStats() *InetStatsResource {
+func (net Net) InetStats() *InetStatsResource {
 	return &net.inetStats
 }
 
 // Route returns a RouteResource ured to query tm/net/route API.
-func (net NET) Route() *RouteResource {
+func (net Net) Route() *RouteResource {
 	return &net.route
 }
 
 // Vlan returns a VlanResource ured to query /tm/net/vlan API.
-func (net NET) Vlan() *VlanResource {
+func (net Net) Vlan() *VlanResource {
 	return &net.vlan
 }
 
 // Self returns a SelfResource ured to query /tm/net/self API.
-func (net NET) Self() *SelfResource {
+func (net Net) Self() *SelfResource {
 	return &net.self
 }
 
 // RouteDomain returns a RouteDomainResource ured to query /tm/net/route-domain API.
-func (net NET) RouteDomain() *RouteDomainResource {
+func (net Net) RouteDomain() *RouteDomainResource {
 	return &net.routeDomain
 }
 
 // RouteDomain returns a RouteDomainResource ured to query /tm/net/route-domain API.
-func (net NET) Trunk() *TrunkResource {
+func (net Net) Trunk() *TrunkResource {
 	return &net.trunk
+}
+
+// RouteDomain returns a RouteDomainResource ured to query /tm/net/route-domain API.
+func (net Net) AddressList() *AddressResource {
+	return &net.address
 }

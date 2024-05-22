@@ -56,7 +56,7 @@ func DefaultAPIPath(apiPath string) string {
 }
 
 func main() {
-	rawURL, basePath, _ := DefaultServerURL("192.168.13.91", "/mgmt/shared/authn/login")
-	urls := rawURL.String() + basePath
-	fmt.Println(rawURL, urls, basePath)
+	rawURL, bigip.GetBaseResource(), _ := DefaultServerURL("192.168.13.91", "/mgmt/shared/authn/login")
+	urls := rawURL.String() + bigip.GetBaseResource()
+	fmt.Println(rawURL, urls, bigip.GetBaseResource())
 }

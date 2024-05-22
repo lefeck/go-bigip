@@ -52,7 +52,7 @@ const VersionEndpoint = "version"
 // Get bigip device version
 func (vsr *VersionStatsResoure) Get() (*VersionStats, error) {
 	var vs *VersionStats
-	res, err := vsr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(CliManager).
+	res, err := vsr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(CliManager).
 		Resource(VersionEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

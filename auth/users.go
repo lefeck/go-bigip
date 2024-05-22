@@ -32,9 +32,8 @@ type UsersResource struct {
 // UserEndpoint is the base path of the authz API.
 const UserEndpoint = "users"
 
-// /mgmt/shared/authz/users
 func (ur *UsersResource) List() (*UsersList, error) {
-	res, err := ur.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.SHAREResoucre).
+	res, err := ur.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetShareResource()).
 		ManagerName(AuthzManager).Resource(UserEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

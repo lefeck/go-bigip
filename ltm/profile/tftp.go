@@ -39,7 +39,7 @@ type TFTPResource struct {
 func (cr *TFTPResource) List() (*TFTPList, error) {
 	var items TFTPList
 	// Perform a GET request to retrieve a list of TFTP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TFTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (cr *TFTPResource) List() (*TFTPList, error) {
 func (cr *TFTPResource) Get(fullPathName string) (*TFTP, error) {
 	var item TFTP
 	// Perform a GET request to retrieve a specific TFTP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TFTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -79,7 +79,7 @@ func (cr *TFTPResource) Create(item TFTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new TFTP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TFTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -97,7 +97,7 @@ func (cr *TFTPResource) Update(fullPathName string, item TFTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified TFTP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TFTPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -108,7 +108,7 @@ func (cr *TFTPResource) Update(fullPathName string, item TFTP) error {
 // Delete removes a TFTP resource by its full path name.
 func (cr *TFTPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified TFTP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TFTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

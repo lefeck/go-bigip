@@ -40,7 +40,7 @@ type StreamResource struct {
 func (cr *StreamResource) List() (*StreamList, error) {
 	var items StreamList
 	// Perform a GET request to retrieve a list of Stream resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StreamEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (cr *StreamResource) List() (*StreamList, error) {
 func (cr *StreamResource) Get(fullPathName string) (*Stream, error) {
 	var item Stream
 	// Perform a GET request to retrieve a specific Stream resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StreamEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (cr *StreamResource) Create(item Stream) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new Stream resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StreamEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -98,7 +98,7 @@ func (cr *StreamResource) Update(fullPathName string, item Stream) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified Stream resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StreamEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -109,7 +109,7 @@ func (cr *StreamResource) Update(fullPathName string, item Stream) error {
 // Delete removes a Stream resource by its full path name.
 func (cr *StreamResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified Stream resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(StreamEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

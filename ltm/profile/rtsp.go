@@ -54,7 +54,7 @@ type RTSPResource struct {
 func (cr *RTSPResource) List() (*RTSPList, error) {
 	var items RTSPList
 	// Perform a GET request to retrieve a list of RTSP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RTSPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (cr *RTSPResource) List() (*RTSPList, error) {
 func (cr *RTSPResource) Get(fullPathName string) (*RTSP, error) {
 	var item RTSP
 	// Perform a GET request to retrieve a specific RTSP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RTSPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func (cr *RTSPResource) Create(item RTSP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new RTSP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RTSPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func (cr *RTSPResource) Update(fullPathName string, item RTSP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified RTSP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RTSPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -123,7 +123,7 @@ func (cr *RTSPResource) Update(fullPathName string, item RTSP) error {
 // Delete removes an RTSP resource by its full path name.
 func (cr *RTSPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified RTSP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(RTSPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

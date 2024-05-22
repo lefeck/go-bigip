@@ -46,7 +46,7 @@ type RuleResource struct {
 }
 
 func (rr *RuleResource) List() (*RuleList, error) {
-	res, err := rr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := rr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(RuleEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (rr *RuleResource) List() (*RuleList, error) {
 }
 
 func (rr *RuleResource) Get(name string) (*Rule, error) {
-	res, err := rr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := rr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(RuleEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func (rr *RuleResource) Create(item Rule) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = rr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = rr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(RuleEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -92,7 +92,7 @@ func (rr *RuleResource) Update(name string, item Rule) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = rr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = rr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(RuleEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -101,7 +101,7 @@ func (rr *RuleResource) Update(name string, item Rule) error {
 }
 
 func (rr *RuleResource) Delete(name string) error {
-	_, err := rr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := rr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(RuleEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

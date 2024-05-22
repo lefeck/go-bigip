@@ -39,7 +39,7 @@ type PPTPResource struct {
 func (cr *PPTPResource) List() (*PPTPList, error) {
 	var items PPTPList
 	// Perform a GET request to retrieve a list of PPTP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(PPTPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (cr *PPTPResource) List() (*PPTPList, error) {
 func (cr *PPTPResource) Get(fullPathName string) (*PPTP, error) {
 	var item PPTP
 	// Perform a GET request to retrieve a specific PPTP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(PPTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -79,7 +79,7 @@ func (cr *PPTPResource) Create(item PPTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new PPTP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(PPTPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -97,7 +97,7 @@ func (cr *PPTPResource) Update(fullPathName string, item PPTP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified PPTP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(PPTPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -108,7 +108,7 @@ func (cr *PPTPResource) Update(fullPathName string, item PPTP) error {
 // Delete removes a PPTP resource by its full path name.
 func (cr *PPTPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified PPTP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(PPTPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

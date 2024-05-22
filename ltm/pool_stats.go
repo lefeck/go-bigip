@@ -125,7 +125,7 @@ type PoolStatsResource struct {
 // https://192.168.13.91/mgmt/tm/ltm/pool/stats
 func (psr *PoolStatsResource) List() (*PoolStatsList, error) {
 	var psl PoolStatsList
-	res, err := psr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := psr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -140,7 +140,7 @@ func (psr *PoolStatsResource) List() (*PoolStatsList, error) {
 // Gets only the stats for the specified pool itself, not include members of the pool.
 func (psr *PoolStatsResource) GetPoolStats(pool string) (*PoolStatsList, error) {
 	var psl PoolStatsList
-	res, err := psr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := psr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(pool).SubStatsResource(StatsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err

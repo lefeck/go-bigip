@@ -57,7 +57,7 @@ type HTTPCompressionResource struct {
 func (cr *HTTPCompressionResource) List() (*HTTPCompressionList, error) {
 	var items HTTPCompressionList
 	// Perform a GET request to retrieve a list of HTTPCompression resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPCompressionEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -74,7 +74,7 @@ func (cr *HTTPCompressionResource) List() (*HTTPCompressionList, error) {
 func (cr *HTTPCompressionResource) Get(fullPathName string) (*HTTPCompression, error) {
 	var item HTTPCompression
 	// Perform a GET request to retrieve a specific HTTPCompression resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPCompressionEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ func (cr *HTTPCompressionResource) Create(item HTTPCompression) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new HTTPCompression resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPCompressionEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -115,7 +115,7 @@ func (cr *HTTPCompressionResource) Update(fullPathName string, item HTTPCompress
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified HTTPCompression resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPCompressionEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -126,7 +126,7 @@ func (cr *HTTPCompressionResource) Update(fullPathName string, item HTTPCompress
 // Delete removes an HTTPCompression resource by its full path name.
 func (cr *HTTPCompressionResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified HTTPCompression resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(HTTPCompressionEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

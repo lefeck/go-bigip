@@ -75,7 +75,7 @@ type VlanResource struct {
 // ListAll lists all the vlan urations.
 func (vr *VlanResource) List() (*VlanList, error) {
 	var vl VlanList
-	res, err := vr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(VlanEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (vr *VlanResource) List() (*VlanList, error) {
 // Get a single vlan uration identified by name.
 func (vr *VlanResource) Get(fullPathName string) (*Vlan, error) {
 	var vlan Vlan
-	res, err := vr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(VlanEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -109,7 +109,7 @@ func (vr *VlanResource) Create(item Vlan) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = vr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(VlanEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -124,7 +124,7 @@ func (vr *VlanResource) Update(name string, item Vlan) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Put().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = vr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(VlanEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -134,7 +134,7 @@ func (vr *VlanResource) Update(name string, item Vlan) error {
 
 // Delete a single vlan uration identified by id.
 func (vr *VlanResource) Delete(name string) error {
-	_, err := vr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err := vr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(VlanEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -145,10 +145,10 @@ func (vr *VlanResource) Delete(name string) error {
 // GetInterfaces gets all interfaces associated to the vlan identified by id.
 func (vr *VlanResource) GetVlanAssociatedInterfaces(name string) (*AssignedInterfaceList, error) {
 	var ail AssignedInterfaceList
-	//if err := vr.c.ReadQuery(BasePath+VlanEndpoint+"/"+id+"/interfaces", &list); err != nil {
+	//if err := vr.c.ReadQuery(bigip.GetBaseResource()+VlanEndpoint+"/"+id+"/interfaces", &list); err != nil {
 	//	return nil, err
 	//}
-	res, err := vr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(VlanEndpoint).ResourceInstance(name).SubResource(VlanInterfacesEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -167,7 +167,7 @@ func (vr *VlanResource) AddInterfaceForVlan(name string, item AssignedInterface)
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = vr.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = vr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(VlanEndpoint).ResourceInstance(name).SubResource(VlanInterfacesEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err

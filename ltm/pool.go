@@ -62,7 +62,7 @@ type PoolResource struct {
 // lists all the pool instances.
 func (pr *PoolResource) List() (*PoolList, error) {
 	var pl PoolList
-	res, err := pr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := pr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (pr *PoolResource) List() (*PoolList, error) {
 
 // List all the details of the pool, including: profile, policy, etc.
 func (vr *PoolResource) ListDetail() (*PoolList, error) {
-	res, err := vr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := vr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).SetParams("expandSubcollections", "true").DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (vr *PoolResource) ListPoolName() ([]string, error) {
 // Get a single pool identified by name.
 func (pr *PoolResource) Get(fullPathName string) (*Pool, error) {
 	var pool Pool
-	res, err := pr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := pr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -143,7 +143,7 @@ func (pr *PoolResource) Create(item Pool) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = pr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = pr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -158,7 +158,7 @@ func (pr *PoolResource) Update(fullPathName string, item Pool) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = pr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = pr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -168,7 +168,7 @@ func (pr *PoolResource) Update(fullPathName string, item Pool) error {
 
 // Delete a single pool instance identified by name.
 func (pr *PoolResource) Delete(name string) error {
-	_, err := pr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := pr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(PoolEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -180,14 +180,14 @@ func (pr *PoolResource) Delete(name string) error {
 //
 //	func (pr *PoolResource) GetMembers(id string) (*PoolMembersList, error) {
 //		var poolMembers PoolMembersList
-//		if err := pr.c.ReadQuery(BasePath+PoolEndpoint+"/"+id+"/members", &poolMembers); err != nil {
+//		if err := pr.c.ReadQuery(bigip.GetBaseResource()+PoolEndpoint+"/"+id+"/members", &poolMembers); err != nil {
 //			return nil, err
 //		}
 //		return &poolMembers, nil
 //	}
 //
 //	func (pr *PoolResource) AddMember(id string, poolMember PoolMembers) error {
-//		if err := pr.c.ModQuery("POST", BasePath+PoolEndpoint+"/"+id+"/members", poolMember); err != nil {
+//		if err := pr.c.ModQuery("POST", bigip.GetBaseResource()+PoolEndpoint+"/"+id+"/members", poolMember); err != nil {
 //			return err
 //		}
 //		return nil
@@ -195,7 +195,7 @@ func (pr *PoolResource) Delete(name string) error {
 
 //func (pr *PoolResource) ShowStats(id string) (*PoolStatsList, error) {
 //	var item PoolStatsList
-//	if err := pr.c.ReadQuery(BasePath+PoolEndpoint+"/"+id+"/stats", &item); err != nil {
+//	if err := pr.c.ReadQuery(bigip.GetBaseResource()+PoolEndpoint+"/"+id+"/stats", &item); err != nil {
 //		return nil, err
 //	}
 //	return &item, nil

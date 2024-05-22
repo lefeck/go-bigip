@@ -43,7 +43,7 @@ type OneConnectResource struct {
 func (cr *OneConnectResource) List() (*OneConnectList, error) {
 	var items OneConnectList
 	// Perform a GET request to retrieve a list of OneConnect resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OneConnectEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -60,7 +60,7 @@ func (cr *OneConnectResource) List() (*OneConnectList, error) {
 func (cr *OneConnectResource) Get(fullPathName string) (*OneConnect, error) {
 	var item OneConnect
 	// Perform a GET request to retrieve a specific OneConnect resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OneConnectEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (cr *OneConnectResource) Create(item OneConnect) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new OneConnect resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OneConnectEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -101,7 +101,7 @@ func (cr *OneConnectResource) Update(fullPathName string, item OneConnect) error
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified OneConnect resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OneConnectEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func (cr *OneConnectResource) Update(fullPathName string, item OneConnect) error
 // Delete removes an OneConnect resource by its full path name.
 func (cr *OneConnectResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified OneConnect resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(OneConnectEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

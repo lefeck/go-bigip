@@ -56,7 +56,7 @@ type SIPResource struct {
 func (cr *SIPResource) List() (*SIPList, error) {
 	var items SIPList
 	// Perform a GET request to retrieve a list of SIP resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SIPEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (cr *SIPResource) List() (*SIPList, error) {
 func (cr *SIPResource) Get(fullPathName string) (*SIP, error) {
 	var item SIP
 	// Perform a GET request to retrieve a specific SIP resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SIPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (cr *SIPResource) Create(item SIP) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new SIP resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SIPEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -114,7 +114,7 @@ func (cr *SIPResource) Update(fullPathName string, item SIP) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified SIP resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SIPEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -125,7 +125,7 @@ func (cr *SIPResource) Update(fullPathName string, item SIP) error {
 // Delete removes a SIP resource by its full path name.
 func (cr *SIPResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified SIP resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(SIPEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

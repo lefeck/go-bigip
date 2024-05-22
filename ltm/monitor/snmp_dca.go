@@ -48,7 +48,7 @@ type SNMPDCAResource struct {
 
 func (msdr *SNMPDCAResource) List() (*SNMPDCAList, error) {
 	var msdcl SNMPDCAList
-	res, err := msdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := msdr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (msdr *SNMPDCAResource) List() (*SNMPDCAList, error) {
 
 func (msdr *SNMPDCAResource) Get(fullPathName string) (*SNMPDCA, error) {
 	var msdc SNMPDCA
-	res, err := msdr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := msdr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).SubStatsResource(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -79,7 +79,7 @@ func (msdr *SNMPDCAResource) Create(item SNMPDCA) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = msdr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = msdr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -93,7 +93,7 @@ func (msdr *SNMPDCAResource) Update(name string, item SNMPDCA) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = msdr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = msdr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).SubStatsResource(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func (msdr *SNMPDCAResource) Update(name string, item SNMPDCA) error {
 }
 
 func (msdr *SNMPDCAResource) Delete(name string) error {
-	_, err := msdr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := msdr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(MonitorEndpoint).SubResource(SNMPDCAEndpoint).SubResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err

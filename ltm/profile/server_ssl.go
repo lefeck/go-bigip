@@ -103,7 +103,7 @@ type ServerSSLResource struct {
 func (cr *ServerSSLResource) List() (*ServerSSLList, error) {
 	var items ServerSSLList
 	// Perform a GET request to retrieve a list of ServerSSL resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (cr *ServerSSLResource) List() (*ServerSSLList, error) {
 func (cr *ServerSSLResource) Get(fullPathName string) (*ServerSSL, error) {
 	var item ServerSSL
 	// Perform a GET request to retrieve a specific ServerSSL resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -143,7 +143,7 @@ func (cr *ServerSSLResource) Create(item ServerSSL) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new ServerSSL resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -161,7 +161,7 @@ func (cr *ServerSSLResource) Update(fullPathName string, item ServerSSL) error {
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified ServerSSL resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -172,7 +172,7 @@ func (cr *ServerSSLResource) Update(fullPathName string, item ServerSSL) error {
 // Delete removes a ServerSSL resource by its full path name.
 func (cr *ServerSSLResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified ServerSSL resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(ServerSSLEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

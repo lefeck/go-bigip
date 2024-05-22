@@ -49,7 +49,7 @@ type TCPAnalyticsResource struct {
 func (cr *TCPAnalyticsResource) List() (*TCPAnalyticsList, error) {
 	var items TCPAnalyticsList
 	// Perform a GET request to retrieve a list of TCPAnalytics resource objects
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPAnalyticsEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (cr *TCPAnalyticsResource) List() (*TCPAnalyticsList, error) {
 func (cr *TCPAnalyticsResource) Get(fullPathName string) (*TCPAnalytics, error) {
 	var item TCPAnalytics
 	// Perform a GET request to retrieve a specific TCPAnalytics resource by its full path name
-	res, err := cr.b.RestClient.Get().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	res, err := cr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPAnalyticsEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (cr *TCPAnalyticsResource) Create(item TCPAnalytics) error {
 	jsonString := string(jsonData)
 
 	// Perform a POST request to create a new TCPAnalytics resource using the JSON data
-	_, err = cr.b.RestClient.Post().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPAnalyticsEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -107,7 +107,7 @@ func (cr *TCPAnalyticsResource) Update(fullPathName string, item TCPAnalytics) e
 	jsonString := string(jsonData)
 
 	// Perform a PUT request to update the specified TCPAnalytics resource with the JSON data
-	_, err = cr.b.RestClient.Put().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err = cr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPAnalyticsEndpoint).SubResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -118,7 +118,7 @@ func (cr *TCPAnalyticsResource) Update(fullPathName string, item TCPAnalytics) e
 // Delete removes a TCPAnalytics resource by its full path name.
 func (cr *TCPAnalyticsResource) Delete(fullPathName string) error {
 	// Perform a DELETE request to delete the specified TCPAnalytics resource
-	_, err := cr.b.RestClient.Delete().Prefix(BasePath).ResourceCategory(TMResource).ManagerName(LtmManager).
+	_, err := cr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(ProfileEndpoint).SubResource(TCPAnalyticsEndpoint).SubResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

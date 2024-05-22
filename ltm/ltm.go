@@ -7,7 +7,7 @@ import (
 	"github.com/lefeck/go-bigip/ltm/profile"
 )
 
-// LtmManager is a commonly used basepath, providing a large number of api resource types
+// LtmManager is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
 const LtmManager = "ltm"
 
 // LTM implements a REST client for the F5 BigIP LTM API.

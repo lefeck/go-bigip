@@ -49,7 +49,7 @@ type RouteDomainResource struct {
 // List lists all the route domain urations.
 func (rdr *RouteDomainResource) List() (*RouteDomainList, error) {
 	var items RouteDomainList
-	res, err := rdr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).Resource(RouteDomainEndpoint).DoRaw(context.Background())
+	res, err := rdr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).Resource(RouteDomainEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (rdr *RouteDomainResource) List() (*RouteDomainList, error) {
 // Get a single route domain uration identified by name.
 func (rdr *RouteDomainResource) Get(fullPathName string) (*RouteDomain, error) {
 	var item RouteDomain
-	res, err := rdr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := rdr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteDomainEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (rdr *RouteDomainResource) Create(item RouteDomain) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = rdr.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = rdr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteDomainEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -95,7 +95,7 @@ func (rdr *RouteDomainResource) Edit(fullPathName string, item RouteDomain) erro
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = rdr.b.RestClient.Put().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = rdr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteDomainEndpoint).ResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -105,7 +105,7 @@ func (rdr *RouteDomainResource) Edit(fullPathName string, item RouteDomain) erro
 
 // Delete a single route domain uration identified by name.
 func (rdr *RouteDomainResource) Delete(fullPathName string) error {
-	_, err := rdr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err := rdr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteDomainEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err

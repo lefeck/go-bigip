@@ -39,7 +39,7 @@ type RouteResource struct {
 // List lists all the route urations.
 func (rr *RouteResource) List() (*RouteList, error) {
 	var rl RouteList
-	res, err := rr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).Resource(RouteEndpoint).DoRaw(context.Background())
+	res, err := rr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).Resource(RouteEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (rr *RouteResource) List() (*RouteList, error) {
 
 // Get a single route uration identified by id.
 func (rr *RouteResource) Get(fullPathName string) (*Route, error) {
-	res, err := rr.b.RestClient.Get().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	res, err := rr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (rr *RouteResource) Create(item Route) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = rr.b.RestClient.Post().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = rr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func (rr *RouteResource) Update(name string, item Route) error {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = rr.b.RestClient.Put().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err = rr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -96,7 +96,7 @@ func (rr *RouteResource) Update(name string, item Route) error {
 
 // Delete a single route uration identified by id.
 func (rr *RouteResource) Delete(name string) error {
-	_, err := rr.b.RestClient.Delete().Prefix(bigip.BasePath).ResourceCategory(bigip.TMResource).ManagerName(NetManager).
+	_, err := rr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(NetManager).
 		Resource(RouteEndpoint).ResourceInstance(name).DoRaw(context.Background())
 	if err != nil {
 		return err
