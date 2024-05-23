@@ -5,135 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/net/address_list.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sys/ipfix/ipfix.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sys/raid/disk.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sys/software/signature.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/version.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/version.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/const.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/test/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/test/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/test/test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/const.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/datagroup_internal.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/datagroup_internal.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/ifile.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ifile.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/ltm.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ltm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/members_stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/members_stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/const.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/diameter.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/diameter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/dns.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/dns.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/external.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/external.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/firepass.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/firepass.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/ftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/ftp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/gateway_icmp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/gateway_icmp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/http.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/https.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/https.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/icmp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/icmp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/imap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/imap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/inband.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/inband.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/ldap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/ldap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/module_score.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/module_score.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/monitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/monitor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/mssql.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/mssql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/mysql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/nntp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/nntp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/oracle.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/oracle.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/pop3.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/pop3.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/postgresql.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/postgresql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/radius.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/radius.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/radius_accounting.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/radius_accounting.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/realserver.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/realserver.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/rpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/rpc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/sasp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/sasp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/scripted.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/scripted.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/sip.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/sip.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/smb.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/smb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/smtp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/smtp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/snmp_dca.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/snmp_dca.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/snmp_dca_base.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/snmp_dca_base.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/soap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/soap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/tcp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/tcp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/tcp_echo.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/tcp_echo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/tcp_half_open.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/tcp_half_open.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/udp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/udp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/virtual_location.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/virtual_location.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/wap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/wap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/monitor/wmi.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/monitor/wmi.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/node.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/node.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/node_stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/node_stats.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/pool.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/pool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/pool_members.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/pool_members.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/pool_stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/pool_stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/certificate_authority.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/certificate_authority.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/client_ldap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/client_ldap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/client_ssl.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/client_ssl.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/connector.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/connector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/const.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/diameter.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/diameter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/dns.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/dns.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/fasthttp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/fasthttp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/fastl4.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/fastl4.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/fix.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/fix.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/ftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/ftp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/gtp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/gtp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/html.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/html.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/http.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/http2.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/http2.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/http3.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/http3.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/http_compression.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/http_compression.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/http_proxy_connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/http_proxy_connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/httprouter.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/httprouter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/icap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/icap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/imap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/imap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/mqtt.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/mqtt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/netflow.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/netflow.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/ntlm.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/ntlm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/ocsp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/ocsp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/one_connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/one_connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/pop3.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/pop3.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/pptp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/pptp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/profile.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/profile.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/qoe.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/qoe.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/quic.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/quic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/radius.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/radius.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/rewrite.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/rewrite.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/rtsp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/rtsp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/sctp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/sctp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/server_ldap.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/server_ldap.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/server_ssl.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/server_ssl.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/sip.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/sip.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/smtps.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/smtps.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/socks.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/socks.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/statistics.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/statistics.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/stream.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/stream.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/tcp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/tcp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/tcp_analytics.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/tcp_analytics.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/tdr.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/tdr.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/tftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/tftp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/udp.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/udp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/web_acceleration.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/web_acceleration.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/websocket.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/websocket.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/xml.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/xml.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/rule.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/rule.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/snatpool.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/snatpool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/virtual_address.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual_address_stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_address_stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual_stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/inet.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/inet.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/inet_stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/inet_stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/net.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/net.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/routedomain.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/routedomain.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/self.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/self.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/trunk.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/trunk.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/vlan.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/vlan.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/string.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/bash.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/bash.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/util.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,11 +108,11 @@
       <recent name="$PROJECT_DIR$/example" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/sys" />
       <recent name="$PROJECT_DIR$/ltm" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/example" />
       <recent name="$PROJECT_DIR$/ltm/profile" />
-      <recent name="$PROJECT_DIR$/ltm/monitor" />
     </key>
   </component>
   <component name="RunManager" selected="Go 构建.go build main.go">

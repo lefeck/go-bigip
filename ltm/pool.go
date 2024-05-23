@@ -192,11 +192,3 @@ func (pr *PoolResource) Delete(name string) error {
 //		}
 //		return nil
 //	}
-
-//func (pr *PoolResource) ShowStats(id string) (*PoolStatsList, error) {
-//	var item PoolStatsList
-//	if err := pr.c.ReadQuery(bigip.GetBaseResource()+PoolEndpoint+"/"+id+"/stats", &item); err != nil {
-//		return nil, err
-//	}
-//	return &item, nil
-//}

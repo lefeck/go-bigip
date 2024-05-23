@@ -122,7 +122,7 @@ type PoolStatsResource struct {
 }
 
 // https://192.168.13.91/mgmt/tm/ltm/pool/stats?expandSubcollections=true
-// https://192.168.13.91/mgmt/tm/ltm/pool/stats
+
 func (psr *PoolStatsResource) List() (*PoolStatsList, error) {
 	var psl PoolStatsList
 	res, err := psr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).

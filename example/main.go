@@ -9,6 +9,7 @@ import (
 	"github.com/lefeck/go-bigip/ltm"
 	"github.com/lefeck/go-bigip/ltm/monitor"
 	"github.com/lefeck/go-bigip/net"
+	"github.com/lefeck/go-bigip/sys"
 	"github.com/lefeck/go-bigip/util"
 	"log"
 	"os"
@@ -44,12 +45,15 @@ func main() {
 	//bs.listSnatPool()
 
 	//bs.ListICMP()
-	bs.ListNetAddressList()
+	//bs.ListNetAddressList()
 	//bs.CreateICMP()
 	//bs.UpdateICMP()
 	//bs.DeleteICMP()
 	// profile
 	//bs.ListProfileFastHttp()
+
+	// system resource about
+	bs.ListSysServiceList()
 }
 
 // this is a testing struct for bigip api
@@ -77,6 +81,21 @@ func (bs *bigipTest) ListNetAddressList() {
 	for _, icmp := range addrList.Items {
 		fullpath := icmp.FullPath
 		item, err := bg.AddressList().Get(fullpath)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(item)
+	}
+}
+
+func (bs *bigipTest) ListSysServiceList() {
+	bg := sys.New(bs.bigIP)
+	addrList, _ := bg.Service().List()
+	//fmt.Println(addrList)
+
+	for _, service := range addrList.Items {
+		fullpath := service.FullPath
+		item, err := bg.Service().Get(fullpath)
 		if err != nil {
 			panic(err)
 		}
