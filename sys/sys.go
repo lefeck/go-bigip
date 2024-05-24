@@ -7,8 +7,10 @@ package sys
 import (
 	"github.com/lefeck/go-bigip"
 	"github.com/lefeck/go-bigip/sys/application"
+	"github.com/lefeck/go-bigip/sys/crypto"
 	"github.com/lefeck/go-bigip/sys/disk"
 	"github.com/lefeck/go-bigip/sys/ipfix"
+	"github.com/lefeck/go-bigip/sys/pfman"
 	"github.com/lefeck/go-bigip/sys/raid"
 	"github.com/lefeck/go-bigip/sys/software"
 )
@@ -19,7 +21,6 @@ type Sys struct {
 	aOM AOMResource
 	//alert    AlertResource
 	//alertLCD AlertLCDResource
-
 	application    application.ApplicationResource
 	autoscaleGroup AutoscaleGroupResource
 	//classificationSignature ClassificationSignatureResource
@@ -28,15 +29,8 @@ type Sys struct {
 	connection ConnectionResource
 	console    ConsoleResource
 	cpuStats   CPUStatsResource
-	//crypto                              CryptoResource
-	//cryptoCRL                           CryptoCRLResource
-	//cryptoCSR                           CryptoCSRResource
-	//cryptoCert                          CryptoCertResource
-	//cryptoCheckCert                     CryptoCheckCertResource
-	//cryptoClient                        CryptoClientResource
-	//cryptoKey                           CryptoKeyResource
-	//cryptoPKCS12                        CryptoPKCS12Resource
-	//cryptoServer                        CryptoServerResource
+	crypto     crypto.CryptoResource
+
 	dB       DBResource
 	dNS      DNSResource
 	daemonHA DaemonHAResource
@@ -104,10 +98,9 @@ type Sys struct {
 	memoryStats     MemoryStatsResource
 	nTP             NTPResource
 	outboundSMTP    OutboundSMTPResource
-	//pFMan                               PFManResource
-	//pFManConsumer                       PFManConsumerResource
-	//pFManDevice                         PFManDeviceResource
-	pPTPCallInfo PPTPCallInfoResource
+	pFMan           pfman.PFManResource
+
+	//pPTPCallInfo PPTPCallInfoResource
 	//performance      PerformanceResource
 	provision        ProvisionResource
 	rAID             raid.RAIDResource
@@ -142,15 +135,8 @@ func New(b *bigip.BigIP) Sys {
 		connection: ConnectionResource{b: b},
 		console:    ConsoleResource{b: b},
 		cpuStats:   CPUStatsResource{b: b},
-		//crypto:                              CryptoResource{c: c},
-		//cryptoCRL:                           CryptoCRLResource{c: c},
-		//cryptoCSR:                           CryptoCSRResource{c: c},
-		//cryptoCert:                          CryptoCertResource{c: c},
-		//cryptoCheckCert:                     CryptoCheckCertResource{c: c},
-		//cryptoClient:                        CryptoClientResource{c: c},
-		//cryptoKey:                           CryptoKeyResource{c: c},
-		//cryptoPKCS12:                        CryptoPKCS12Resource{c: c},
-		//cryptoServer:                        CryptoServerResource{c: c},
+		crypto:     crypto.NewCrypto(b),
+
 		dB:       DBResource{b: b},
 		dNS:      DNSResource{b: b},
 		daemonHA: DaemonHAResource{b: b},
@@ -217,10 +203,8 @@ func New(b *bigip.BigIP) Sys {
 		memoryStats:     MemoryStatsResource{b: b},
 		nTP:             NTPResource{b: b},
 		outboundSMTP:    OutboundSMTPResource{b: b},
-		//pFMan:                 PFManResource{c: c},
-		//pFManConsumer:         PFManConsumerResource{c: c},
-		//pFManDevice:           PFManDeviceResource{b: b},
-		pPTPCallInfo: PPTPCallInfoResource{b: b},
+		pFMan:           pfman.NewPFMan(b),
+		//pPTPCallInfo: PPTPCallInfoResource{b: b},
 		//performance:      PerformanceResource{c: b},
 		provision:        ProvisionResource{b: b},
 		rAID:             raid.NewRAID(b),
@@ -298,50 +282,10 @@ func (sys Sys) CPUStats() *CPUStatsResource {
 	return &sys.cpuStats
 }
 
-//// crypto returns a configured CryptoResource.
-//func (sys Sys) Crypto() *CryptoResource {
-//	return &sys.crypto
-//}
-//
-//// cryptoCRL returns a configured CryptoCRLResource.
-//func (sys Sys) CryptoCRL() *CryptoCRLResource {
-//	return &sys.cryptoCRL
-//}
-//
-//// cryptoCSR returns a configured CryptoCSRResource.
-//func (sys Sys) CryptoCSR() *CryptoCSRResource {
-//	return &sys.cryptoCSR
-//}
-//
-//// cryptoCert returns a configured CryptoCertResource.
-//func (sys Sys) CryptoCert() *CryptoCertResource {
-//	return &sys.cryptoCert
-//}
-//
-//// cryptoCheckCert returns a configured CryptoCheckCertResource.
-//func (sys Sys) CryptoCheckCert() *CryptoCheckCertResource {
-//	return &sys.cryptoCheckCert
-//}
-//
-//// cryptoClient returns a configured CryptoClientResource.
-//func (sys Sys) CryptoClient() *CryptoClientResource {
-//	return &sys.cryptoClient
-//}
-//
-//// cryptoKey returns a configured CryptoKeyResource.
-//func (sys Sys) CryptoKey() *CryptoKeyResource {
-//	return &sys.cryptoKey
-//}
-//
-//// cryptoPKCS12 returns a configured CryptoPKCS12Resource.
-//func (sys Sys) CryptoPKCS12() *CryptoPKCS12Resource {
-//	return &sys.cryptoPKCS12
-//}
-//
-//// cryptoServer returns a configured CryptoServerResource.
-//func (sys Sys) CryptoServer() *CryptoServerResource {
-//	return &sys.cryptoServer
-//}
+// crypto returns a configured CryptoResource.
+func (sys Sys) Crypto() *crypto.CryptoResource {
+	return &sys.crypto
+}
 
 // dB returns a configured DBResource.
 func (sys Sys) DB() *DBResource {
@@ -682,26 +626,15 @@ func (sys Sys) OutboundSMTP() *OutboundSMTPResource {
 	return &sys.outboundSMTP
 }
 
-//
-//// pFMan returns a configured PFManResource.
-//func (sys Sys) PFMan() *PFManResource {
-//	return &sys.pFMan
-//}
-//
-//// pFManConsumer returns a configured PFManConsumerResource.
-//func (sys Sys) PFManConsumer() *PFManConsumerResource {
-//	return &sys.pFManConsumer
-//}
-//
-//// pFManDevice returns a configured PFManDeviceResource.
-//func (sys Sys) PFManDevice() *PFManDeviceResource {
-//	return &sys.pFManDevice
-//}
+// pFMan returns a configured PFManResource.
+func (sys Sys) PFMan() *pfman.PFManResource {
+	return &sys.pFMan
+}
 
 // pPTPCallInfo returns a configured PPTPCallInfoResource.
-func (sys Sys) PPTPCallInfo() *PPTPCallInfoResource {
-	return &sys.pPTPCallInfo
-}
+//func (sys Sys) PPTPCallInfo() *PPTPCallInfoResource {
+//	return &sys.pPTPCallInfo
+//}
 
 //// performance returns a configured PerformanceResource.
 //func (sys Sys) Performance() *PerformanceResource {

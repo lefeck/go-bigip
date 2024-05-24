@@ -1,67 +1,96 @@
-// Copyright e-Xpert Solutions SA. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+package pfman
 
-package sys
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/lefeck/go-bigip"
+	"strings"
+)
 
-import "github.com/e-XpertSolutions/f5-rest-client/f5"
-
-// PFManConsumerConfigList holds a list of PFManConsumer configuration.
-type PFManConsumerConfigList struct {
-	Items    []PFManConsumerConfig `json:"items"`
-	Kind     string                `json:"kind"`
-	SelfLink string                `json:"selflink"`
+// ConsumerList holds a list of Consumer configurations.
+type ConsumerList struct {
+	Items    []Consumer `json:"items"`
+	Kind     string     `json:"kind"`
+	SelfLink string     `json:"selflink"`
 }
 
-// PFManConsumerConfig holds the configuration of a single PFManConsumer.
-type PFManConsumerConfig struct {
+// Consumer holds the configuration of a single Consumer.
+type Consumer struct {
 }
 
-// PFManConsumerEndpoint represents the REST resource for managing PFManConsumer.
-const PFManConsumerEndpoint = "/pfman/consumer"
+// ConsumerEndpoint represents the REST resource for managing Consumer.
+const ConsumerEndpoint = "consumer"
 
-// PFManConsumerResource provides an API to manage PFManConsumer configurations.
-type PFManConsumerResource struct {
-	c *f5.Client
+// ConsumerResource provides an API to manage Consumer configurations.
+type ConsumerResource struct {
+	b *bigip.BigIP
 }
 
-// ListAll  lists all the PFManConsumer configurations.
-func (r *PFManConsumerResource) ListAll() (*PFManConsumerConfigList, error) {
-	var list PFManConsumerConfigList
-	if err := r.c.ReadQuery(bigip.GetBaseResource()+PFManConsumerEndpoint, &list); err != nil {
+// List retrieves all Consumer details.
+func (r *ConsumerResource) List() (*ConsumerList, error) {
+	var items ConsumerList
+	res, err := r.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(ConsumerEndpoint).DoRaw(context.Background())
+	if err != nil {
 		return nil, err
 	}
-	return &list, nil
+
+	if err := json.Unmarshal(res, &items); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &items, nil
 }
 
-// Get a single PFManConsumer configuration identified by id.
-func (r *PFManConsumerResource) Get(id string) (*PFManConsumerConfig, error) {
-	var item PFManConsumerConfig
-	if err := r.c.ReadQuery(bigip.GetBaseResource()+PFManConsumerEndpoint, &item); err != nil {
+// Get retrieves the details of a single Consumer by node name.
+func (r *ConsumerResource) Get(name string) (*Consumer, error) {
+	var item Consumer
+	res, err := r.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(ConsumerEndpoint).ResourceInstance(name).DoRaw(context.Background())
+	if err != nil {
 		return nil, err
+	}
+	if err := json.Unmarshal(res, &item); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
 	}
 	return &item, nil
 }
 
-// Create a new PFManConsumer configuration.
-func (r *PFManConsumerResource) Create(item PFManConsumerConfig) error {
-	if err := r.c.ModQuery("POST", bigip.GetBaseResource()+PFManConsumerEndpoint, item); err != nil {
+// Create creates a new Consumer item.
+func (r *ConsumerResource) Create(item Consumer) error {
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	_, err = r.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(ConsumerEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// Edit a PFManConsumer configuration identified by id.
-func (r *PFManConsumerResource) Edit(id string, item PFManConsumerConfig) error {
-	if err := r.c.ModQuery("PUT", bigip.GetBaseResource()+PFManConsumerEndpoint+"/"+id, item); err != nil {
+// Update modifies the Consumer item identified by the Consumer name.
+func (r *ConsumerResource) Update(name string, item Consumer) error {
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	_, err = r.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(ConsumerEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// Delete a single PFManConsumer configuration identified by id.
-func (r *PFManConsumerResource) Delete(id string) error {
-	if err := r.c.ModQuery("DELETE", bigip.GetBaseResource()+PFManConsumerEndpoint+"/"+id, nil); err != nil {
+// Delete a single Consumer identified by the Consumer name. If it does not exist, return an error.
+func (r *ConsumerResource) Delete(name string) error {
+	_, err := r.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(ConsumerEndpoint).ResourceInstance(name).DoRaw(context.Background())
+	if err != nil {
 		return err
 	}
 	return nil

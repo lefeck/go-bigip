@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="" />
+    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/example/gtm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sys/pfman/consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/pfman/consumer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sys/pfman/device.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/pfman/device.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sys/pfman/pfman.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/pfman/pfman.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sys/sys.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/sys.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/round_tripper.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/round_tripper_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/token.go" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,14 +109,14 @@
       <recent name="$PROJECT_DIR$/example" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/example/test" />
+      <recent name="$PROJECT_DIR$/gtm/monitor" />
       <recent name="$PROJECT_DIR$/sys" />
       <recent name="$PROJECT_DIR$/ltm" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/example" />
-      <recent name="$PROJECT_DIR$/ltm/profile" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.go build main.go">
+  <component name="RunManager" selected="Go 测试.github.com/lefeck/go-bigip/transport 中的 TestBasicAuthRoundTripper">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -116,31 +126,22 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="go build bigip.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build github.com/lefeck/go-bigip/example" type="GoApplicationRunConfiguration" factoryName="Go Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/go-bigip/example" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/example/dynamic_key_for_map.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build gtm.go" type="GoApplicationRunConfiguration" factoryName="Go Application" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="go-bigip" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
       <package value="github.com/lefeck/go-bigip" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/bigip.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build github.com/lefeck/go-bigip/example (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip/example" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/example/struct.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build github.com/lefeck/go-bigip/example/test" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip/example/test" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/example/test/main.go" />
+      <filePath value="$PROJECT_DIR$/example/gtm.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -171,13 +172,25 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <configuration name="github.com/lefeck/go-bigip/transport 中的 TestBasicAuthRoundTripper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$/transport" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/go-bigip/transport" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestBasicAuthRoundTripper\E$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/transport 中的 TestBasicAuthRoundTripper" />
+        <item itemvalue="Go 构建.go build github.com/lefeck/go-bigip/example" />
+        <item itemvalue="Go 构建.go build gtm.go" />
         <item itemvalue="Go 构建.go build main.go" />
         <item itemvalue="Go 构建.go build test.go" />
-        <item itemvalue="Go 构建.go build github.com/lefeck/go-bigip/example/test" />
-        <item itemvalue="Go 构建.go build bigip.go" />
-        <item itemvalue="Go 构建.go build github.com/lefeck/go-bigip/example (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -224,11 +237,6 @@
           <url>file://$PROJECT_DIR$/example/test/main.go</url>
           <line>575</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/transport/round_tripper.go</url>
-          <line>8</line>
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -25,6 +25,11 @@ func HTTPWrappersFor(config *Config, rt http.RoundTripper) (http.RoundTripper, e
 	return rt, nil
 }
 
+type RoundTripperWrapper interface {
+	http.RoundTripper
+	WrappedRoundTripper() http.RoundTripper
+}
+
 type basicAuthRoundTripper struct {
 	username string
 	password string

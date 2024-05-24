@@ -1,68 +1,98 @@
-// Copyright e-Xpert Solutions SA. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+package pfman
 
-package sys
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/lefeck/go-bigip"
+	"strings"
+)
 
-import "github.com/e-XpertSolutions/f5-rest-client/f5"
-
-// PFManDeviceConfigList holds a list of PFManDevice configuration.
-type PFManDeviceConfigList struct {
-	Items    []PFManDeviceConfig `json:"items"`
-	Kind     string              `json:"kind"`
-	SelfLink string              `json:"selflink"`
+// DeviceList holds a list of Device configurations.
+type DeviceList struct {
+	Items    []Device `json:"items"`
+	Kind     string   `json:"kind"`
+	SelfLink string   `json:"selflink"`
 }
 
-// PFManDeviceConfig holds the configuration of a single PFManDevice.
-type PFManDeviceConfig struct {
+// Device holds the configuration of a single Device.
+type Device struct {
 }
 
-// PFManDeviceEndpoint represents the REST resource for managing PFManDevice.
-const PFManDeviceEndpoint = "/pfman/device"
+// DeviceEndpoint represents the REST resource for managing Device.
+const DeviceEndpoint = "device"
 
-// PFManDeviceResource provides an API to manage PFManDevice configurations.
-type PFManDeviceResource struct {
-	c *f5.Client
+// DeviceResource provides an API to manage Device configurations.
+type DeviceResource struct {
+	b *bigip.BigIP
 }
 
-// ListAll  lists all the PFManDevice configurations.
-func (r *PFManDeviceResource) ListAll() (*PFManDeviceConfigList, error) {
-	var list PFManDeviceConfigList
-	if err := r.c.ReadQuery(bigip.GetBaseResource()+PFManDeviceEndpoint, &list); err != nil {
+// List retrieves all Device details.
+func (r *DeviceResource) List() (*DeviceList, error) {
+	var items DeviceList
+	res, err := r.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(DeviceEndpoint).DoRaw(context.Background())
+	if err != nil {
 		return nil, err
 	}
-	return &list, nil
+
+	if err := json.Unmarshal(res, &items); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
+	}
+	return &items, nil
 }
 
-// Get a single PFManDevice configuration identified by id.
-func (r *PFManDeviceResource) Get(id string) (*PFManDeviceConfig, error) {
-	var item PFManDeviceConfig
-	if err := r.c.ReadQuery(bigip.GetBaseResource()+PFManDeviceEndpoint, &item); err != nil {
+// Get retrieves the details of a single Device by node name.
+func (r *DeviceResource) Get(name string) (*Device, error) {
+	var item Device
+	res, err := r.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(DeviceEndpoint).ResourceInstance(name).DoRaw(context.Background())
+	if err != nil {
 		return nil, err
+	}
+	if err := json.Unmarshal(res, &item); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON data: %s\n", err)
 	}
 	return &item, nil
 }
 
-// Create a new PFManDevice configuration.
-func (r *PFManDeviceResource) Create(item PFManDeviceConfig) error {
-	if err := r.c.ModQuery("POST", bigip.GetBaseResource()+PFManDeviceEndpoint, item); err != nil {
+// Create creates a new Device item.
+func (r *DeviceResource) Create(item Device) error {
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	_, err = r.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(DeviceEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// Edit a PFManDevice configuration identified by id.
-func (r *PFManDeviceResource) Edit(id string, item PFManDeviceConfig) error {
-	if err := r.c.ModQuery("PUT", bigip.GetBaseResource()+PFManDeviceEndpoint+"/"+id, item); err != nil {
+// Update modifies the Device item identified by the Device name.
+func (r *DeviceResource) Update(name string, item Device) error {
+	jsonData, err := json.Marshal(item)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON data: %w", err)
+	}
+	jsonString := string(jsonData)
+	_, err = r.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(DeviceEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// Delete a single PFManDevice configuration identified by id.
-func (r *PFManDeviceResource) Delete(id string) error {
-	if err := r.c.ModQuery("DELETE", bigip.GetBaseResource()+PFManDeviceEndpoint+"/"+id, nil); err != nil {
+// Delete a single Device identified by the Device name. If it does not exist, return an error.
+func (r *DeviceResource) Delete(name string) error {
+	_, err := r.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(SysManager).
+		Resource(PFManEndpoint).SubResource(DeviceEndpoint).ResourceInstance(name).DoRaw(context.Background())
+	if err != nil {
 		return err
 	}
+
 	return nil
 }

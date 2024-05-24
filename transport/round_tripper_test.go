@@ -13,7 +13,6 @@ func TestBasicAuthRoundTripper(t *testing.T) {
 	password := "admin23423"
 	expectedAuthHeader := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(username+":"+password)))
 
-	// 创建一个简单的 HTTP Server
 	ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
 		if authHeader != expectedAuthHeader {
@@ -24,13 +23,11 @@ func TestBasicAuthRoundTripper(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	// 创建一个新的请求
 	req, err := http.NewRequest(http.MethodGet, ts.URL, nil)
 	if err != nil {
 		t.Fatalf("Error creating request: %v", err)
 	}
 
-	// 设置 BasicAuthRoundTripper
 	client := &http.Client{
 		Transport: NewBasicAuthRoundTripper(username, password, ts.Client().Transport),
 	}
@@ -49,7 +46,6 @@ func TestBearerAuthRoundTripper(t *testing.T) {
 	bearerToken := "123josd235l0o2lf;235rj"
 	expectedAuthHeader := fmt.Sprintf("Bearer %s", bearerToken)
 
-	// 创建一个简单的 HTTP Server
 	ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
 		if authHeader != expectedAuthHeader {
@@ -60,15 +56,13 @@ func TestBearerAuthRoundTripper(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	// 创建一个新的请求
 	req, err := http.NewRequest(http.MethodGet, ts.URL, nil)
 	if err != nil {
 		t.Fatalf("Error creating request: %v", err)
 	}
 
-	// 设置 BearerAuthRoundTripper
 	client := &http.Client{
-		Transport: NewBearerAuthRoundTripper(bearerToken, ts.Client().Transport),
+		Transport: NewTokenAuthRoundTripper(bearerToken, ts.Client().Transport),
 	}
 
 	resp, err := client.Do(req)
