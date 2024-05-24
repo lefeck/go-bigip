@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/example/gtm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/pfman/consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/pfman/consumer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/pfman/device.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/pfman/device.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/pfman/pfman.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/pfman/pfman.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/sys.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/sys.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/transport/round_tripper.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/round_tripper_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/transport/round_tripper_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transport/token.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +219,8 @@
     <MESSAGE value="modify profile and monitor function" />
     <MESSAGE value="adding token login function" />
     <MESSAGE value="adding sys module function" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding sys module function" />
+    <MESSAGE value="adding gtm module function" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding gtm module function" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

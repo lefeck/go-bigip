@@ -96,21 +96,6 @@ func (rt *tokenAuthRoundTripper) WrappedRoundTripper() http.RoundTripper {
 	return rt.rt
 }
 
-//func NewBearerAuthWithRefreshRoundTripper(bearer string, tokenFile string, rt http.RoundTripper) (http.RoundTripper, error) {
-//	if len(tokenFile) == 0 {
-//		return &bearerAuthRoundTripper{bearer, nil, rt}, nil
-//	}
-//	source := NewCachedFileTokenSource(tokenFile)
-//	if len(bearer) == 0 {
-//		token, err := source.Token()
-//		if err != nil {
-//			return nil, err
-//		}
-//		bearer = token.AccessToken
-//	}
-//	return &bearerAuthRoundTripper{bearer, source, rt}, nil
-//}
-
 // CloneRequest creates a shallow copy of the request along with a deep copy of the Headers.
 func CloneRequest(req *http.Request) *http.Request {
 	r := new(http.Request)
