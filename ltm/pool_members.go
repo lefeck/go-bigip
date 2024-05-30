@@ -43,12 +43,12 @@ type PoolMembers struct {
 // PoolMembersEndpoint represents the REST resource for managing pool members.
 const poolMembersEndpoint = "members"
 
-// PoolMembersResource provides an API to manage pool members uration.
+// PoolMembersResource provides an API to manage pool members object.
 type PoolMembersResource struct {
 	b *bigip.BigIP
 }
 
-// lists all the pool members urations.
+// lists all the pool members.
 func (pmr *PoolMembersResource) List(pool string) (*PoolMembersList, error) {
 	var pml PoolMembersList
 	res, err := pmr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).

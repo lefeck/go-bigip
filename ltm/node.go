@@ -8,12 +8,14 @@ import (
 	"strings"
 )
 
+// NodeList is a list containing multiple Node objects.
 type NodeList struct {
 	Kind     string `json:"kind"`
 	SelfLink string `json:"selfLink"`
 	Items    []Node `json:"items"`
 }
 
+// Node represents an F5 BIG-IP LTM Node configuration.
 type Node struct {
 	Kind            string `json:"kind"`
 	Name            string `json:"name"`
@@ -39,8 +41,10 @@ type Node struct {
 	State     string `json:"state"`
 }
 
+// NodeEndpoint represents the REST resource for managing Node.
 const NodeEndpoint = "node"
 
+// NodeResource provides an API to manage node object.
 type NodeResource struct {
 	b *bigip.BigIP
 }

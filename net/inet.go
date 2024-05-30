@@ -49,7 +49,7 @@ type Interface struct {
 // InterfaceEndpoint represents the REST resource for managing interfaces.
 const InterfaceEndpoint = "interface"
 
-// A InetResource provides an API to manage Interface urations.
+// A InetResource provides an API to manage Interface object.
 type InetResource struct {
 	b *bigip.BigIP
 }

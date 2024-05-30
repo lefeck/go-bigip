@@ -8,14 +8,14 @@ import (
 	"strings"
 )
 
-// A AddressList holds a list of Address.
+// AddressList contains a list of Address.
 type AddressList struct {
 	Items    []Address `json:"items,omitempty"`
 	Kind     string    `json:"kind,omitempty"`
 	SelfLink string    `json:"selfLink,omitempty"`
 }
 
-// A Address hold the uration for a Address.
+// A Address contains Address .
 type Address struct {
 	Kind       string `json:"kind"`
 	Name       string `json:"name"`

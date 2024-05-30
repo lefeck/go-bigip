@@ -7,7 +7,7 @@ import (
 	"github.com/lefeck/go-bigip/ltm/profile"
 )
 
-// LtmManager is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
+// LtmManager is a commonly used ltm providing a large number of api resource types
 const LtmManager = "ltm"
 
 // LTM implements a REST client for the F5 BigIP LTM API.
@@ -23,6 +23,8 @@ type LTM struct {
 	snatPool            SnatPoolResource
 	node                NodeResource
 	nodeStats           NodeStatsResource
+
+	trafficMatchingCriteriaResource TrafficMatchingCriteriaResource
 
 	iFile             IFileResource
 	dataGroupInternal DataGroupInternalResource
@@ -48,6 +50,8 @@ func New(b *bigip.BigIP) LTM {
 		rule:                RuleResource{b: b},
 		node:                NodeResource{b: b},
 		nodeStats:           NodeStatsResource{b: b},
+
+		trafficMatchingCriteriaResource: TrafficMatchingCriteriaResource{b: b},
 
 		iFile:             IFileResource{b: b},
 		dataGroupInternal: DataGroupInternalResource{b: b},
@@ -98,6 +102,10 @@ func (ltm LTM) PoolStats() *PoolStatsResource {
 
 func (ltm LTM) NodeStats() *NodeStatsResource {
 	return &ltm.nodeStats
+}
+
+func (ltm LTM) TrafficMatchingCriteria() *TrafficMatchingCriteriaResource {
+	return &ltm.trafficMatchingCriteriaResource
 }
 
 // IFile returns an IFileResource ured to query /tm/ltm/ifile API.

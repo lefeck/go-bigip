@@ -8,11 +8,14 @@ import (
 	"github.com/lefeck/go-bigip/cli"
 	"github.com/lefeck/go-bigip/ltm"
 	"github.com/lefeck/go-bigip/ltm/monitor"
-	"github.com/lefeck/go-bigip/net"
+	bgnet "github.com/lefeck/go-bigip/net"
 	"github.com/lefeck/go-bigip/sys"
 	"github.com/lefeck/go-bigip/util"
 	"log"
+	"net"
 	"os"
+	"regexp"
+	"strings"
 )
 
 /*
@@ -33,6 +36,7 @@ func main() {
 	//bs.createPoolMembers()
 	//bs.updatePoolMembers()
 	//bs.deletePoolMembers()
+
 	//bs.listPoolStats()
 	//bs.getSinglePoolStats()
 	//bs.getSingleMemberStats()
@@ -42,8 +46,14 @@ func main() {
 	//bs.listVirtualAddressStats()
 	//bs.getSingleVirtualAddressStats()
 	//bs.listVirtualServerDetail()
+
 	//bs.listSnatPool()
 
+	//bs.listVirtualServer()
+
+	//bs.ListNetRouteDomain()
+	//
+	//bs.virtualAddressList()
 	//bs.ListICMP()
 	//bs.ListNetAddressList()
 	//bs.CreateICMP()
@@ -53,7 +63,13 @@ func main() {
 	//bs.ListProfileFastHttp()
 
 	// system resource about
-	bs.ListSysServiceList()
+	//bs.ListSysServiceList()
+
+	bs.ListTrafficMatchingCriteria()
+
+	//bs.ListNetPortList()
+
+	//bs.createNetPortList()
 }
 
 // this is a testing struct for bigip api
@@ -73,8 +89,124 @@ func (bs *bigipTest) init() {
 	bs.bigIP = b
 }
 
+func (bs *bigipTest) ListTrafficMatchingCriteria() {
+	bg := ltm.New(bs.bigIP)
+	routeDomainList, _ := bg.TrafficMatchingCriteria().List()
+	fmt.Println(routeDomainList)
+
+	for _, icmp := range routeDomainList.Items {
+		fullpath := icmp.FullPath
+		item, err := bg.TrafficMatchingCriteria().Get(fullpath)
+		if err != nil {
+			log.Fatalf("route domain get failed %v\n", err)
+		}
+		bt, _ := json.Marshal(item)
+		fmt.Println(string(bt))
+	}
+}
+
+func (bs *bigipTest) ListNetPortList() {
+	bg := bgnet.New(bs.bigIP)
+	routeDomainList, _ := bg.PortList().List()
+	fmt.Println(routeDomainList)
+
+	for _, icmp := range routeDomainList.Items {
+		fullpath := icmp.FullPath
+		item, err := bg.PortList().Get(fullpath)
+		if err != nil {
+			log.Fatalf("route domain get failed %v\n", err)
+		}
+		bt, _ := json.Marshal(item)
+		fmt.Println(string(bt))
+	}
+}
+
+func (bs *bigipTest) createNetPortList() {
+	bg := bgnet.New(bs.bigIP)
+	item := bgnet.Port{
+		Name: "hello-portlist",
+		Ports: []bgnet.PortMember{
+			{
+				Name: "89",
+			},
+			{
+				Name: "8009",
+			},
+		},
+	}
+	_ = bg.PortList().Create(item)
+}
+
+func (bs *bigipTest) ListNetRouteDomain() {
+	bg := bgnet.New(bs.bigIP)
+	routeDomainList, _ := bg.RouteDomain().List()
+	//fmt.Println(routeDomainList)
+
+	for _, icmp := range routeDomainList.Items {
+		fullpath := icmp.FullPath
+		item, err := bg.RouteDomain().Get(fullpath)
+		if err != nil {
+			log.Fatalf("route domain get failed %v\n", err)
+		}
+		bt, _ := json.Marshal(item)
+		fmt.Println(string(bt))
+	}
+}
+
+func (bs *bigipTest) listVirtualServer() {
+	bg := ltm.New(bs.bigIP)
+	vs, _ := bg.Virtual().List()
+	fmt.Println(vs.Items)
+	for _, va := range vs.Items {
+		name := va.FullPath
+		vs, err := bg.Virtual().Get(name)
+		if err != nil {
+			panic(err)
+		}
+		// destination中地址， 判断vs地址 ipv4地址还是ipv6地址， 如果是ipv4地址， 就去除最后的:port, 获取vs的virtualAddress获取真的地址， 如果是ipv6地址就
+		//
+		fmt.Printf("virtual server name : %s, %s\n", vs.FullPath, vs.Destination)
+		des := removePort(vs.Destination)
+		addrs, _ := extractAddressWithoutPort(vs.Destination)
+		fmt.Println(addrs)
+		addr, err := bg.VirtualAddress().GetAddressByVirtualServerName(des)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("virtual address name : %s\n", addr)
+	}
+}
+
+func isIPv4(ipStr string) bool {
+	ip := net.ParseIP(ipStr)
+	return ip != nil && ip.To4() != nil
+}
+
+func isIPv6(ipStr string) bool {
+	ip := net.ParseIP(ipStr)
+	return ip != nil && ip.To4() == nil && ip.To16() != nil
+}
+
+func extractAddressWithoutPort(vsAddress string) (string, error) {
+	re := regexp.MustCompile(`/(?P<Partition>[^/]+)/((?P<Address>[0-9a-fA-F:]+)(?P<RouteDomain>%\d+))\.(?P<Port>\d+)$`)
+	matches := re.FindStringSubmatch(vsAddress)
+
+	if matches == nil {
+		return "", fmt.Errorf("无法匹配给定的虚拟服务器地址")
+	}
+
+	result := make(map[string]string)
+	for i, name := range re.SubexpNames() {
+		if i != 0 && name != "" {
+			result[name] = matches[i]
+		}
+	}
+
+	return "/" + result["Partition"] + "/" + result["Address"] + result["RouteDomain"], nil
+}
+
 func (bs *bigipTest) ListNetAddressList() {
-	bg := net.New(bs.bigIP)
+	bg := bgnet.New(bs.bigIP)
 	addrList, _ := bg.AddressList().List()
 	fmt.Println(addrList)
 
@@ -311,19 +443,11 @@ func (bs *bigipTest) listUser() {
 	user, _ := bga.Users().List()
 	fmt.Println(user)
 }
-
-func (bs *bigipTest) listVirtualServer() {
-	bg := ltm.New(bs.bigIP)
-	vs, _ := bg.Virtual().List()
-	fmt.Println(vs.Items)
-	for _, va := range vs.Items {
-		name := va.FullPath
-		address, err := bg.Virtual().Get(name)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(address.Name)
+func removePort(address string) string {
+	if index := strings.LastIndex(address, ":"); index != -1 {
+		return address[:index]
 	}
+	return address
 }
 
 func (bs *bigipTest) listVirtualServerDetail() {
@@ -572,8 +696,9 @@ func (bs *bigipTest) createPoolMembers() {
 }
 
 /*
-Enabled --->
-Forced --> "state": "unchecked"
+Enabled           ---> "state": "up"
+Disabled          ---> "state": "unchecked"
+Forced Offline    ---> "state": "user-down"
 */
 func (bs *bigipTest) updatePoolMembers() {
 	bg := ltm.New(bs.bigIP)
