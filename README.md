@@ -1,7 +1,6 @@
 # go-bigip
 
-go-bigip provides a flexible Restfull API interface for users using bigip, so users can easily use it to solve various problems according to their own situation.
-
+go-bigip offers a flexible REST API interface for users working with bigip, making it easy for them to address various problems according to their specific needs.
 ## Installation
 
 ```
