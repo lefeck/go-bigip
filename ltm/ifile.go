@@ -9,9 +9,9 @@ import (
 )
 
 type IFileList struct {
-	Items    []IFile `json:"items"`
-	Kind     string  `json:"kind"`
-	SelfLink string  `json:"selflink"`
+	Kind     string  `json:"kind,omitempty"`
+	SelfLink string  `json:"selfLink,omitempty"`
+	Items    []IFile `json:"items,omitempty"`
 }
 
 type IFile struct {

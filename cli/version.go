@@ -7,39 +7,27 @@ import (
 )
 
 type VersionStats struct {
-	Kind     string  `json:"kind"`
-	SelfLink string  `json:"selfLink"`
-	Entries  Entries `json:"entries"`
+	Kind     string           `json:"kind,omitempty"`
+	SelfLink string           `json:"selfLink,omitempty"`
+	Entries  map[string]Entry `json:"entries,omitempty"`
 }
 
-type Entries struct {
-	HTTPSLocalhostMgmtTmCliVersion0 HTTPSLocalhostMgmtTmCliVersion0 `json:"https://localhost/mgmt/tm/cli/version/0"`
-}
-
-type HTTPSLocalhostMgmtTmCliVersion0 struct {
-	NestedStats NestedStats `json:"nestedStats"`
+type Entry struct {
+	NestedStats NestedStats `json:"nestedStats,omitempty"`
 }
 
 type NestedStats struct {
-	EntriesMenu EntriesMenu `json:"entries"`
+	EntriesMenu EntriesMenu `json:"entries,omitempty"`
 }
 
 type EntriesMenu struct {
-	Active    Active    `json:"active"`
-	Latest    Latest    `json:"latest"`
-	Supported Supported `json:"supported"`
+	Active    Description `json:"active,omitempty"`
+	Latest    Description `json:"latest,omitempty"`
+	Supported Description `json:"supported,omitempty"`
 }
 
-type Active struct {
-	Description string `json:"description"`
-}
-
-type Latest struct {
-	Description string `json:"description"`
-}
-
-type Supported struct {
-	Description string `json:"description"`
+type Description struct {
+	Description string `json:"description,omitempty"`
 }
 
 type VersionStatsResoure struct {
@@ -49,8 +37,8 @@ type VersionStatsResoure struct {
 // VersionEndpoint is the base path of the TM API.
 const VersionEndpoint = "version"
 
-// Get bigip device version
-func (vsr *VersionStatsResoure) Get() (*VersionStats, error) {
+// Show bigip device version
+func (vsr *VersionStatsResoure) Show() (*VersionStats, error) {
 	var vs *VersionStats
 	res, err := vsr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(CliManager).
 		Resource(VersionEndpoint).DoRaw(context.Background())

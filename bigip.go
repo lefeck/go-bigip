@@ -15,7 +15,7 @@ import (
 const TimeFormat = "2006-01-02T15:04:05.000-0700"
 
 // DefaultTimeout defines the default timeout for HTTP clients.
-var DefaultTimeout = 60 * time.Second
+var DefaultTimeout time.Duration = 60
 
 // BigIP struct contains a pointer to the RESTClient
 type BigIP struct {

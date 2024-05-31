@@ -9,24 +9,24 @@ import (
 )
 
 type DataGroupInternalList struct {
-	Items    []DataGroupInternal `json:"items"`
-	Kind     string              `json:"kind"`
-	SelfLink string              `json:"selfLink"`
+	Items    []DataGroupInternal `json:"items,omitempty"`
+	Kind     string              `json:"kind,omitempty"`
+	SelfLink string              `json:"selfLink,omitempty"`
 }
 
 type DataGroupInternal struct {
-	Description string `json:"description"`
-	FullPath    string `json:"fullPath"`
-	Generation  int    `json:"generation"`
-	Kind        string `json:"kind"`
-	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+	FullPath    string `json:"fullPath,omitempty"`
+	Generation  int    `json:"generation,omitempty"`
+	Kind        string `json:"kind,omitempty"`
+	Name        string `json:"name,omitempty"`
 	Records     []struct {
-		Data string `json:"data"`
-		Name string `json:"name"`
-	} `json:"records"`
-	SelfLink  string `json:"selfLink"`
-	Type      string `json:"type"`
-	Partition string `json:"partition"`
+		Data string `json:"data,omitempty"`
+		Name string `json:"name,omitempty"`
+	} `json:"records,omitempty"`
+	SelfLink  string `json:"selfLink,omitempty"`
+	Type      string `json:"type,omitempty"`
+	Partition string `json:"partition,omitempty"`
 }
 
 const DataGroupInternalEndpoint = "/data-group/internal"

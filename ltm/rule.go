@@ -17,6 +17,11 @@ type RuleList struct {
 
 // Rule contains only the iRule uration.
 type Rule struct {
+	Name                string `json:"name,omitempty"`
+	Partition           string `json:"partition,omitempty"`
+	FullPath            string `json:"fullPath,omitempty"`
+	SelfLink            string `json:"selfLink,omitempty"`
+	ApiAnonymous        string `json:"apiAnonymous,omitempty"`
 	Action              string `json:"action,omitempty"`
 	AppService          string `json:"appService,omitempty"`
 	DefinitionChecksum  string `json:"definitionChecksum,omitempty"`
@@ -29,12 +34,6 @@ type Rule struct {
 	Plugin              string `json:"plugin,omitempty"`
 	PublicCert          string `json:"publicCert,omitempty"`
 	SigningKey          string `json:"signingKey,omitempty"`
-
-	Name         string `json:"name,omitempty"`
-	Partition    string `json:"partition,omitempty"`
-	FullPath     string `json:"fullPath,omitempty"`
-	SelfLink     string `json:"selfLink,omitempty"`
-	ApiAnonymous string `json:"apiAnonymous,omitempty"`
 }
 
 // RuleEndpoint represents the REST resource for managing iRule urations.

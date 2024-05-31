@@ -27,6 +27,8 @@ import (
 func main() {
 	bs := &bigipTest{}
 	bs.init()
+
+	bs.getVersion()
 	//bs.listRules()
 	//bs.listPool()
 	//bs.createPool()
@@ -49,6 +51,8 @@ func main() {
 
 	//bs.listSnatPool()
 
+	//bs.createVirtualServer()
+
 	//bs.listVirtualServer()
 
 	//bs.ListNetRouteDomain()
@@ -65,7 +69,9 @@ func main() {
 	// system resource about
 	//bs.ListSysServiceList()
 
-	bs.ListTrafficMatchingCriteria()
+	//bs.ListTrafficMatchingCriteria()
+	//bs.ListTrafficMatchingCriteriaName()
+	//bs.CreateTrafficMatchingCriteria()
 
 	//bs.ListNetPortList()
 
@@ -79,7 +85,7 @@ type bigipTest struct {
 
 func (bs *bigipTest) init() {
 	//b, err := bigip.NewSession("192.168.13.91", "admin", "MsTac@2001")
-	//optionTimeout := bigip.WithTimeout(1200 * time.Second)
+	//optionTimeout := bigip.WithTimeout(1200)
 
 	b, err := bigip.NewToken("192.168.13.91", "admin", "MsTac@2001", "local")
 	//b, err := bigip.NewToken("192.168.13.91", "admin", "MsTac@2001", "local", optionTimeout)
@@ -102,6 +108,59 @@ func (bs *bigipTest) ListTrafficMatchingCriteria() {
 		}
 		bt, _ := json.Marshal(item)
 		fmt.Println(string(bt))
+	}
+}
+
+func (bs *bigipTest) ListTrafficMatchingCriteriaName() {
+	bg := ltm.New(bs.bigIP)
+	routeDomainList, _ := bg.TrafficMatchingCriteria().ListName()
+	fmt.Println(routeDomainList)
+}
+
+func (bs *bigipTest) CreateTrafficMatchingCriteria() {
+	bg := ltm.New(bs.bigIP)
+	item := ltm.TrafficMatchingCriteria{
+		Name:                     "vs-testdeom",
+		DestinationAddressInline: "0.0.0.0",
+		DestinationAddressList:   "/Common/pp1",
+
+		DestinationPortInline: "0",
+		DestinationPortList:   "/Common/_sys_self_allow_udp_defaults",
+
+		Protocol:            "udp",
+		RouteDomain:         "any",
+		SourceAddressInline: "0.0.0.0",
+		SourceAddressList:   "/Common/pp2",
+		SourcePortInline:    0,
+	}
+
+	err := bg.TrafficMatchingCriteria().Create(item)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (bs *bigipTest) UpdateTrafficMatchingCriteria() {
+	bg := ltm.New(bs.bigIP)
+	name := "/Common/vs-testdeom"
+	item := ltm.TrafficMatchingCriteria{
+		Name:                     "vs-testdeom",
+		DestinationAddressInline: "0.0.0.0",
+		DestinationAddressList:   "/Common/pp1",
+
+		DestinationPortInline: "0",
+		DestinationPortList:   "/Common/_sys_self_allow_udp_defaults",
+
+		Protocol:            "udp",
+		RouteDomain:         "any",
+		SourceAddressInline: "0.0.0.0",
+		SourceAddressList:   "/Common/pp2",
+		SourcePortInline:    2,
+	}
+
+	err := bg.TrafficMatchingCriteria().Update(name, item)
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
@@ -413,11 +472,11 @@ func (bs *bigipTest) virtualAddressList() {
 func (bs *bigipTest) getVersion() {
 
 	bga := cli.NewCli(bs.bigIP)
-	version, _ := bga.Version().Get()
-	fmt.Println(version.Entries.HTTPSLocalhostMgmtTmCliVersion0.NestedStats.EntriesMenu.Supported)
+	version, _ := bga.Version().Show()
+	//fmt.Println(version.NestedStats.EntriesMenu.Supported)
 
-	//bt, _ := json.Marshal(version)
-	//fmt.Println(string(bt))
+	bt, _ := json.Marshal(version)
+	fmt.Println(string(bt))
 }
 
 func (bs *bigipTest) useUtil() {
@@ -566,10 +625,20 @@ func (bs *bigipTest) createVirtualServer() {
 	bg := ltm.New(bs.bigIP)
 
 	item := ltm.VirtualServer{
-		Name:                     "hello-vs1",
-		Destination:              "192.168.83.23:90",
+		Name:                     "hello-vs13",
+		Source:                   "0.0.0.0/32",
+		Destination:              "/Common/10.50.11.91:90",
 		Mask:                     "255.255.255.255",
 		SourceAddressTranslation: ltm.SourceAddressTranslation{Type: "automap"},
+		//AddressStatus:            "yes",
+		//AutoLasthop:              "default",
+		//CmpEnabled:               "yes",
+		//EvictionProtected:        "disabled",
+		//IPProtocol:               "tcp",
+		//Mirror:                   "disabled",
+		//MobileAppTunnel:          "disabled",
+		//Nat64:                    "disabled",
+		//RateLimit:                "disabled",
 	}
 
 	if err := bg.Virtual().Create(item); err != nil {

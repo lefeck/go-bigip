@@ -1,7 +1,3 @@
-// Copyright 2016 e-Xpert Solutions SA. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package net
 
 import (
@@ -21,21 +17,21 @@ type RouteDomainList struct {
 
 // A RouteDomain includes the uration for a route domain.
 type RouteDomain struct {
-	Kind               string   `json:"kind"`
-	Name               string   `json:"name"`
-	Partition          string   `json:"partition"`
-	FullPath           string   `json:"fullPath"`
-	Generation         int      `json:"generation"`
-	SelfLink           string   `json:"selfLink"`
-	ConnectionLimit    int      `json:"connectionLimit"`
-	ID                 int      `json:"id"`
-	Strict             string   `json:"strict"`
-	ThroughputCapacity string   `json:"throughputCapacity"`
-	RoutingProtocol    []string `json:"routingProtocol"`
-	Vlans              []string `json:"vlans"`
+	Kind               string   `json:"kind,omitempty"`
+	Name               string   `json:"name,omitempty"`
+	Partition          string   `json:"partition,omitempty"`
+	FullPath           string   `json:"fullPath,omitempty"`
+	Generation         int      `json:"generation,omitempty"`
+	SelfLink           string   `json:"selfLink,omitempty"`
+	ConnectionLimit    int      `json:"connectionLimit,omitempty"`
+	ID                 int      `json:"id,omitempty"`
+	Strict             string   `json:"strict,omitempty"`
+	ThroughputCapacity string   `json:"throughputCapacity,omitempty"`
+	RoutingProtocol    []string `json:"routingProtocol,omitempty"`
+	Vlans              []string `json:"vlans,omitempty"`
 	VlansReference     []struct {
-		Link string `json:"link"`
-	} `json:"vlansReference"`
+		Link string `json:"link,omitempty"`
+	} `json:"vlansReference,omitempty"`
 }
 
 // RouteDomainEndpoint represents the REST resource for managing a route domain.

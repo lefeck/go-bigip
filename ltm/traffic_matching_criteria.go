@@ -57,9 +57,9 @@ type TrafficMatchingCriteriaResource struct {
 }
 
 // List all TrafficMatchingCriteria details
-func (nr *TrafficMatchingCriteriaResource) List() (*TrafficMatchingCriteriaList, error) {
+func (tmcr *TrafficMatchingCriteriaResource) List() (*TrafficMatchingCriteriaList, error) {
 	var nl TrafficMatchingCriteriaList
-	res, err := nr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
+	res, err := tmcr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(TrafficMatchingCriteriaEndpoint).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
@@ -71,11 +71,26 @@ func (nr *TrafficMatchingCriteriaResource) List() (*TrafficMatchingCriteriaList,
 	return &nl, nil
 }
 
+// ListName all TrafficMatchingCriteria fullpath name
+func (tmcr *TrafficMatchingCriteriaResource) ListName() ([]string, error) {
+	items := &TrafficMatchingCriteriaList{}
+	items, err := tmcr.List()
+	if err != nil {
+		return nil, err
+	}
+	var names []string
+	for _, item := range items.Items {
+		names = append(names, item.FullPath)
+	}
+
+	return names, nil
+}
+
 // Get a single TrafficMatchingCriteria details by the TrafficMatchingCriteria name
-func (nr *TrafficMatchingCriteriaResource) Get(name string) (*TrafficMatchingCriteria, error) {
+func (tmcr *TrafficMatchingCriteriaResource) Get(fullPathName string) (*TrafficMatchingCriteria, error) {
 	var node TrafficMatchingCriteria
-	res, err := nr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
-		Resource(TrafficMatchingCriteriaEndpoint).ResourceInstance(name).DoRaw(context.Background())
+	res, err := tmcr.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
+		Resource(TrafficMatchingCriteriaEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -86,13 +101,13 @@ func (nr *TrafficMatchingCriteriaResource) Get(name string) (*TrafficMatchingCri
 }
 
 // Create a new TrafficMatchingCriteria item
-func (nr *TrafficMatchingCriteriaResource) Create(item Node) error {
+func (tmcr *TrafficMatchingCriteriaResource) Create(item TrafficMatchingCriteria) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = nr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
+	_, err = tmcr.b.RestClient.Post().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(TrafficMatchingCriteriaEndpoint).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
@@ -101,14 +116,14 @@ func (nr *TrafficMatchingCriteriaResource) Create(item Node) error {
 }
 
 // Update the TrafficMatchingCriteria item identified by the TrafficMatchingCriteria name, otherwise an error will be reported.
-func (nr *TrafficMatchingCriteriaResource) Update(name string, item TrafficMatchingCriteria) error {
+func (tmcr *TrafficMatchingCriteriaResource) Update(fullPathName string, item TrafficMatchingCriteria) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)
 	}
 	jsonString := string(jsonData)
-	_, err = nr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
-		Resource(TrafficMatchingCriteriaEndpoint).ResourceInstance(name).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
+	_, err = tmcr.b.RestClient.Put().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
+		Resource(TrafficMatchingCriteriaEndpoint).ResourceInstance(fullPathName).Body(strings.NewReader(jsonString)).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}
@@ -116,9 +131,9 @@ func (nr *TrafficMatchingCriteriaResource) Update(name string, item TrafficMatch
 }
 
 // Delete a single TrafficMatchingCriteria identified by the TrafficMatchingCriteria name. if it is not exist return error
-func (nr *TrafficMatchingCriteriaResource) Delete(name string) error {
-	_, err := nr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
-		Resource(TrafficMatchingCriteriaEndpoint).ResourceInstance(name).DoRaw(context.Background())
+func (tmcr *TrafficMatchingCriteriaResource) Delete(fullPathName string) error {
+	_, err := tmcr.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
+		Resource(TrafficMatchingCriteriaEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
 	if err != nil {
 		return err
 	}

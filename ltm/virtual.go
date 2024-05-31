@@ -9,12 +9,6 @@ import (
 	"time"
 )
 
-type Persistence struct {
-	Name      string `json:"name,omitempty"`
-	Partition string `json:"partition,omitempty"`
-	TMDefault string `json:"tmDefault,omitempty"`
-}
-
 // VirtualServerList contains a list of virtual server.
 type VirtualServerList struct {
 	Items    []VirtualServer `json:"items,omitempty"`
@@ -24,66 +18,68 @@ type VirtualServerList struct {
 
 // VirtualServer contains only a single virtual server.
 type VirtualServer struct {
-	Kind                             string                   `json:"kind"`
-	Name                             string                   `json:"name"`
-	Partition                        string                   `json:"partition"`
-	FullPath                         string                   `json:"fullPath"`
-	Generation                       int64                    `json:"generation"`
-	SelfLink                         string                   `json:"selfLink"`
-	AddressStatus                    string                   `json:"addressStatus"`
-	AutoLasthop                      string                   `json:"autoLasthop"`
-	CmpEnabled                       string                   `json:"cmpEnabled"`
-	ConnectionLimit                  int                      `json:"connectionLimit"`
-	CreationTime                     time.Time                `json:"creationTime"`
-	Description                      string                   `json:"description"`
-	Destination                      string                   `json:"destination"`
-	Enabled                          bool                     `json:"enabled"`
-	Disabled                         bool                     `json:"disabled"`
-	EvictionProtected                string                   `json:"evictionProtected"`
-	FallbackPersistence              string                   `json:"fallbackPersistence"`
-	GtmScore                         int64                    `json:"gtmScore"`
-	IPProtocol                       string                   `json:"ipProtocol"`
-	LastModifiedTime                 time.Time                `json:"lastModifiedTime"`
-	Mask                             string                   `json:"mask"`
-	Mirror                           string                   `json:"mirror"`
-	MobileAppTunnel                  string                   `json:"mobileAppTunnel"`
-	Nat64                            string                   `json:"nat64"`
-	Pool                             string                   `json:"pool"`
-	Profiles                         []string                 `json:"profiles"`
-	RateLimit                        string                   `json:"rateLimit"`
-	RateLimitDstMask                 int64                    `json:"rateLimitDstMask"`
-	RateLimitMode                    string                   `json:"rateLimitMode"`
-	RateLimitSrcMask                 int64                    `json:"rateLimitSrcMask"`
-	ReselectTries                    int64                    `json:"reselectTries"`
-	ServersslUseSni                  string                   `json:"serversslUseSni"`
-	ServiceDownAction                string                   `json:"serviceDownAction"`
-	ServiceDownImmediateAction       string                   `json:"serviceDownImmediateAction"`
-	Source                           string                   `json:"source"`
+	Kind                             string                   `json:"kind,omitempty"`
+	Name                             string                   `json:"name,omitempty"`
+	Partition                        string                   `json:"partition,omitempty"`
+	FullPath                         string                   `json:"fullPath,omitempty"`
+	Generation                       int64                    `json:"generation,omitempty"`
+	SelfLink                         string                   `json:"selfLink,omitempty"`
+	AddressStatus                    string                   `json:"addressStatus,omitempty"`
+	AutoLasthop                      string                   `json:"autoLasthop,omitempty"`
+	CmpEnabled                       string                   `json:"cmpEnabled,omitempty"`
+	ConnectionLimit                  int                      `json:"connectionLimit,omitempty"`
+	CreationTime                     time.Time                `json:"creationTime,omitempty"`
+	Description                      string                   `json:"description,omitempty"`
+	Destination                      string                   `json:"destination,omitempty"`
+	Enabled                          bool                     `json:"enabled,omitempty"`
+	Disabled                         bool                     `json:"disabled,omitempty"`
+	EvictionProtected                string                   `json:"evictionProtected,omitempty"`
+	FallbackPersistence              string                   `json:"fallbackPersistence,omitempty"`
+	GtmScore                         int64                    `json:"gtmScore,omitempty"`
+	IPProtocol                       string                   `json:"ipProtocol,omitempty"`
+	LastModifiedTime                 time.Time                `json:"lastModifiedTime,omitempty"`
+	Mask                             string                   `json:"mask,omitempty"`
+	Mirror                           string                   `json:"mirror,omitempty"`
+	MobileAppTunnel                  string                   `json:"mobileAppTunnel,omitempty"`
+	Nat64                            string                   `json:"nat64,omitempty"`
+	Pool                             string                   `json:"pool,omitempty"`
+	Profiles                         []string                 `json:"profiles,omitempty"`
+	RateLimit                        string                   `json:"rateLimit,omitempty"`
+	RateLimitDstMask                 int64                    `json:"rateLimitDstMask,omitempty"`
+	RateLimitMode                    string                   `json:"rateLimitMode,omitempty"`
+	RateLimitSrcMask                 int64                    `json:"rateLimitSrcMask,omitempty"`
+	ReselectTries                    int64                    `json:"reselectTries,omitempty"`
+	ServersslUseSni                  string                   `json:"serversslUseSni,omitempty"`
+	ServiceDownAction                string                   `json:"serviceDownAction,omitempty"`
+	ServiceDownImmediateAction       string                   `json:"serviceDownImmediateAction,omitempty"`
+	Source                           string                   `json:"source,omitempty"`
 	SourceAddressTranslation         SourceAddressTranslation `json:"sourceAddressTranslation,omitempty"`
-	SourcePort                       string                   `json:"sourcePort"`
+	SourcePort                       string                   `json:"sourcePort,omitempty"`
 	Rules                            []string                 `json:"rules,omitempty"`
-	SlowRampTime                     int                      `json:"slowRampTime"`
-	SynCookieStatus                  string                   `json:"synCookieStatus"`
-	TrafficMatchingCriteria          string                   `json:"trafficMatchingCriteria"`
+	SlowRampTime                     int                      `json:"slowRampTime,omitempty"`
+	SynCookieStatus                  string                   `json:"synCookieStatus,omitempty"`
+	TrafficMatchingCriteria          string                   `json:"trafficMatchingCriteria,omitempty"`
 	TrafficMatchingCriteriaReference struct {
-		Link string `json:"link"`
-	} `json:"trafficMatchingCriteriaReference"`
-	TranslateAddress string `json:"translateAddress"`
-	TranslatePort    string `json:"translatePort"`
-	VlansDisabled    bool   `json:"vlansDisabled"`
+		Link string `json:"link,omitempty"`
+	} `json:"trafficMatchingCriteriaReference,omitempty"`
+	TranslateAddress string   `json:"translateAddress,omitempty"`
+	TranslatePort    string   `json:"translatePort,omitempty"`
+	Vlans            []string `json:"vlans,omitempty"`
+	VlansEnabled     bool     `json:"vlansEnabled,omitempty"`
+	VlansDisabled    bool     `json:"vlansDisabled,omitempty"`
 	PoolReference    struct {
-		Link string `json:"link"`
-	} `json:"poolReference"`
+		Link string `json:"link,omitempty"`
+	} `json:"poolReference,omitempty"`
 	Persistences      []Persistence `json:"persist,omitempty"`
 	PoliciesReference struct {
-		Link            string `json:"link"`
-		IsSubcollection bool   `json:"isSubcollection"`
-	} `json:"policiesReference"`
+		Link            string `json:"link,omitempty"`
+		IsSubcollection bool   `json:"isSubcollection,omitempty"`
+	} `json:"policiesReference,omitempty"`
 	ProfilesReference struct {
-		Link            string    `json:"link"`
-		IsSubcollection bool      `json:"isSubcollection"`
+		Link            string    `json:"link,omitempty"`
+		IsSubcollection bool      `json:"isSubcollection,omitempty"`
 		Profiles        []Profile `json:"items,omitempty"`
-	} `json:"profilesReference"`
+	} `json:"profilesReference,omitempty"`
 }
 
 type SourceAddressTranslation struct {
@@ -94,6 +90,12 @@ type SourceAddressTranslation struct {
 type Profile struct {
 	Name    string `json:"name,omitempty"`
 	Context string `json:"context,omitempty"`
+}
+
+type Persistence struct {
+	Name      string `json:"name,omitempty"`
+	Partition string `json:"partition,omitempty"`
+	TMDefault string `json:"tmDefault,omitempty"`
 }
 
 // VirtualEndpoint is the base path of the ltm API.
@@ -179,16 +181,7 @@ func (vr *VirtualResource) Create(item VirtualServer) error {
 	return nil
 }
 
-// Update the virtual server identified by the virtual server name,
-// Source and Mask fields must be specified, otherwise an error will be reported. For example:
-/*
-   item := VirtualServer{
-       ......
-       Source:    "0.0.0.0/32",
-       Mask:      "255.255.255.255",
-       ......
-   }
-*/
+// Update the virtual server identified by the virtual server name
 func (vr *VirtualResource) Update(name string, item VirtualServer) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {

@@ -10,9 +10,9 @@ import (
 )
 
 type Bash struct {
-	Command       string `json:"command"`
-	UtilCmdArgs   string `json:"utilCmdArgs"`
-	CommandResult string `json:"commandResult"`
+	Command       string `json:"command,omitempty"`
+	UtilCmdArgs   string `json:"utilCmdArgs,omitempty"`
+	CommandResult string `json:"commandResult,omitempty"`
 }
 
 type BashResource struct {

@@ -8,21 +8,22 @@ import (
 )
 
 type SnatPoolList struct {
-	Kind     string     `json:"kind"`
-	SelfLink string     `json:"selfLink"`
-	Items    []SnatPool `json:"items"`
+	Kind     string     `json:"kind,omitempty"`
+	SelfLink string     `json:"selfLink,omitempty"`
+	Items    []SnatPool `json:"items,omitempty"`
 }
+
 type SnatPool struct {
-	Kind             string   `json:"kind"`
-	Name             string   `json:"name"`
-	Partition        string   `json:"partition"`
-	FullPath         string   `json:"fullPath"`
-	Generation       int      `json:"generation"`
-	SelfLink         string   `json:"selfLink"`
-	Members          []string `json:"members"`
+	Kind             string   `json:"kind,omitempty"`
+	Name             string   `json:"name,omitempty"`
+	Partition        string   `json:"partition,omitempty"`
+	FullPath         string   `json:"fullPath,omitempty"`
+	Generation       int      `json:"generation,omitempty"`
+	SelfLink         string   `json:"selfLink,omitempty"`
+	Members          []string `json:"members,omitempty"`
 	MembersReference []struct {
-		Link string `json:"link"`
-	} `json:"membersReference"`
+		Link string `json:"link,omitempty"`
+	} `json:"membersReference,omitempty"`
 }
 
 type SnatPoolResource struct {

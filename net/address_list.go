@@ -17,15 +17,15 @@ type AddressList struct {
 
 // A Address contains Address .
 type Address struct {
-	Kind       string `json:"kind"`
-	Name       string `json:"name"`
-	Partition  string `json:"partition"`
-	FullPath   string `json:"fullPath"`
-	Generation int    `json:"generation"`
-	SelfLink   string `json:"selfLink"`
+	Kind       string `json:"kind,omitempty"`
+	Name       string `json:"name,omitempty"`
+	Partition  string `json:"partition,omitempty"`
+	FullPath   string `json:"fullPath,omitempty"`
+	Generation int    `json:"generation,omitempty"`
+	SelfLink   string `json:"selfLink,omitempty"`
 	Addresses  []struct {
-		Name string `json:"name"`
-	} `json:"addresses"`
+		Name string `json:"name,omitempty"`
+	} `json:"addresses,omitempty"`
 }
 
 const AddressEndpoint = "address-list"

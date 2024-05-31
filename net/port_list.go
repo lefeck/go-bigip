@@ -17,17 +17,17 @@ type PortList struct {
 
 // Port contains for port attributes.
 type Port struct {
-	Kind       string       `json:"kind"`
-	Name       string       `json:"name"`
-	Partition  string       `json:"partition"`
-	FullPath   string       `json:"fullPath"`
-	Generation int          `json:"generation"`
-	SelfLink   string       `json:"selfLink"`
-	Ports      []PortMember `json:"ports"`
+	Kind       string       `json:"kind,omitempty"`
+	Name       string       `json:"name,omitempty"`
+	Partition  string       `json:"partition,omitempty"`
+	FullPath   string       `json:"fullPath,omitempty"`
+	Generation int          `json:"generation,omitempty"`
+	SelfLink   string       `json:"selfLink,omitempty"`
+	Ports      []PortMember `json:"ports,omitempty"`
 }
 
 type PortMember struct {
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 }
 
 // PortEndpoint represents the REST resource for managing port list.

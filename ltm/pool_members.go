@@ -32,7 +32,7 @@ type PoolMembers struct {
 	} `json:"fqdn,omitempty"`
 	InheritProfile string `json:"inheritProfile,omitempty"`
 	Logging        string `json:"logging,omitempty"`
-	string         `json:",omitempty"`
+	Monitor        string `json:"monitor,omitempty"`
 	PriorityGroup  int64  `json:"priorityGroup,omitempty"`
 	RateLimit      string `json:"rateLimit,omitempty"`
 	Ratio          int64  `json:"ratio,omitempty"`

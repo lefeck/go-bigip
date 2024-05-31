@@ -8,37 +8,39 @@ import (
 	"strings"
 )
 
-// NodeList is a list containing multiple Node objects.
+// NodeList is a list contains multiple Node objects.
 type NodeList struct {
-	Kind     string `json:"kind"`
-	SelfLink string `json:"selfLink"`
-	Items    []Node `json:"items"`
+	Kind     string `json:"kind,omitempty"`
+	SelfLink string `json:"selfLink,omitempty"`
+	Items    []Node `json:"items,omitempty"`
 }
 
 // Node represents an F5 BIG-IP LTM Node configuration.
 type Node struct {
-	Kind            string `json:"kind"`
-	Name            string `json:"name"`
-	Partition       string `json:"partition"`
-	FullPath        string `json:"fullPath"`
-	Generation      int    `json:"generation"`
-	SelfLink        string `json:"selfLink"`
-	Address         string `json:"address"`
-	ConnectionLimit int    `json:"connectionLimit"`
-	DynamicRatio    int    `json:"dynamicRatio"`
-	Ephemeral       string `json:"ephemeral"`
-	Fqdn            struct {
-		AddressFamily string `json:"addressFamily"`
-		Autopopulate  string `json:"autopopulate"`
-		DownInterval  int    `json:"downInterval"`
-		Interval      string `json:"interval"`
-	} `json:"fqdn"`
-	Logging   string `json:"logging"`
-	string    `json:""`
-	RateLimit string `json:"rateLimit"`
-	Ratio     int    `json:"ratio"`
-	Session   string `json:"session"`
-	State     string `json:"state"`
+	Kind            string `json:"kind,omitempty"`
+	Name            string `json:"name,omitempty"`
+	Partition       string `json:"partition,omitempty"`
+	FullPath        string `json:"fullPath,omitempty"`
+	Generation      int    `json:"generation,omitempty"`
+	SelfLink        string `json:"selfLink,omitempty"`
+	Address         string `json:"address,omitempty"`
+	ConnectionLimit int    `json:"connectionLimit,omitempty"`
+	DynamicRatio    int    `json:"dynamicRatio,omitempty"`
+	Ephemeral       string `json:"ephemeral,omitempty"`
+	Fqdn            Fqdn   `json:"fqdn,omitempty"`
+	Logging         string `json:"logging,omitempty"`
+	Monitor         string `json:"monitor,omitempty"`
+	RateLimit       string `json:"rateLimit,omitempty"`
+	Ratio           int    `json:"ratio,omitempty"`
+	Session         string `json:"session,omitempty"`
+	State           string `json:"state,omitempty"`
+}
+
+type Fqdn struct {
+	AddressFamily string `json:"addressFamily,omitempty"`
+	Autopopulate  string `json:"autopopulate,omitempty"`
+	DownInterval  int    `json:"downInterval,omitempty"`
+	Interval      string `json:"interval,omitempty"`
 }
 
 // NodeEndpoint represents the REST resource for managing Node.
