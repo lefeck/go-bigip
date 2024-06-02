@@ -15,79 +15,79 @@ type HTTPList struct {
 }
 
 type HTTP struct {
-	Kind           string        `json:"kind"`
-	Name           string        `json:"name"`
-	Partition      string        `json:"partition"`
-	FullPath       string        `json:"fullPath"`
-	Generation     int           `json:"generation"`
-	SelfLink       string        `json:"selfLink"`
-	AcceptXff      string        `json:"acceptXff"`
-	AppService     string        `json:"appService"`
-	BasicAuthRealm string        `json:"basicAuthRealm"`
-	DefaultsFrom   string        `json:"defaultsFrom"`
-	Description    string        `json:"description"`
-	EncryptCookies []interface{} `json:"encryptCookies"`
+	Kind           string        `json:"kind,omitempty"`
+	Name           string        `json:"name,omitempty"`
+	Partition      string        `json:"partition,omitempty"`
+	FullPath       string        `json:"fullPath,omitempty"`
+	Generation     int           `json:"generation,omitempty"`
+	SelfLink       string        `json:"selfLink,omitempty"`
+	AcceptXff      string        `json:"acceptXff,omitempty"`
+	AppService     string        `json:"appService,omitempty"`
+	BasicAuthRealm string        `json:"basicAuthRealm,omitempty"`
+	DefaultsFrom   string        `json:"defaultsFrom,omitempty"`
+	Description    string        `json:"description,omitempty"`
+	EncryptCookies []interface{} `json:"encryptCookies,omitempty"`
 	Enforcement    struct {
-		AllowWsHeaderName     string   `json:"allowWsHeaderName"`
-		ExcessClientHeaders   string   `json:"excessClientHeaders"`
-		ExcessServerHeaders   string   `json:"excessServerHeaders"`
-		KnownMethods          []string `json:"knownMethods"`
-		MaxHeaderCount        int      `json:"maxHeaderCount"`
-		MaxHeaderSize         int      `json:"maxHeaderSize"`
-		MaxRequests           int      `json:"maxRequests"`
-		OversizeClientHeaders string   `json:"oversizeClientHeaders"`
-		OversizeServerHeaders string   `json:"oversizeServerHeaders"`
-		Pipeline              string   `json:"pipeline"`
-		RfcCompliance         string   `json:"rfcCompliance"`
-		TruncatedRedirects    string   `json:"truncatedRedirects"`
-		UnknownMethod         string   `json:"unknownMethod"`
-	} `json:"enforcement"`
+		AllowWsHeaderName     string   `json:"allowWsHeaderName,omitempty"`
+		ExcessClientHeaders   string   `json:"excessClientHeaders,omitempty"`
+		ExcessServerHeaders   string   `json:"excessServerHeaders,omitempty"`
+		KnownMethods          []string `json:"knownMethods,omitempty"`
+		MaxHeaderCount        int      `json:"maxHeaderCount,omitempty"`
+		MaxHeaderSize         int      `json:"maxHeaderSize,omitempty"`
+		MaxRequests           int      `json:"maxRequests,omitempty"`
+		OversizeClientHeaders string   `json:"oversizeClientHeaders,omitempty"`
+		OversizeServerHeaders string   `json:"oversizeServerHeaders,omitempty"`
+		Pipeline              string   `json:"pipeline,omitempty"`
+		RfcCompliance         string   `json:"rfcCompliance,omitempty"`
+		TruncatedRedirects    string   `json:"truncatedRedirects,omitempty"`
+		UnknownMethod         string   `json:"unknownMethod,omitempty"`
+	} `json:"enforcement,omitempty"`
 	ExplicitProxy struct {
-		BadRequestMessage      string        `json:"badRequestMessage"`
-		BadResponseMessage     string        `json:"badResponseMessage"`
-		ConnectErrorMessage    string        `json:"connectErrorMessage"`
-		DefaultConnectHandling string        `json:"defaultConnectHandling"`
-		DNSErrorMessage        string        `json:"dnsErrorMessage"`
-		DNSResolver            string        `json:"dnsResolver"`
-		HostNames              []interface{} `json:"hostNames"`
-		Ipv6                   string        `json:"ipv6"`
-		RouteDomain            string        `json:"routeDomain"`
-		TunnelName             string        `json:"tunnelName"`
-		TunnelOnAnyRequest     string        `json:"tunnelOnAnyRequest"`
-	} `json:"explicitProxy"`
-	FallbackHost        string        `json:"fallbackHost"`
-	FallbackStatusCodes []interface{} `json:"fallbackStatusCodes"`
-	HeaderErase         string        `json:"headerErase"`
-	HeaderInsert        string        `json:"headerInsert"`
+		BadRequestMessage      string        `json:"badRequestMessage,omitempty"`
+		BadResponseMessage     string        `json:"badResponseMessage,omitempty"`
+		ConnectErrorMessage    string        `json:"connectErrorMessage,omitempty"`
+		DefaultConnectHandling string        `json:"defaultConnectHandling,omitempty"`
+		DNSErrorMessage        string        `json:"dnsErrorMessage,omitempty"`
+		DNSResolver            string        `json:"dnsResolver,omitempty"`
+		HostNames              []interface{} `json:"hostNames,omitempty"`
+		Ipv6                   string        `json:"ipv6,omitempty"`
+		RouteDomain            string        `json:"routeDomain,omitempty"`
+		TunnelName             string        `json:"tunnelName,omitempty"`
+		TunnelOnAnyRequest     string        `json:"tunnelOnAnyRequest,omitempty"`
+	} `json:"explicitProxy,omitempty"`
+	FallbackHost        string        `json:"fallbackHost,omitempty"`
+	FallbackStatusCodes []interface{} `json:"fallbackStatusCodes,omitempty"`
+	HeaderErase         string        `json:"headerErase,omitempty"`
+	HeaderInsert        string        `json:"headerInsert,omitempty"`
 	Hsts                struct {
-		IncludeSubdomains string `json:"includeSubdomains"`
-		MaximumAge        int    `json:"maximumAge"`
-		Mode              string `json:"mode"`
-		Preload           string `json:"preload"`
-	} `json:"hsts"`
-	InsertXforwardedFor       string        `json:"insertXforwardedFor"`
-	LwsSeparator              string        `json:"lwsSeparator"`
-	LwsWidth                  int           `json:"lwsWidth"`
-	OneconnectStatusReuse     string        `json:"oneconnectStatusReuse"`
-	OneconnectTransformations string        `json:"oneconnectTransformations"`
-	ProxyType                 string        `json:"proxyType"`
-	RedirectRewrite           string        `json:"redirectRewrite"`
-	RequestChunking           string        `json:"requestChunking"`
-	ResponseChunking          string        `json:"responseChunking"`
-	ResponseHeadersPermitted  []interface{} `json:"responseHeadersPermitted"`
-	ServerAgentName           string        `json:"serverAgentName"`
+		IncludeSubdomains string `json:"includeSubdomains,omitempty"`
+		MaximumAge        int    `json:"maximumAge,omitempty"`
+		Mode              string `json:"mode,omitempty"`
+		Preload           string `json:"preload,omitempty"`
+	} `json:"hsts,omitempty"`
+	InsertXforwardedFor       string        `json:"insertXforwardedFor,omitempty"`
+	LwsSeparator              string        `json:"lwsSeparator,omitempty"`
+	LwsWidth                  int           `json:"lwsWidth,omitempty"`
+	OneconnectStatusReuse     string        `json:"oneconnectStatusReuse,omitempty"`
+	OneconnectTransformations string        `json:"oneconnectTransformations,omitempty"`
+	ProxyType                 string        `json:"proxyType,omitempty"`
+	RedirectRewrite           string        `json:"redirectRewrite,omitempty"`
+	RequestChunking           string        `json:"requestChunking,omitempty"`
+	ResponseChunking          string        `json:"responseChunking,omitempty"`
+	ResponseHeadersPermitted  []interface{} `json:"responseHeadersPermitted,omitempty"`
+	ServerAgentName           string        `json:"serverAgentName,omitempty"`
 	Sflow                     struct {
-		PollInterval       int    `json:"pollInterval"`
-		PollIntervalGlobal string `json:"pollIntervalGlobal"`
-		SamplingRate       int    `json:"samplingRate"`
-		SamplingRateGlobal string `json:"samplingRateGlobal"`
-	} `json:"sflow"`
-	ViaHostName           string        `json:"viaHostName"`
-	ViaRequest            string        `json:"viaRequest"`
-	ViaResponse           string        `json:"viaResponse"`
-	XffAlternativeNames   []interface{} `json:"xffAlternativeNames"`
+		PollInterval       int    `json:"pollInterval,omitempty"`
+		PollIntervalGlobal string `json:"pollIntervalGlobal,omitempty"`
+		SamplingRate       int    `json:"samplingRate,omitempty"`
+		SamplingRateGlobal string `json:"samplingRateGlobal,omitempty"`
+	} `json:"sflow,omitempty"`
+	ViaHostName           string        `json:"viaHostName,omitempty"`
+	ViaRequest            string        `json:"viaRequest,omitempty"`
+	ViaResponse           string        `json:"viaResponse,omitempty"`
+	XffAlternativeNames   []interface{} `json:"xffAlternativeNames,omitempty"`
 	DefaultsFromReference struct {
-		Link string `json:"link"`
+		Link string `json:"link,omitempty"`
 	} `json:"defaultsFromReference,omitempty"`
 }
 

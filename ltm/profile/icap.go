@@ -15,20 +15,20 @@ type ICAPList struct {
 }
 
 type ICAP struct {
-	Kind          string `json:"kind"`
-	Name          string `json:"name"`
-	Partition     string `json:"partition"`
-	FullPath      string `json:"fullPath"`
-	Generation    int    `json:"generation"`
-	SelfLink      string `json:"selfLink"`
-	AppService    string `json:"appService"`
-	DefaultsFrom  string `json:"defaultsFrom"`
-	HeaderFrom    string `json:"headerFrom"`
-	Host          string `json:"host"`
-	PreviewLength int    `json:"previewLength"`
-	Referer       string `json:"referer"`
-	URI           string `json:"uri"`
-	UserAgent     string `json:"userAgent"`
+	Kind          string `json:"kind,omitempty"`
+	Name          string `json:"name,omitempty"`
+	Partition     string `json:"partition,omitempty"`
+	FullPath      string `json:"fullPath,omitempty"`
+	Generation    int    `json:"generation,omitempty"`
+	SelfLink      string `json:"selfLink,omitempty"`
+	AppService    string `json:"appService,omitempty"`
+	DefaultsFrom  string `json:"defaultsFrom,omitempty"`
+	HeaderFrom    string `json:"headerFrom,omitempty"`
+	Host          string `json:"host,omitempty"`
+	PreviewLength int    `json:"previewLength,omitempty"`
+	Referer       string `json:"referer,omitempty"`
+	URI           string `json:"uri,omitempty"`
+	UserAgent     string `json:"userAgent,omitempty"`
 }
 
 const ICAPEndpoint = "icap"

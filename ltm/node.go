@@ -168,11 +168,3 @@ func (nr *NodeResource) Delete(name string) error {
 
 	return nil
 }
-
-//func (nr *NodeResource) ShowStats(id string) (*NodeStatsList, error) {
-//	var item NodeStatsList
-//	if err := nr.c.ReadQuery(bigip.GetBaseResource()+NodeEndpoint+"/"+id+"/stats", &item); err != nil {
-//		return nil, err
-//	}
-//	return &item, nil
-//}

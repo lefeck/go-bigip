@@ -15,18 +15,18 @@ type XMLList struct {
 }
 
 type XML struct {
-	Kind                 string        `json:"kind"`
-	Name                 string        `json:"name"`
-	Partition            string        `json:"partition"`
-	FullPath             string        `json:"fullPath"`
-	Generation           int           `json:"generation"`
-	SelfLink             string        `json:"selfLink"`
-	AppService           string        `json:"appService"`
-	DefaultsFrom         string        `json:"defaultsFrom"`
-	Description          string        `json:"description"`
-	MultipleQueryMatches string        `json:"multipleQueryMatches"`
-	NamespaceMappings    []interface{} `json:"namespaceMappings"`
-	XpathQueries         []interface{} `json:"xpathQueries"`
+	Kind                 string        `json:"kind,omitempty"`
+	Name                 string        `json:"name,omitempty"`
+	Partition            string        `json:"partition,omitempty"`
+	FullPath             string        `json:"fullPath,omitempty"`
+	Generation           int           `json:"generation,omitempty"`
+	SelfLink             string        `json:"selfLink,omitempty"`
+	AppService           string        `json:"appService,omitempty"`
+	DefaultsFrom         string        `json:"defaultsFrom,omitempty"`
+	Description          string        `json:"description,omitempty"`
+	MultipleQueryMatches string        `json:"multipleQueryMatches,omitempty"`
+	NamespaceMappings    []interface{} `json:"namespaceMappings,omitempty"`
+	XpathQueries         []interface{} `json:"xpathQueries,omitempty"`
 }
 
 const XMLEndpoint = "xml"

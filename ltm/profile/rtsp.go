@@ -17,29 +17,29 @@ type RTSPList struct {
 
 // RTSP struct contains details about an individual RTSP resource.
 type RTSP struct {
-	Kind                string `json:"kind"`
-	Name                string `json:"name"`
-	Partition           string `json:"partition"`
-	FullPath            string `json:"fullPath"`
-	Generation          int    `json:"generation"`
-	SelfLink            string `json:"selfLink"`
-	AppService          string `json:"appService"`
-	CheckSource         string `json:"checkSource"`
-	DefaultsFrom        string `json:"defaultsFrom"`
-	Description         string `json:"description"`
-	IdleTimeout         string `json:"idleTimeout"`
-	LogProfile          string `json:"logProfile"`
-	LogPublisher        string `json:"logPublisher"`
-	MaxHeaderSize       int    `json:"maxHeaderSize"`
-	MaxQueuedData       int    `json:"maxQueuedData"`
-	MulticastRedirect   string `json:"multicastRedirect"`
-	Proxy               string `json:"proxy"`
-	ProxyHeader         string `json:"proxyHeader"`
-	RealHTTPPersistence string `json:"realHttpPersistence"`
-	RtcpPort            int    `json:"rtcpPort"`
-	RtpPort             int    `json:"rtpPort"`
-	SessionReconnect    string `json:"sessionReconnect"`
-	UnicastRedirect     string `json:"unicastRedirect"`
+	Kind                string `json:"kind,omitempty"`
+	Name                string `json:"name,omitempty"`
+	Partition           string `json:"partition,omitempty"`
+	FullPath            string `json:"fullPath,omitempty"`
+	Generation          int    `json:"generation,omitempty"`
+	SelfLink            string `json:"selfLink,omitempty"`
+	AppService          string `json:"appService,omitempty"`
+	CheckSource         string `json:"checkSource,omitempty"`
+	DefaultsFrom        string `json:"defaultsFrom,omitempty"`
+	Description         string `json:"description,omitempty"`
+	IdleTimeout         string `json:"idleTimeout,omitempty"`
+	LogProfile          string `json:"logProfile,omitempty"`
+	LogPublisher        string `json:"logPublisher,omitempty"`
+	MaxHeaderSize       int    `json:"maxHeaderSize,omitempty"`
+	MaxQueuedData       int    `json:"maxQueuedData,omitempty"`
+	MulticastRedirect   string `json:"multicastRedirect,omitempty"`
+	Proxy               string `json:"proxy,omitempty"`
+	ProxyHeader         string `json:"proxyHeader,omitempty"`
+	RealHTTPPersistence string `json:"realHttpPersistence,omitempty"`
+	RtcpPort            int    `json:"rtcpPort,omitempty"`
+	RtpPort             int    `json:"rtpPort,omitempty"`
+	SessionReconnect    string `json:"sessionReconnect,omitempty"`
+	UnicastRedirect     string `json:"unicastRedirect,omitempty"`
 }
 
 // RTSPEndpoint is the endpoint constant for RTSP resources.

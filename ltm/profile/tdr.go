@@ -15,25 +15,25 @@ type TDRList struct {
 }
 
 type TDR struct {
-	Kind                  string `json:"kind"`
-	Name                  string `json:"name"`
-	Partition             string `json:"partition"`
-	FullPath              string `json:"fullPath"`
-	Generation            int    `json:"generation"`
-	SelfLink              string `json:"selfLink"`
-	AppService            string `json:"appService"`
-	DefaultsFrom          string `json:"defaultsFrom"`
-	Description           string `json:"description"`
-	LogPublisher          string `json:"logPublisher"`
+	Kind                  string `json:"kind,omitempty"`
+	Name                  string `json:"name,omitempty"`
+	Partition             string `json:"partition,omitempty"`
+	FullPath              string `json:"fullPath,omitempty"`
+	Generation            int    `json:"generation,omitempty"`
+	SelfLink              string `json:"selfLink,omitempty"`
+	AppService            string `json:"appService,omitempty"`
+	DefaultsFrom          string `json:"defaultsFrom,omitempty"`
+	Description           string `json:"description,omitempty"`
+	LogPublisher          string `json:"logPublisher,omitempty"`
 	LogPublisherReference struct {
-		Link string `json:"link"`
-	} `json:"logPublisherReference"`
+		Link string `json:"link,omitempty"`
+	} `json:"logPublisherReference,omitempty"`
 	FiltersReference struct {
-		Link            string `json:"link"`
-		IsSubcollection bool   `json:"isSubcollection"`
-	} `json:"filtersReference"`
+		Link            string `json:"link,omitempty"`
+		IsSubcollection bool   `json:"isSubcollection,omitempty"`
+	} `json:"filtersReference,omitempty"`
 	DefaultsFromReference struct {
-		Link string `json:"link"`
+		Link string `json:"link,omitempty"`
 	} `json:"defaultsFromReference,omitempty"`
 }
 

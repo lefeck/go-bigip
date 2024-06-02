@@ -15,18 +15,18 @@ type QUICList struct {
 }
 
 type QUIC struct {
-	Kind                               string `json:"kind"`
-	Name                               string `json:"name"`
-	Partition                          string `json:"partition"`
-	FullPath                           string `json:"fullPath"`
-	Generation                         int    `json:"generation"`
-	SelfLink                           string `json:"selfLink"`
-	AppService                         string `json:"appService"`
-	BidiConcurrentStreamsPerConnection int    `json:"bidiConcurrentStreamsPerConnection"`
-	DefaultsFrom                       string `json:"defaultsFrom"`
-	Description                        string `json:"description"`
-	SpinBit                            string `json:"spinBit"`
-	UniConcurrentStreamsPerConnection  int    `json:"uniConcurrentStreamsPerConnection"`
+	Kind                               string `json:"kind,omitempty"`
+	Name                               string `json:"name,omitempty"`
+	Partition                          string `json:"partition,omitempty"`
+	FullPath                           string `json:"fullPath,omitempty"`
+	Generation                         int    `json:"generation,omitempty"`
+	SelfLink                           string `json:"selfLink,omitempty"`
+	AppService                         string `json:"appService,omitempty"`
+	BidiConcurrentStreamsPerConnection int    `json:"bidiConcurrentStreamsPerConnection,omitempty"`
+	DefaultsFrom                       string `json:"defaultsFrom,omitempty"`
+	Description                        string `json:"description,omitempty"`
+	SpinBit                            string `json:"spinBit,omitempty"`
+	UniConcurrentStreamsPerConnection  int    `json:"uniConcurrentStreamsPerConnection,omitempty"`
 }
 
 const QUICEndpoint = "quic"

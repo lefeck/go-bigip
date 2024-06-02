@@ -15,26 +15,26 @@ type FTPList struct {
 }
 
 type FTP struct {
-	Kind                   string `json:"kind"`
-	Name                   string `json:"name"`
-	Partition              string `json:"partition"`
-	FullPath               string `json:"fullPath"`
-	Generation             int    `json:"generation"`
-	SelfLink               string `json:"selfLink"`
-	AllowActiveMode        string `json:"allowActiveMode"`
-	AllowFtps              string `json:"allowFtps"`
-	AppService             string `json:"appService"`
-	DefaultsFrom           string `json:"defaultsFrom"`
-	Description            string `json:"description"`
-	EnforceTLSSessionReuse string `json:"enforceTlsSessionReuse"`
-	FtpsMode               string `json:"ftpsMode"`
-	InheritParentProfile   string `json:"inheritParentProfile"`
-	InheritVlanList        string `json:"inheritVlanList"`
-	LogProfile             string `json:"logProfile"`
-	LogPublisher           string `json:"logPublisher"`
-	Port                   int    `json:"port"`
-	Security               string `json:"security"`
-	TranslateExtended      string `json:"translateExtended"`
+	Kind                   string `json:"kind,omitempty"`
+	Name                   string `json:"name,omitempty"`
+	Partition              string `json:"partition,omitempty"`
+	FullPath               string `json:"fullPath,omitempty"`
+	Generation             int    `json:"generation,omitempty"`
+	SelfLink               string `json:"selfLink,omitempty"`
+	AllowActiveMode        string `json:"allowActiveMode,omitempty"`
+	AllowFtps              string `json:"allowFtps,omitempty"`
+	AppService             string `json:"appService,omitempty"`
+	DefaultsFrom           string `json:"defaultsFrom,omitempty"`
+	Description            string `json:"description,omitempty"`
+	EnforceTLSSessionReuse string `json:"enforceTlsSessionReuse,omitempty"`
+	FtpsMode               string `json:"ftpsMode,omitempty"`
+	InheritParentProfile   string `json:"inheritParentProfile,omitempty"`
+	InheritVlanList        string `json:"inheritVlanList,omitempty"`
+	LogProfile             string `json:"logProfile,omitempty"`
+	LogPublisher           string `json:"logPublisher,omitempty"`
+	Port                   int    `json:"port,omitempty"`
+	Security               string `json:"security,omitempty"`
+	TranslateExtended      string `json:"translateExtended,omitempty"`
 }
 
 const FTPEndpoint = "ftp"

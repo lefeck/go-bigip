@@ -15,28 +15,28 @@ type TCPAnalyticsList struct {
 }
 
 type TCPAnalytics struct {
-	Kind                          string `json:"kind"`
-	Name                          string `json:"name"`
-	Partition                     string `json:"partition"`
-	FullPath                      string `json:"fullPath"`
-	Generation                    int    `json:"generation"`
-	SelfLink                      string `json:"selfLink"`
-	AppService                    string `json:"appService"`
-	CollectCity                   string `json:"collectCity"`
-	CollectContinent              string `json:"collectContinent"`
-	CollectCountry                string `json:"collectCountry"`
-	CollectNexthop                string `json:"collectNexthop"`
-	CollectPostCode               string `json:"collectPostCode"`
-	CollectRegion                 string `json:"collectRegion"`
-	CollectRemoteHostIP           string `json:"collectRemoteHostIp"`
-	CollectRemoteHostSubnet       string `json:"collectRemoteHostSubnet"`
-	CollectedByClientSide         string `json:"collectedByClientSide"`
-	CollectedByServerSide         string `json:"collectedByServerSide"`
-	CollectedStatsExternalLogging string `json:"collectedStatsExternalLogging"`
-	CollectedStatsInternalLogging string `json:"collectedStatsInternalLogging"`
-	DefaultsFrom                  string `json:"defaultsFrom"`
-	Description                   string `json:"description"`
-	ExternalLoggingPublisher      string `json:"externalLoggingPublisher"`
+	Kind                          string `json:"kind,omitempty"`
+	Name                          string `json:"name,omitempty"`
+	Partition                     string `json:"partition,omitempty"`
+	FullPath                      string `json:"fullPath,omitempty"`
+	Generation                    int    `json:"generation,omitempty"`
+	SelfLink                      string `json:"selfLink,omitempty"`
+	AppService                    string `json:"appService,omitempty"`
+	CollectCity                   string `json:"collectCity,omitempty"`
+	CollectContinent              string `json:"collectContinent,omitempty"`
+	CollectCountry                string `json:"collectCountry,omitempty"`
+	CollectNexthop                string `json:"collectNexthop,omitempty"`
+	CollectPostCode               string `json:"collectPostCode,omitempty"`
+	CollectRegion                 string `json:"collectRegion,omitempty"`
+	CollectRemoteHostIP           string `json:"collectRemoteHostIp,omitempty"`
+	CollectRemoteHostSubnet       string `json:"collectRemoteHostSubnet,omitempty"`
+	CollectedByClientSide         string `json:"collectedByClientSide,omitempty"`
+	CollectedByServerSide         string `json:"collectedByServerSide,omitempty"`
+	CollectedStatsExternalLogging string `json:"collectedStatsExternalLogging,omitempty"`
+	CollectedStatsInternalLogging string `json:"collectedStatsInternalLogging,omitempty"`
+	DefaultsFrom                  string `json:"defaultsFrom,omitempty"`
+	Description                   string `json:"description,omitempty"`
+	ExternalLoggingPublisher      string `json:"externalLoggingPublisher,omitempty"`
 }
 
 const TCPAnalyticsEndpoint = "tcpanalytics"

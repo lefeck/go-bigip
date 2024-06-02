@@ -15,27 +15,27 @@ type SocksList struct {
 }
 
 type Socks struct {
-	Kind                   string   `json:"kind"`
-	Name                   string   `json:"name"`
-	Partition              string   `json:"partition"`
-	FullPath               string   `json:"fullPath"`
-	Generation             int      `json:"generation"`
-	SelfLink               string   `json:"selfLink"`
-	AppService             string   `json:"appService"`
-	DefaultConnectHandling string   `json:"defaultConnectHandling"`
-	DefaultsFrom           string   `json:"defaultsFrom"`
-	Description            string   `json:"description"`
-	DNSResolver            string   `json:"dnsResolver"`
-	Ipv6                   string   `json:"ipv6"`
-	ProtocolVersions       []string `json:"protocolVersions"`
-	RouteDomain            string   `json:"routeDomain"`
+	Kind                   string   `json:"kind,omitempty"`
+	Name                   string   `json:"name,omitempty"`
+	Partition              string   `json:"partition,omitempty"`
+	FullPath               string   `json:"fullPath,omitempty"`
+	Generation             int      `json:"generation,omitempty"`
+	SelfLink               string   `json:"selfLink,omitempty"`
+	AppService             string   `json:"appService,omitempty"`
+	DefaultConnectHandling string   `json:"defaultConnectHandling,omitempty"`
+	DefaultsFrom           string   `json:"defaultsFrom,omitempty"`
+	Description            string   `json:"description,omitempty"`
+	DNSResolver            string   `json:"dnsResolver,omitempty"`
+	Ipv6                   string   `json:"ipv6,omitempty"`
+	ProtocolVersions       []string `json:"protocolVersions,omitempty"`
+	RouteDomain            string   `json:"routeDomain,omitempty"`
 	RouteDomainReference   struct {
-		Link string `json:"link"`
-	} `json:"routeDomainReference"`
-	TunnelName          string `json:"tunnelName"`
+		Link string `json:"link,omitempty"`
+	} `json:"routeDomainReference,omitempty"`
+	TunnelName          string `json:"tunnelName,omitempty"`
 	TunnelNameReference struct {
-		Link string `json:"link"`
-	} `json:"tunnelNameReference"`
+		Link string `json:"link,omitempty"`
+	} `json:"tunnelNameReference,omitempty"`
 }
 
 const SocksEndpoint = "socks"

@@ -14,14 +14,14 @@ type ServiceList struct {
 	SelfLink string    `json:"selflink,omitempty"`
 }
 type Service struct {
-	Kind       string `json:"kind"`
-	Name       string `json:"name"`
-	Partition  string `json:"partition"`
-	FullPath   string `json:"fullPath"`
-	Generation int    `json:"generation"`
-	SelfLink   string `json:"selfLink"`
-	AppService string `json:"appService"`
-	Type       string `json:"type"`
+	Kind       string `json:"kind,omitempty"`
+	Name       string `json:"name,omitempty"`
+	Partition  string `json:"partition,omitempty"`
+	FullPath   string `json:"fullPath,omitempty"`
+	Generation int    `json:"generation,omitempty"`
+	SelfLink   string `json:"selfLink,omitempty"`
+	AppService string `json:"appService,omitempty"`
+	Type       string `json:"type,omitempty"`
 }
 
 const ServiceEndpoint = "service"

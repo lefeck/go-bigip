@@ -15,43 +15,43 @@ type DNSList struct {
 }
 
 type DNS struct {
-	Kind                  string `json:"kind"`
-	Name                  string `json:"name"`
-	Partition             string `json:"partition"`
-	FullPath              string `json:"fullPath"`
-	Generation            int    `json:"generation"`
-	SelfLink              string `json:"selfLink"`
-	AppService            string `json:"appService"`
-	AvrDnsstatSampleRate  int    `json:"avrDnsstatSampleRate"`
-	Cache                 string `json:"cache"`
-	DefaultsFrom          string `json:"defaultsFrom"`
+	Kind                  string `json:"kind,omitempty"`
+	Name                  string `json:"name,omitempty"`
+	Partition             string `json:"partition,omitempty"`
+	FullPath              string `json:"fullPath,omitempty"`
+	Generation            int    `json:"generation,omitempty"`
+	SelfLink              string `json:"selfLink,omitempty"`
+	AppService            string `json:"appService,omitempty"`
+	AvrDnsstatSampleRate  int    `json:"avrDnsstatSampleRate,omitempty"`
+	Cache                 string `json:"cache,omitempty"`
+	DefaultsFrom          string `json:"defaultsFrom,omitempty"`
 	DefaultsFromReference struct {
 		Link string `json:"link"`
 	} `json:"defaultsFromReference,omitempty"`
-	Description                   string `json:"description"`
-	DNSSecurity                   string `json:"dnsSecurity"`
-	DNS64                         string `json:"dns64"`
-	DNS64AdditionalSectionRewrite string `json:"dns64AdditionalSectionRewrite"`
-	DNS64Prefix                   string `json:"dns64Prefix"`
-	Edns0ClientSubnetInsert       string `json:"edns0ClientSubnetInsert"`
-	EnableCache                   string `json:"enableCache"`
-	EnableDNSExpress              string `json:"enableDnsExpress"`
-	EnableDNSFirewall             string `json:"enableDnsFirewall"`
-	EnableDnssec                  string `json:"enableDnssec"`
-	EnableGtm                     string `json:"enableGtm"`
-	EnableHardwareQueryValidation string `json:"enableHardwareQueryValidation"`
-	EnableHardwareResponseCache   string `json:"enableHardwareResponseCache"`
-	EnableLogging                 string `json:"enableLogging"`
-	EnableRapidResponse           string `json:"enableRapidResponse"`
-	LogProfile                    string `json:"logProfile"`
+	Description                   string `json:"description,omitempty"`
+	DNSSecurity                   string `json:"dnsSecurity,omitempty"`
+	DNS64                         string `json:"dns64,omitempty"`
+	DNS64AdditionalSectionRewrite string `json:"dns64AdditionalSectionRewrite,omitempty"`
+	DNS64Prefix                   string `json:"dns64Prefix,omitempty"`
+	Edns0ClientSubnetInsert       string `json:"edns0ClientSubnetInsert,omitempty"`
+	EnableCache                   string `json:"enableCache,omitempty"`
+	EnableDNSExpress              string `json:"enableDnsExpress,omitempty"`
+	EnableDNSFirewall             string `json:"enableDnsFirewall,omitempty"`
+	EnableDnssec                  string `json:"enableDnssec,omitempty"`
+	EnableGtm                     string `json:"enableGtm,omitempty"`
+	EnableHardwareQueryValidation string `json:"enableHardwareQueryValidation,omitempty"`
+	EnableHardwareResponseCache   string `json:"enableHardwareResponseCache,omitempty"`
+	EnableLogging                 string `json:"enableLogging,omitempty"`
+	EnableRapidResponse           string `json:"enableRapidResponse,omitempty"`
+	LogProfile                    string `json:"logProfile,omitempty"`
 	LogProfileReference           struct {
-		Link string `json:"link"`
+		Link string `json:"link,omitempty"`
 	} `json:"logProfileReference,omitempty"`
-	ProcessRd               string `json:"processRd"`
-	ProcessXfr              string `json:"processXfr"`
-	RapidResponseLastAction string `json:"rapidResponseLastAction"`
-	UnhandledQueryAction    string `json:"unhandledQueryAction"`
-	UseLocalBind            string `json:"useLocalBind"`
+	ProcessRd               string `json:"processRd,omitempty"`
+	ProcessXfr              string `json:"processXfr,omitempty"`
+	RapidResponseLastAction string `json:"rapidResponseLastAction,omitempty"`
+	UnhandledQueryAction    string `json:"unhandledQueryAction,omitempty"`
+	UseLocalBind            string `json:"useLocalBind,omitempty"`
 }
 
 const DNSEndpoint = "dns"

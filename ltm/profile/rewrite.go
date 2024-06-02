@@ -15,50 +15,50 @@ type RewriteList struct {
 }
 
 type Rewrite struct {
-	Kind                  string        `json:"kind"`
-	Name                  string        `json:"name"`
-	Partition             string        `json:"partition"`
-	FullPath              string        `json:"fullPath"`
-	Generation            int           `json:"generation"`
-	SelfLink              string        `json:"selfLink"`
-	AppService            string        `json:"appService"`
-	BypassList            []interface{} `json:"bypassList"`
-	ClientCachingType     string        `json:"clientCachingType"`
-	DefaultsFrom          string        `json:"defaultsFrom"`
+	Kind                  string        `json:"kind,omitempty"`
+	Name                  string        `json:"name,omitempty"`
+	Partition             string        `json:"partition,omitempty"`
+	FullPath              string        `json:"fullPath,omitempty"`
+	Generation            int           `json:"generation,omitempty"`
+	SelfLink              string        `json:"selfLink,omitempty"`
+	AppService            string        `json:"appService,omitempty"`
+	BypassList            []interface{} `json:"bypassList,omitempty"`
+	ClientCachingType     string        `json:"clientCachingType,omitempty"`
+	DefaultsFrom          string        `json:"defaultsFrom,omitempty"`
 	DefaultsFromReference struct {
-		Link string `json:"link"`
-	} `json:"defaultsFromReference"`
-	JavaCaFile          string `json:"javaCaFile"`
+		Link string `json:"link,omitempty"`
+	} `json:"defaultsFromReference,omitempty"`
+	JavaCaFile          string `json:"javaCaFile,omitempty"`
 	JavaCaFileReference struct {
-		Link string `json:"link"`
-	} `json:"javaCaFileReference"`
-	JavaCrl              string `json:"javaCrl"`
-	JavaSignKey          string `json:"javaSignKey"`
+		Link string `json:"link,omitempty"`
+	} `json:"javaCaFileReference,omitempty"`
+	JavaCrl              string `json:"javaCrl,omitempty"`
+	JavaSignKey          string `json:"javaSignKey,omitempty"`
 	JavaSignKeyReference struct {
-		Link string `json:"link"`
-	} `json:"javaSignKeyReference"`
-	JavaSigner          string `json:"javaSigner"`
+		Link string `json:"link,omitempty"`
+	} `json:"javaSignKeyReference,omitempty"`
+	JavaSigner          string `json:"javaSigner,omitempty"`
 	JavaSignerReference struct {
-		Link string `json:"link"`
-	} `json:"javaSignerReference"`
-	LocationSpecific string `json:"locationSpecific"`
+		Link string `json:"link,omitempty"`
+	} `json:"javaSignerReference,omitempty"`
+	LocationSpecific string `json:"locationSpecific,omitempty"`
 	Request          struct {
-		InsertXforwardedFor   string `json:"insertXforwardedFor"`
-		InsertXforwardedHost  string `json:"insertXforwardedHost"`
-		InsertXforwardedProto string `json:"insertXforwardedProto"`
-		RewriteHeaders        string `json:"rewriteHeaders"`
-	} `json:"request"`
+		InsertXforwardedFor   string `json:"insertXforwardedFor,omitempty"`
+		InsertXforwardedHost  string `json:"insertXforwardedHost,omitempty"`
+		InsertXforwardedProto string `json:"insertXforwardedProto,omitempty"`
+		RewriteHeaders        string `json:"rewriteHeaders,omitempty"`
+	} `json:"request,omitempty"`
 	Response struct {
-		RewriteContent string `json:"rewriteContent"`
-		RewriteHeaders string `json:"rewriteHeaders"`
-	} `json:"response"`
-	RewriteList       []interface{} `json:"rewriteList"`
-	RewriteMode       string        `json:"rewriteMode"`
-	SplitTunneling    string        `json:"splitTunneling"`
+		RewriteContent string `json:"rewriteContent,omitempty"`
+		RewriteHeaders string `json:"rewriteHeaders,omitempty"`
+	} `json:"response,omitempty"`
+	RewriteList       []interface{} `json:"rewriteList,omitempty"`
+	RewriteMode       string        `json:"rewriteMode,omitempty"`
+	SplitTunneling    string        `json:"splitTunneling,omitempty"`
 	URIRulesReference struct {
-		Link            string `json:"link"`
-		IsSubcollection bool   `json:"isSubcollection"`
-	} `json:"uriRulesReference"`
+		Link            string `json:"link,omitempty"`
+		IsSubcollection bool   `json:"isSubcollection,omitempty"`
+	} `json:"uriRulesReference,omitempty"`
 }
 
 const RewriteEndpoint = "rewrite"

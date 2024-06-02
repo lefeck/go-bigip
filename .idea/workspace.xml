@@ -5,32 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="adding gtm module function">
-      <change afterPath="$PROJECT_DIR$/cli/version_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/ifile_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/node_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/pool_members_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/pool_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/rule_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/traffic_matching_criteria_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ltm/virtual_address_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/bash_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ltm/snat_translation.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ltm/snat_translation_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ltm/snatpool_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bigip.go" beforeDir="false" afterPath="$PROJECT_DIR$/bigip.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/version.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/version.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/datagroup_internal.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/datagroup_internal.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/ifile.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/ifile.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/node.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/node.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/pool_members.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/pool_members.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/rule.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/rule.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ltm/pool.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/pool.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ltm/snatpool.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/snatpool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/traffic_matching_criteria.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/traffic_matching_criteria.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/virtual_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/virtual_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/address_list.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/address_list.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/port_list.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/port_list.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/routedomain.go" beforeDir="false" afterPath="$PROJECT_DIR$/net/routedomain.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/bash.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/bash.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +81,8 @@
     "Go 构建.go build main.go.executor": "Run",
     "Go 构建.go build test.go.executor": "Run",
     "Go 构建.go build url.go.executor": "Run",
+    "Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestSnatPoolResource.executor": "Run",
+    "Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestSnatTranslationstateResource.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
@@ -111,7 +94,7 @@
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/Johnny/go/src/go-bigip/ltm",
+    "last_opened_file_path": "/Users/johnny/go/src/go-bigip/ltm",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -133,7 +116,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 测试.github.com/lefeck/go-bigip/util 中的 TestBashResource_Run">
+  <component name="RunManager" selected="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestSnatTranslationstateResource">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -174,7 +157,7 @@
       <pattern value="^\QTestVersionStatsResource\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestRuleResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestSnatPoolResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="go-bigip" />
       <working_directory value="$PROJECT_DIR$/ltm" />
       <root_directory value="$PROJECT_DIR$" />
@@ -183,7 +166,19 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestRuleResource\E$" />
+      <pattern value="^\QTestSnatPoolResource\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestSnatTranslationstateResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$/ltm" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/go-bigip/ltm" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSnatTranslationstateResource\E$" />
       <method v="2" />
     </configuration>
     <configuration name="github.com/lefeck/go-bigip/util 中的 TestBashResource_Run" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -198,24 +193,13 @@
       <pattern value="^\QTestBashResource_Run\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="rule_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$/ltm" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/lefeck/go-bigip" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/ltm/rule_test.go" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestSnatTranslationstateResource" />
+        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestSnatPoolResource" />
         <item itemvalue="Go 测试.github.com/lefeck/go-bigip/util 中的 TestBashResource_Run" />
         <item itemvalue="Go 构建.go build github.com/lefeck/go-bigip/example" />
         <item itemvalue="Go 测试.github.com/lefeck/go-bigip/cli 中的 TestVersionStatsResource" />
-        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestRuleResource" />
-        <item itemvalue="Go 测试.rule_test.go" />
       </list>
     </recent_temporary>
   </component>

@@ -8,14 +8,14 @@ import (
 	"strings"
 )
 
-// A PoolList holds a list of Pool.
+// PoolList is a list contains multiple Pool objects.
 type PoolList struct {
 	Items    []Pool `json:"items,omitempty"`
 	Kind     string `json:"kind,omitempty" pretty:",expanded"`
 	SelfLink string `json:"selfLink,omitempty" pretty:",expanded"`
 }
 
-// A Pool hold the uration for a pool.
+// Pool represents an F5 BIG-IP LTM Pool configuration.
 type Pool struct {
 	AllowNat              string   `json:"allowNat,omitempty" pretty:",expanded"`
 	AllowSnat             string   `json:"allowSnat,omitempty" pretty:",expanded"`

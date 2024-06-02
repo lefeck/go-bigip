@@ -17,19 +17,19 @@ type RADIUSList struct {
 }
 
 type RADIUS struct {
-	Kind                  string        `json:"kind"`
-	Name                  string        `json:"name"`
-	Partition             string        `json:"partition"`
-	FullPath              string        `json:"fullPath"`
-	Generation            int           `json:"generation"`
-	SelfLink              string        `json:"selfLink"`
-	AppService            string        `json:"appService"`
-	Clients               []interface{} `json:"clients"`
-	DefaultsFrom          string        `json:"defaultsFrom"`
-	Description           string        `json:"description"`
-	PersistAvp            string        `json:"persistAvp"`
+	Kind                  string        `json:"kind,omitempty"`
+	Name                  string        `json:"name,omitempty"`
+	Partition             string        `json:"partition,omitempty"`
+	FullPath              string        `json:"fullPath,omitempty"`
+	Generation            int           `json:"generation,omitempty"`
+	SelfLink              string        `json:"selfLink,omitempty"`
+	AppService            string        `json:"appService,omitempty"`
+	Clients               []interface{} `json:"clients,omitempty"`
+	DefaultsFrom          string        `json:"defaultsFrom,omitempty"`
+	Description           string        `json:"description,omitempty"`
+	PersistAvp            string        `json:"persistAvp,omitempty"`
 	DefaultsFromReference struct {
-		Link string `json:"link"`
+		Link string `json:"link,omitempty"`
 	} `json:"defaultsFromReference,omitempty"`
 }
 

@@ -15,16 +15,16 @@ type OCSPList struct {
 }
 
 type OCSP struct {
-	Kind         string `json:"kind"`
-	Name         string `json:"name"`
-	Partition    string `json:"partition"`
-	FullPath     string `json:"fullPath"`
-	Generation   int    `json:"generation"`
-	SelfLink     string `json:"selfLink"`
-	AppService   string `json:"appService"`
-	DefaultsFrom string `json:"defaultsFrom"`
-	MaxAge       int    `json:"maxAge"`
-	Nonce        string `json:"nonce"`
+	Kind         string `json:"kind,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Partition    string `json:"partition,omitempty"`
+	FullPath     string `json:"fullPath,omitempty"`
+	Generation   int    `json:"generation,omitempty"`
+	SelfLink     string `json:"selfLink,omitempty"`
+	AppService   string `json:"appService,omitempty"`
+	DefaultsFrom string `json:"defaultsFrom,omitempty"`
+	MaxAge       int    `json:"maxAge,omitempty"`
+	Nonce        string `json:"nonce,omitempty"`
 }
 
 const OCSPEndpoint = "ocsp"

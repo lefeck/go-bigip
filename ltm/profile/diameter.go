@@ -15,30 +15,30 @@ type DiameterList struct {
 }
 
 type Diameter struct {
-	Kind                  string `json:"kind"`
-	Name                  string `json:"name"`
-	Partition             string `json:"partition"`
-	FullPath              string `json:"fullPath"`
-	Generation            int    `json:"generation"`
-	SelfLink              string `json:"selfLink"`
-	AppService            string `json:"appService"`
-	ConnectionPrime       string `json:"connectionPrime"`
-	DefaultsFrom          string `json:"defaultsFrom"`
-	Description           string `json:"description"`
-	DestinationRealm      string `json:"destinationRealm"`
-	HandshakeTimeout      int    `json:"handshakeTimeout"`
-	HostIPRewrite         string `json:"hostIpRewrite"`
-	MaxRetransmitAttempts int    `json:"maxRetransmitAttempts"`
-	MaxWatchdogFailure    int    `json:"maxWatchdogFailure"`
-	OriginHostToClient    string `json:"originHostToClient"`
-	OriginHostToServer    string `json:"originHostToServer"`
-	OriginRealmToClient   string `json:"originRealmToClient"`
-	OriginRealmToServer   string `json:"originRealmToServer"`
-	ParentAvp             string `json:"parentAvp"`
-	PersistAvp            string `json:"persistAvp"`
-	ResetOnTimeout        string `json:"resetOnTimeout"`
-	RetransmitTimeout     int    `json:"retransmitTimeout"`
-	WatchdogTimeout       int    `json:"watchdogTimeout"`
+	Kind                  string `json:"kind,omitempty"`
+	Name                  string `json:"name,omitempty"`
+	Partition             string `json:"partition,omitempty"`
+	FullPath              string `json:"fullPath,omitempty"`
+	Generation            int    `json:"generation,omitempty"`
+	SelfLink              string `json:"selfLink,omitempty"`
+	AppService            string `json:"appService,omitempty"`
+	ConnectionPrime       string `json:"connectionPrime,omitempty"`
+	DefaultsFrom          string `json:"defaultsFrom,omitempty"`
+	Description           string `json:"description,omitempty"`
+	DestinationRealm      string `json:"destinationRealm,omitempty"`
+	HandshakeTimeout      int    `json:"handshakeTimeout,omitempty"`
+	HostIPRewrite         string `json:"hostIpRewrite,omitempty"`
+	MaxRetransmitAttempts int    `json:"maxRetransmitAttempts,omitempty"`
+	MaxWatchdogFailure    int    `json:"maxWatchdogFailure,omitempty"`
+	OriginHostToClient    string `json:"originHostToClient,omitempty"`
+	OriginHostToServer    string `json:"originHostToServer,omitempty"`
+	OriginRealmToClient   string `json:"originRealmToClient,omitempty"`
+	OriginRealmToServer   string `json:"originRealmToServer,omitempty"`
+	ParentAvp             string `json:"parentAvp,omitempty"`
+	PersistAvp            string `json:"persistAvp,omitempty"`
+	ResetOnTimeout        string `json:"resetOnTimeout,omitempty"`
+	RetransmitTimeout     int    `json:"retransmitTimeout,omitempty"`
+	WatchdogTimeout       int    `json:"watchdogTimeout,omitempty"`
 }
 
 const DiameterEndpoint = "diameter"

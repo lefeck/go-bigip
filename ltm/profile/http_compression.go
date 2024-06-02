@@ -15,36 +15,36 @@ type HTTPCompressionList struct {
 }
 
 type HTTPCompression struct {
-	Kind                  string        `json:"kind"`
-	Name                  string        `json:"name"`
-	Partition             string        `json:"partition"`
-	FullPath              string        `json:"fullPath"`
-	Generation            int           `json:"generation"`
-	SelfLink              string        `json:"selfLink"`
-	AllowHTTP10           string        `json:"allowHttp_10"`
-	AppService            string        `json:"appService"`
-	BrowserWorkarounds    string        `json:"browserWorkarounds"`
-	BufferSize            int           `json:"bufferSize"`
-	ContentTypeExclude    []interface{} `json:"contentTypeExclude"`
-	ContentTypeInclude    []string      `json:"contentTypeInclude"`
-	CPUSaver              string        `json:"cpuSaver"`
-	CPUSaverHigh          int           `json:"cpuSaverHigh"`
-	CPUSaverLow           int           `json:"cpuSaverLow"`
-	DefaultsFrom          string        `json:"defaultsFrom"`
+	Kind                  string        `json:"kind,omitempty"`
+	Name                  string        `json:"name,omitempty"`
+	Partition             string        `json:"partition,omitempty"`
+	FullPath              string        `json:"fullPath,omitempty"`
+	Generation            int           `json:"generation,omitempty"`
+	SelfLink              string        `json:"selfLink,omitempty"`
+	AllowHTTP10           string        `json:"allowHttp_10,omitempty"`
+	AppService            string        `json:"appService,omitempty"`
+	BrowserWorkarounds    string        `json:"browserWorkarounds,omitempty"`
+	BufferSize            int           `json:"bufferSize,omitempty"`
+	ContentTypeExclude    []interface{} `json:"contentTypeExclude,omitempty"`
+	ContentTypeInclude    []string      `json:"contentTypeInclude,omitempty"`
+	CPUSaver              string        `json:"cpuSaver,omitempty"`
+	CPUSaverHigh          int           `json:"cpuSaverHigh,omitempty"`
+	CPUSaverLow           int           `json:"cpuSaverLow,omitempty"`
+	DefaultsFrom          string        `json:"defaultsFrom,omitempty"`
 	DefaultsFromReference struct {
-		Link string `json:"link"`
-	} `json:"defaultsFromReference"`
-	Description        string        `json:"description"`
-	GzipLevel          int           `json:"gzipLevel"`
-	GzipMemoryLevel    int           `json:"gzipMemoryLevel"`
-	GzipWindowSize     int           `json:"gzipWindowSize"`
-	KeepAcceptEncoding string        `json:"keepAcceptEncoding"`
-	MethodPrefer       string        `json:"methodPrefer"`
-	MinSize            int           `json:"minSize"`
-	Selective          string        `json:"selective"`
-	URIExclude         []interface{} `json:"uriExclude"`
-	URIInclude         []string      `json:"uriInclude"`
-	VaryHeader         string        `json:"varyHeader"`
+		Link string `json:"link,omitempty"`
+	} `json:"defaultsFromReference,omitempty"`
+	Description        string        `json:"description,omitempty"`
+	GzipLevel          int           `json:"gzipLevel,omitempty"`
+	GzipMemoryLevel    int           `json:"gzipMemoryLevel,omitempty"`
+	GzipWindowSize     int           `json:"gzipWindowSize,omitempty"`
+	KeepAcceptEncoding string        `json:"keepAcceptEncoding,omitempty"`
+	MethodPrefer       string        `json:"methodPrefer,omitempty"`
+	MinSize            int           `json:"minSize,omitempty"`
+	Selective          string        `json:"selective,omitempty"`
+	URIExclude         []interface{} `json:"uriExclude,omitempty"`
+	URIInclude         []string      `json:"uriInclude,omitempty"`
+	VaryHeader         string        `json:"varyHeader,omitempty"`
 }
 
 const HTTPCompressionEndpoint = "http-compression"

@@ -15,32 +15,32 @@ type WebAccelerationList struct {
 }
 
 type WebAcceleration struct {
-	Kind                        string        `json:"kind"`
-	Name                        string        `json:"name"`
-	Partition                   string        `json:"partition"`
-	FullPath                    string        `json:"fullPath"`
-	Generation                  int           `json:"generation"`
-	SelfLink                    string        `json:"selfLink"`
-	AppService                  string        `json:"appService"`
-	Applications                []interface{} `json:"applications"`
-	ApplicationsReference       []interface{} `json:"applicationsReference"`
-	CacheAgingRate              int           `json:"cacheAgingRate"`
-	CacheClientCacheControlMode string        `json:"cacheClientCacheControlMode"`
-	CacheInsertAgeHeader        string        `json:"cacheInsertAgeHeader"`
-	CacheMaxAge                 int           `json:"cacheMaxAge"`
-	CacheMaxEntries             int           `json:"cacheMaxEntries"`
-	CacheObjectMaxSize          int           `json:"cacheObjectMaxSize"`
-	CacheObjectMinSize          int           `json:"cacheObjectMinSize"`
-	CacheSize                   int           `json:"cacheSize"`
-	CacheURIExclude             []interface{} `json:"cacheUriExclude"`
-	CacheURIInclude             []string      `json:"cacheUriInclude"`
-	CacheURIIncludeOverride     []interface{} `json:"cacheUriIncludeOverride"`
-	CacheURIPinned              []interface{} `json:"cacheUriPinned"`
-	DefaultsFrom                string        `json:"defaultsFrom"`
+	Kind                        string        `json:"kind,omitempty"`
+	Name                        string        `json:"name,omitempty"`
+	Partition                   string        `json:"partition,omitempty"`
+	FullPath                    string        `json:"fullPath,omitempty"`
+	Generation                  int           `json:"generation,omitempty"`
+	SelfLink                    string        `json:"selfLink,omitempty"`
+	AppService                  string        `json:"appService,omitempty"`
+	Applications                []interface{} `json:"applications,omitempty"`
+	ApplicationsReference       []interface{} `json:"applicationsReference,omitempty"`
+	CacheAgingRate              int           `json:"cacheAgingRate,omitempty"`
+	CacheClientCacheControlMode string        `json:"cacheClientCacheControlMode,omitempty"`
+	CacheInsertAgeHeader        string        `json:"cacheInsertAgeHeader,omitempty"`
+	CacheMaxAge                 int           `json:"cacheMaxAge,omitempty"`
+	CacheMaxEntries             int           `json:"cacheMaxEntries,omitempty"`
+	CacheObjectMaxSize          int           `json:"cacheObjectMaxSize,omitempty"`
+	CacheObjectMinSize          int           `json:"cacheObjectMinSize,omitempty"`
+	CacheSize                   int           `json:"cacheSize,omitempty"`
+	CacheURIExclude             []interface{} `json:"cacheUriExclude,omitempty"`
+	CacheURIInclude             []string      `json:"cacheUriInclude,omitempty"`
+	CacheURIIncludeOverride     []interface{} `json:"cacheUriIncludeOverride,omitempty"`
+	CacheURIPinned              []interface{} `json:"cacheUriPinned,omitempty"`
+	DefaultsFrom                string        `json:"defaultsFrom,omitempty"`
 	DefaultsFromReference       struct {
-		Link string `json:"link"`
+		Link string `json:"link,omitempty"`
 	} `json:"defaultsFromReference,omitempty"`
-	MetadataCacheMaxSize int `json:"metadataCacheMaxSize"`
+	MetadataCacheMaxSize int `json:"metadataCacheMaxSize,omitempty"`
 }
 
 const WebAccelerationEndpoint = "webacceleration"

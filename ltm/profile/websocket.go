@@ -15,22 +15,22 @@ type WebSocketList struct {
 }
 
 type WebSocket struct {
-	Kind                   string `json:"kind"`
-	Name                   string `json:"name"`
-	Partition              string `json:"partition"`
-	FullPath               string `json:"fullPath"`
-	Generation             int    `json:"generation"`
-	SelfLink               string `json:"selfLink"`
-	AppService             string `json:"appService"`
-	CompressMode           string `json:"compressMode"`
-	Compression            string `json:"compression"`
-	DefaultsFrom           string `json:"defaultsFrom"`
-	Description            string `json:"description"`
-	Masking                string `json:"masking"`
-	NoDelay                string `json:"noDelay"`
-	PayloadProcessingMode  string `json:"payloadProcessingMode"`
-	PayloadProtocolProfile string `json:"payloadProtocolProfile"`
-	WindowBits             int    `json:"windowBits"`
+	Kind                   string `json:"kind,omitempty"`
+	Name                   string `json:"name,omitempty"`
+	Partition              string `json:"partition,omitempty"`
+	FullPath               string `json:"fullPath,omitempty"`
+	Generation             int    `json:"generation,omitempty"`
+	SelfLink               string `json:"selfLink,omitempty"`
+	AppService             string `json:"appService,omitempty"`
+	CompressMode           string `json:"compressMode,omitempty"`
+	Compression            string `json:"compression,omitempty"`
+	DefaultsFrom           string `json:"defaultsFrom,omitempty"`
+	Description            string `json:"description,omitempty"`
+	Masking                string `json:"masking,omitempty"`
+	NoDelay                string `json:"noDelay,omitempty"`
+	PayloadProcessingMode  string `json:"payloadProcessingMode,omitempty"`
+	PayloadProtocolProfile string `json:"payloadProtocolProfile,omitempty"`
+	WindowBits             int    `json:"windowBits,omitempty"`
 }
 
 const WebSocketEndpoint = "websocket"

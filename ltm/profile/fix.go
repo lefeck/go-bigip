@@ -15,23 +15,23 @@ type FIXList struct {
 }
 
 type FIX struct {
-	Kind                     string        `json:"kind"`
-	Name                     string        `json:"name"`
-	Partition                string        `json:"partition"`
-	FullPath                 string        `json:"fullPath"`
-	Generation               int           `json:"generation"`
-	SelfLink                 string        `json:"selfLink"`
-	AppService               string        `json:"appService"`
-	DefaultsFrom             string        `json:"defaultsFrom"`
-	Description              string        `json:"description"`
-	ErrorAction              string        `json:"errorAction"`
-	FullLogonParsing         string        `json:"fullLogonParsing"`
-	MessageLogPublisher      string        `json:"messageLogPublisher"`
-	QuickParsing             string        `json:"quickParsing"`
-	ReportLogPublisher       string        `json:"reportLogPublisher"`
-	ResponseParsing          string        `json:"responseParsing"`
-	SenderTagClass           []interface{} `json:"senderTagClass"`
-	StatisticsSampleInterval int           `json:"statisticsSampleInterval"`
+	Kind                     string        `json:"kind,omitempty"`
+	Name                     string        `json:"name,omitempty"`
+	Partition                string        `json:"partition,omitempty"`
+	FullPath                 string        `json:"fullPath,omitempty"`
+	Generation               int           `json:"generation,omitempty"`
+	SelfLink                 string        `json:"selfLink,omitempty"`
+	AppService               string        `json:"appService,omitempty"`
+	DefaultsFrom             string        `json:"defaultsFrom,omitempty"`
+	Description              string        `json:"description,omitempty"`
+	ErrorAction              string        `json:"errorAction,omitempty"`
+	FullLogonParsing         string        `json:"fullLogonParsing,omitempty"`
+	MessageLogPublisher      string        `json:"messageLogPublisher,omitempty"`
+	QuickParsing             string        `json:"quickParsing,omitempty"`
+	ReportLogPublisher       string        `json:"reportLogPublisher,omitempty"`
+	ResponseParsing          string        `json:"responseParsing,omitempty"`
+	SenderTagClass           []interface{} `json:"senderTagClass,omitempty"`
+	StatisticsSampleInterval int           `json:"statisticsSampleInterval,omitempty"`
 }
 
 const FIXEndpoint = "fix"

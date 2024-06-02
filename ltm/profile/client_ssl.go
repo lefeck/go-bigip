@@ -15,114 +15,114 @@ type ClientSSLList struct {
 }
 
 type ClientSSL struct {
-	Kind                     string `json:"kind"`
-	Name                     string `json:"name"`
-	Partition                string `json:"partition"`
-	FullPath                 string `json:"fullPath"`
-	Generation               int    `json:"generation"`
-	SelfLink                 string `json:"selfLink"`
-	AlertTimeout             string `json:"alertTimeout"`
-	AllowDynamicRecordSizing string `json:"allowDynamicRecordSizing"`
-	AllowExpiredCrl          string `json:"allowExpiredCrl"`
-	AllowNonSsl              string `json:"allowNonSsl"`
-	AppService               string `json:"appService"`
-	Authenticate             string `json:"authenticate"`
-	AuthenticateDepth        int    `json:"authenticateDepth"`
-	BypassOnClientCertFail   string `json:"bypassOnClientCertFail"`
-	BypassOnHandshakeAlert   string `json:"bypassOnHandshakeAlert"`
-	C3DClientFallbackCert    string `json:"c3dClientFallbackCert"`
-	C3DDropUnknownOcspStatus string `json:"c3dDropUnknownOcspStatus"`
-	C3DOcsp                  string `json:"c3dOcsp"`
-	CaFile                   string `json:"caFile"`
-	CacheSize                int    `json:"cacheSize"`
-	CacheTimeout             int    `json:"cacheTimeout"`
-	Cert                     string `json:"cert"`
+	Kind                     string `json:"kind,omitempty"`
+	Name                     string `json:"name,omitempty"`
+	Partition                string `json:"partition,omitempty"`
+	FullPath                 string `json:"fullPath,omitempty"`
+	Generation               int    `json:"generation,omitempty"`
+	SelfLink                 string `json:"selfLink,omitempty"`
+	AlertTimeout             string `json:"alertTimeout,omitempty"`
+	AllowDynamicRecordSizing string `json:"allowDynamicRecordSizing,omitempty"`
+	AllowExpiredCrl          string `json:"allowExpiredCrl,omitempty"`
+	AllowNonSsl              string `json:"allowNonSsl,omitempty"`
+	AppService               string `json:"appService,omitempty"`
+	Authenticate             string `json:"authenticate,omitempty"`
+	AuthenticateDepth        int    `json:"authenticateDepth,omitempty"`
+	BypassOnClientCertFail   string `json:"bypassOnClientCertFail,omitempty"`
+	BypassOnHandshakeAlert   string `json:"bypassOnHandshakeAlert,omitempty"`
+	C3DClientFallbackCert    string `json:"c3dClientFallbackCert,omitempty"`
+	C3DDropUnknownOcspStatus string `json:"c3dDropUnknownOcspStatus,omitempty"`
+	C3DOcsp                  string `json:"c3dOcsp,omitempty"`
+	CaFile                   string `json:"caFile,omitempty"`
+	CacheSize                int    `json:"cacheSize,omitempty"`
+	CacheTimeout             int    `json:"cacheTimeout,omitempty"`
+	Cert                     string `json:"cert,omitempty"`
 	CertReference            struct {
-		Link string `json:"link"`
-	} `json:"certReference"`
-	CertExtensionIncludes  []string `json:"certExtensionIncludes"`
-	CertLifespan           int      `json:"certLifespan"`
-	CertLookupByIpaddrPort string   `json:"certLookupByIpaddrPort"`
-	Chain                  string   `json:"chain"`
-	CipherGroup            string   `json:"cipherGroup"`
-	Ciphers                string   `json:"ciphers"`
-	ClientCertCa           string   `json:"clientCertCa"`
-	Crl                    string   `json:"crl"`
-	CrlFile                string   `json:"crlFile"`
-	Data0Rtt               string   `json:"data_0rtt"`
-	DefaultsFrom           string   `json:"defaultsFrom"`
+		Link string `json:"link,omitempty"`
+	} `json:"certReference,omitempty"`
+	CertExtensionIncludes  []string `json:"certExtensionIncludes,omitempty"`
+	CertLifespan           int      `json:"certLifespan,omitempty"`
+	CertLookupByIpaddrPort string   `json:"certLookupByIpaddrPort,omitempty"`
+	Chain                  string   `json:"chain,omitempty"`
+	CipherGroup            string   `json:"cipherGroup,omitempty"`
+	Ciphers                string   `json:"ciphers,omitempty"`
+	ClientCertCa           string   `json:"clientCertCa,omitempty"`
+	Crl                    string   `json:"crl,omitempty"`
+	CrlFile                string   `json:"crlFile,omitempty"`
+	Data0Rtt               string   `json:"data_0rtt,omitempty"`
+	DefaultsFrom           string   `json:"defaultsFrom,omitempty"`
 	DefaultsFromReference  struct {
-		Link string `json:"link"`
-	} `json:"defaultsFromReference"`
-	Description                     string        `json:"description"`
-	DestinationIPBlacklist          string        `json:"destinationIpBlacklist"`
-	DestinationIPWhitelist          string        `json:"destinationIpWhitelist"`
-	ForwardProxyBypassDefaultAction string        `json:"forwardProxyBypassDefaultAction"`
-	GenericAlert                    string        `json:"genericAlert"`
-	HandshakeTimeout                string        `json:"handshakeTimeout"`
-	HelloExtensionIncludes          []interface{} `json:"helloExtensionIncludes"`
-	HostnameBlacklist               string        `json:"hostnameBlacklist"`
-	HostnameWhitelist               string        `json:"hostnameWhitelist"`
-	InheritCaCertkeychain           string        `json:"inheritCaCertkeychain"`
-	InheritCertkeychain             string        `json:"inheritCertkeychain"`
-	Key                             string        `json:"key"`
+		Link string `json:"link,omitempty"`
+	} `json:"defaultsFromReference,omitempty"`
+	Description                     string        `json:"description,omitempty"`
+	DestinationIPBlacklist          string        `json:"destinationIpBlacklist,omitempty"`
+	DestinationIPWhitelist          string        `json:"destinationIpWhitelist,omitempty"`
+	ForwardProxyBypassDefaultAction string        `json:"forwardProxyBypassDefaultAction,omitempty"`
+	GenericAlert                    string        `json:"genericAlert,omitempty"`
+	HandshakeTimeout                string        `json:"handshakeTimeout,omitempty"`
+	HelloExtensionIncludes          []interface{} `json:"helloExtensionIncludes,omitempty"`
+	HostnameBlacklist               string        `json:"hostnameBlacklist,omitempty"`
+	HostnameWhitelist               string        `json:"hostnameWhitelist,omitempty"`
+	InheritCaCertkeychain           string        `json:"inheritCaCertkeychain,omitempty"`
+	InheritCertkeychain             string        `json:"inheritCertkeychain,omitempty"`
+	Key                             string        `json:"key,omitempty"`
 	KeyReference                    struct {
-		Link string `json:"link"`
-	} `json:"keyReference"`
-	LogPublisher          string `json:"logPublisher"`
+		Link string `json:"link,omitempty"`
+	} `json:"keyReference,omitempty"`
+	LogPublisher          string `json:"logPublisher,omitempty"`
 	LogPublisherReference struct {
-		Link string `json:"link"`
-	} `json:"logPublisherReference"`
-	MaxActiveHandshakes                string `json:"maxActiveHandshakes"`
-	MaxAggregateRenegotiationPerMinute string `json:"maxAggregateRenegotiationPerMinute"`
-	MaxRenegotiationsPerMinute         int    `json:"maxRenegotiationsPerMinute"`
-	MaximumRecordSize                  int    `json:"maximumRecordSize"`
-	ModSslMethods                      string `json:"modSslMethods"`
-	Mode                               string `json:"mode"`
-	NotifyCertStatusToVirtualServer    string `json:"notifyCertStatusToVirtualServer"`
-	OcspStapling                       string `json:"ocspStapling"`
-	TmOptions                          string `json:"tmOptions"`
-	PeerCertMode                       string `json:"peerCertMode"`
-	PeerNoRenegotiateTimeout           string `json:"peerNoRenegotiateTimeout"`
-	ProxyCaCert                        string `json:"proxyCaCert"`
-	ProxyCaKey                         string `json:"proxyCaKey"`
-	ProxySsl                           string `json:"proxySsl"`
-	ProxySslPassthrough                string `json:"proxySslPassthrough"`
-	RenegotiateMaxRecordDelay          string `json:"renegotiateMaxRecordDelay"`
-	RenegotiatePeriod                  string `json:"renegotiatePeriod"`
-	RenegotiateSize                    string `json:"renegotiateSize"`
-	Renegotiation                      string `json:"renegotiation"`
-	RetainCertificate                  string `json:"retainCertificate"`
-	SecureRenegotiation                string `json:"secureRenegotiation"`
-	ServerName                         string `json:"serverName"`
-	SessionMirroring                   string `json:"sessionMirroring"`
-	SessionTicket                      string `json:"sessionTicket"`
-	SessionTicketTimeout               int    `json:"sessionTicketTimeout"`
-	SniDefault                         string `json:"sniDefault"`
-	SniRequire                         string `json:"sniRequire"`
-	SourceIPBlacklist                  string `json:"sourceIpBlacklist"`
-	SourceIPWhitelist                  string `json:"sourceIpWhitelist"`
-	SslC3D                             string `json:"sslC3d"`
-	SslForwardProxy                    string `json:"sslForwardProxy"`
-	SslForwardProxyBypass              string `json:"sslForwardProxyBypass"`
-	SslForwardProxyVerifiedHandshake   string `json:"sslForwardProxyVerifiedHandshake"`
-	SslSignHash                        string `json:"sslSignHash"`
-	StrictResume                       string `json:"strictResume"`
-	UncleanShutdown                    string `json:"uncleanShutdown"`
+		Link string `json:"link,omitempty"`
+	} `json:"logPublisherReference,omitempty"`
+	MaxActiveHandshakes                string `json:"maxActiveHandshakes,omitempty"`
+	MaxAggregateRenegotiationPerMinute string `json:"maxAggregateRenegotiationPerMinute,omitempty"`
+	MaxRenegotiationsPerMinute         int    `json:"maxRenegotiationsPerMinute,omitempty"`
+	MaximumRecordSize                  int    `json:"maximumRecordSize,omitempty"`
+	ModSslMethods                      string `json:"modSslMethods,omitempty"`
+	Mode                               string `json:"mode,omitempty"`
+	NotifyCertStatusToVirtualServer    string `json:"notifyCertStatusToVirtualServer,omitempty"`
+	OcspStapling                       string `json:"ocspStapling,omitempty"`
+	TmOptions                          string `json:"tmOptions,omitempty"`
+	PeerCertMode                       string `json:"peerCertMode,omitempty"`
+	PeerNoRenegotiateTimeout           string `json:"peerNoRenegotiateTimeout,omitempty"`
+	ProxyCaCert                        string `json:"proxyCaCert,omitempty"`
+	ProxyCaKey                         string `json:"proxyCaKey,omitempty"`
+	ProxySsl                           string `json:"proxySsl,omitempty"`
+	ProxySslPassthrough                string `json:"proxySslPassthrough,omitempty"`
+	RenegotiateMaxRecordDelay          string `json:"renegotiateMaxRecordDelay,omitempty"`
+	RenegotiatePeriod                  string `json:"renegotiatePeriod,omitempty"`
+	RenegotiateSize                    string `json:"renegotiateSize,omitempty"`
+	Renegotiation                      string `json:"renegotiation,omitempty"`
+	RetainCertificate                  string `json:"retainCertificate,omitempty"`
+	SecureRenegotiation                string `json:"secureRenegotiation,omitempty"`
+	ServerName                         string `json:"serverName,omitempty"`
+	SessionMirroring                   string `json:"sessionMirroring,omitempty"`
+	SessionTicket                      string `json:"sessionTicket,omitempty"`
+	SessionTicketTimeout               int    `json:"sessionTicketTimeout,omitempty"`
+	SniDefault                         string `json:"sniDefault,omitempty"`
+	SniRequire                         string `json:"sniRequire,omitempty"`
+	SourceIPBlacklist                  string `json:"sourceIpBlacklist,omitempty"`
+	SourceIPWhitelist                  string `json:"sourceIpWhitelist,omitempty"`
+	SslC3D                             string `json:"sslC3d,omitempty"`
+	SslForwardProxy                    string `json:"sslForwardProxy,omitempty"`
+	SslForwardProxyBypass              string `json:"sslForwardProxyBypass,omitempty"`
+	SslForwardProxyVerifiedHandshake   string `json:"sslForwardProxyVerifiedHandshake,omitempty"`
+	SslSignHash                        string `json:"sslSignHash,omitempty"`
+	StrictResume                       string `json:"strictResume,omitempty"`
+	UncleanShutdown                    string `json:"uncleanShutdown,omitempty"`
 	CertKeyChain                       []struct {
-		Name          string `json:"name"`
-		AppService    string `json:"appService"`
-		Cert          string `json:"cert"`
+		Name          string `json:"name,omitempty"`
+		AppService    string `json:"appService,omitempty"`
+		Cert          string `json:"cert,omitempty"`
 		CertReference struct {
-			Link string `json:"link"`
-		} `json:"certReference"`
-		Chain        string `json:"chain"`
-		Key          string `json:"key"`
+			Link string `json:"link,omitempty"`
+		} `json:"certReference,omitempty"`
+		Chain        string `json:"chain,omitempty"`
+		Key          string `json:"key,omitempty"`
 		KeyReference struct {
-			Link string `json:"link"`
-		} `json:"keyReference"`
-		Usage string `json:"usage"`
-	} `json:"certKeyChain"`
+			Link string `json:"link,omitempty"`
+		} `json:"keyReference,omitempty"`
+		Usage string `json:"usage,omitempty"`
+	} `json:"certKeyChain,omitempty"`
 }
 
 const ClientSSLEndpoint = "client-ssl"

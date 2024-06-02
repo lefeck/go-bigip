@@ -15,25 +15,25 @@ type NTLMList struct {
 }
 
 type NTLM struct {
-	Kind                   string `json:"kind"`
-	Name                   string `json:"name"`
-	Partition              string `json:"partition"`
-	FullPath               string `json:"fullPath"`
-	Generation             int    `json:"generation"`
-	SelfLink               string `json:"selfLink"`
-	AppService             string `json:"appService"`
-	DefaultsFrom           string `json:"defaultsFrom"`
-	Description            string `json:"description"`
-	InsertCookieDomain     string `json:"insertCookieDomain"`
-	InsertCookieName       string `json:"insertCookieName"`
-	InsertCookiePassphrase string `json:"insertCookiePassphrase"`
-	KeyByCookie            string `json:"keyByCookie"`
-	KeyByCookieName        string `json:"keyByCookieName"`
-	KeyByDomain            string `json:"keyByDomain"`
-	KeyByIPAddress         string `json:"keyByIpAddress"`
-	KeyByTarget            string `json:"keyByTarget"`
-	KeyByUser              string `json:"keyByUser"`
-	KeyByWorkstation       string `json:"keyByWorkstation"`
+	Kind                   string `json:"kind,omitempty"`
+	Name                   string `json:"name,omitempty"`
+	Partition              string `json:"partition,omitempty"`
+	FullPath               string `json:"fullPath,omitempty"`
+	Generation             int    `json:"generation,omitempty"`
+	SelfLink               string `json:"selfLink,omitempty"`
+	AppService             string `json:"appService,omitempty"`
+	DefaultsFrom           string `json:"defaultsFrom,omitempty"`
+	Description            string `json:"description,omitempty"`
+	InsertCookieDomain     string `json:"insertCookieDomain,omitempty"`
+	InsertCookieName       string `json:"insertCookieName,omitempty"`
+	InsertCookiePassphrase string `json:"insertCookiePassphrase,omitempty"`
+	KeyByCookie            string `json:"keyByCookie,omitempty"`
+	KeyByCookieName        string `json:"keyByCookieName,omitempty"`
+	KeyByDomain            string `json:"keyByDomain,omitempty"`
+	KeyByIPAddress         string `json:"keyByIpAddress,omitempty"`
+	KeyByTarget            string `json:"keyByTarget,omitempty"`
+	KeyByUser              string `json:"keyByUser,omitempty"`
+	KeyByWorkstation       string `json:"keyByWorkstation,omitempty"`
 }
 
 const NTLMEndpoint = "ntlm"

@@ -15,16 +15,16 @@ type IMAPList struct {
 }
 
 type IMAP struct {
-	Kind           string `json:"kind"`
-	Name           string `json:"name"`
-	Partition      string `json:"partition"`
-	FullPath       string `json:"fullPath"`
-	Generation     int    `json:"generation"`
-	SelfLink       string `json:"selfLink"`
-	ActivationMode string `json:"activationMode"`
-	AppService     string `json:"appService"`
-	DefaultsFrom   string `json:"defaultsFrom"`
-	Description    string `json:"description"`
+	Kind           string `json:"kind,omitempty"`
+	Name           string `json:"name,omitempty"`
+	Partition      string `json:"partition,omitempty"`
+	FullPath       string `json:"fullPath,omitempty"`
+	Generation     int    `json:"generation,omitempty"`
+	SelfLink       string `json:"selfLink,omitempty"`
+	ActivationMode string `json:"activationMode,omitempty"`
+	AppService     string `json:"appService,omitempty"`
+	DefaultsFrom   string `json:"defaultsFrom,omitempty"`
+	Description    string `json:"description,omitempty"`
 }
 
 const IMAPEndpoint = "imap"

@@ -15,26 +15,26 @@ type HTTP2List struct {
 }
 
 type HTTP2 struct {
-	Kind                           string   `json:"kind"`
-	Name                           string   `json:"name"`
-	Partition                      string   `json:"partition"`
-	FullPath                       string   `json:"fullPath"`
-	Generation                     int      `json:"generation"`
-	SelfLink                       string   `json:"selfLink"`
-	ActivationModes                []string `json:"activationModes"`
-	AppService                     string   `json:"appService"`
-	ConcurrentStreamsPerConnection int      `json:"concurrentStreamsPerConnection"`
-	ConnectionIdleTimeout          int      `json:"connectionIdleTimeout"`
-	DefaultsFrom                   string   `json:"defaultsFrom"`
-	Description                    string   `json:"description"`
-	EnforceTLSRequirements         string   `json:"enforceTlsRequirements"`
-	FrameSize                      int      `json:"frameSize"`
-	HeaderTableSize                int      `json:"headerTableSize"`
-	IncludeContentLength           string   `json:"includeContentLength"`
-	InsertHeader                   string   `json:"insertHeader"`
-	InsertHeaderName               string   `json:"insertHeaderName"`
-	ReceiveWindow                  int      `json:"receiveWindow"`
-	WriteSize                      int      `json:"writeSize"`
+	Kind                           string   `json:"kind,omitempty"`
+	Name                           string   `json:"name,omitempty"`
+	Partition                      string   `json:"partition,omitempty"`
+	FullPath                       string   `json:"fullPath,omitempty"`
+	Generation                     int      `json:"generation,omitempty"`
+	SelfLink                       string   `json:"selfLink,omitempty"`
+	ActivationModes                []string `json:"activationModes,omitempty"`
+	AppService                     string   `json:"appService,omitempty"`
+	ConcurrentStreamsPerConnection int      `json:"concurrentStreamsPerConnection,omitempty"`
+	ConnectionIdleTimeout          int      `json:"connectionIdleTimeout,omitempty"`
+	DefaultsFrom                   string   `json:"defaultsFrom,omitempty"`
+	Description                    string   `json:"description,omitempty"`
+	EnforceTLSRequirements         string   `json:"enforceTlsRequirements,omitempty"`
+	FrameSize                      int      `json:"frameSize,omitempty"`
+	HeaderTableSize                int      `json:"headerTableSize,omitempty"`
+	IncludeContentLength           string   `json:"includeContentLength,omitempty"`
+	InsertHeader                   string   `json:"insertHeader,omitempty"`
+	InsertHeaderName               string   `json:"insertHeaderName,omitempty"`
+	ReceiveWindow                  int      `json:"receiveWindow,omitempty"`
+	WriteSize                      int      `json:"writeSize,omitempty"`
 }
 
 const HTTP2Endpoint = "http2"

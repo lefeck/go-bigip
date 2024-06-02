@@ -15,31 +15,31 @@ type UDPList struct {
 }
 
 type UDP struct {
-	Kind                  string `json:"kind"`
-	Name                  string `json:"name"`
-	Partition             string `json:"partition"`
-	FullPath              string `json:"fullPath"`
-	Generation            int    `json:"generation"`
-	SelfLink              string `json:"selfLink"`
-	AllowNoPayload        string `json:"allowNoPayload"`
-	AppService            string `json:"appService"`
-	BufferMaxBytes        int    `json:"bufferMaxBytes"`
-	BufferMaxPackets      int    `json:"bufferMaxPackets"`
-	DatagramLoadBalancing string `json:"datagramLoadBalancing"`
-	DefaultsFrom          string `json:"defaultsFrom"`
-	Description           string `json:"description"`
-	IdleTimeout           string `json:"idleTimeout"`
-	IPDfMode              string `json:"ipDfMode"`
-	IPTosToClient         string `json:"ipTosToClient"`
-	IPTTLMode             string `json:"ipTtlMode"`
-	IPTTLV4               int    `json:"ipTtlV4"`
-	IPTTLV6               int    `json:"ipTtlV6"`
-	LinkQosToClient       string `json:"linkQosToClient"`
-	NoChecksum            string `json:"noChecksum"`
-	ProxyMss              string `json:"proxyMss"`
-	SendBufferSize        int    `json:"sendBufferSize"`
+	Kind                  string `json:"kind,omitempty"`
+	Name                  string `json:"name,omitempty"`
+	Partition             string `json:"partition,omitempty"`
+	FullPath              string `json:"fullPath,omitempty"`
+	Generation            int    `json:"generation,omitempty"`
+	SelfLink              string `json:"selfLink,omitempty"`
+	AllowNoPayload        string `json:"allowNoPayload,omitempty"`
+	AppService            string `json:"appService,omitempty"`
+	BufferMaxBytes        int    `json:"bufferMaxBytes,omitempty"`
+	BufferMaxPackets      int    `json:"bufferMaxPackets,omitempty"`
+	DatagramLoadBalancing string `json:"datagramLoadBalancing,omitempty"`
+	DefaultsFrom          string `json:"defaultsFrom,omitempty"`
+	Description           string `json:"description,omitempty"`
+	IdleTimeout           string `json:"idleTimeout,omitempty"`
+	IPDfMode              string `json:"ipDfMode,omitempty"`
+	IPTosToClient         string `json:"ipTosToClient,omitempty"`
+	IPTTLMode             string `json:"ipTtlMode,omitempty"`
+	IPTTLV4               int    `json:"ipTtlV4,omitempty"`
+	IPTTLV6               int    `json:"ipTtlV6,omitempty"`
+	LinkQosToClient       string `json:"linkQosToClient,omitempty"`
+	NoChecksum            string `json:"noChecksum,omitempty"`
+	ProxyMss              string `json:"proxyMss,omitempty"`
+	SendBufferSize        int    `json:"sendBufferSize,omitempty"`
 	DefaultsFromReference struct {
-		Link string `json:"link"`
+		Link string `json:"link,omitempty"`
 	} `json:"defaultsFromReference,omitempty"`
 }
 
