@@ -4,22 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="adding gtm module function">
-      <change afterPath="$PROJECT_DIR$/gtm/datacenter_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gtm/global-settings/global-settings.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gtm/pool/pool.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gtm/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gtm/server_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gtm/wideip/wideip.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/datacenter.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/datacenter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/profile/certificate_authority.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/profile/certificate_authority.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ltm/snat_translation.go" beforeDir="false" afterPath="$PROJECT_DIR$/ltm/snat_translation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/util.go" afterDir="false" />
-    </list>
+    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
