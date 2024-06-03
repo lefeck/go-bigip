@@ -4,8 +4,10 @@ import (
 	"github.com/lefeck/go-bigip"
 )
 
+// UtilManager is a commonly used tm, providing a large number of api resource types
+const UtilManager = "util"
+
 type Util struct {
-	b    *bigip.BigIP
 	bash BashResource
 }
 
@@ -18,6 +20,3 @@ func NewUtil(b *bigip.BigIP) Util {
 func (util Util) Bash() *BashResource {
 	return &util.bash
 }
-
-// UtilManager is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
-const UtilManager = "util"

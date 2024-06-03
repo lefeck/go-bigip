@@ -17,17 +17,17 @@ type DatacenterList struct {
 
 // Datacenter holds the configuration of a single Datacenter.
 type Datacenter struct {
-	Kind             string `json:"kind"`
-	Name             string `json:"name"`
-	Partition        string `json:"partition"`
-	FullPath         string `json:"fullPath"`
-	Generation       int    `json:"generation"`
-	SelfLink         string `json:"selfLink"`
-	Contact          string `json:"contact"`
-	Enabled          bool   `json:"enabled"`
-	Location         string `json:"location"`
-	ProberFallback   string `json:"proberFallback"`
-	ProberPreference string `json:"proberPreference"`
+	Kind             string `json:"kind,omitempty"`
+	Name             string `json:"name,omitempty"`
+	Partition        string `json:"partition,omitempty"`
+	FullPath         string `json:"fullPath,omitempty"`
+	Generation       int    `json:"generation,omitempty"`
+	SelfLink         string `json:"selfLink,omitempty"`
+	Contact          string `json:"contact,omitempty"`
+	Enabled          bool   `json:"enabled,omitempty"`
+	Location         string `json:"location,omitempty"`
+	ProberFallback   string `json:"proberFallback,omitempty"`
+	ProberPreference string `json:"proberPreference,omitempty"`
 }
 
 // DatacenterEndpoint represents the REST resource for managing Datacenter.

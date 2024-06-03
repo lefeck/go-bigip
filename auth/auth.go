@@ -5,7 +5,6 @@ import (
 )
 
 type Authz struct {
-	b     *bigip.BigIP
 	users UsersResource
 }
 

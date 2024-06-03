@@ -8,14 +8,15 @@ import (
 	"strings"
 )
 
-// SnatTranslationstateList is a list contains multiple SnatTranslationstate objects.
+// snat-translation - Configures an explicit secure network address translation (SNAT) translation address.
+// SnatTranslationList is a list contains multiple SnatTranslation objects.
 type SnatTranslationList struct {
 	Kind     string            `json:"kind,omitempty"`
 	SelfLink string            `json:"selfLink,omitempty"`
 	Items    []SnatTranslation `json:"items,omitempty"`
 }
 
-// SnatTranslationstate represents an F5 BIG-IP LTM SnatTranslationstate configuration.
+// SnatTranslation represents an F5 BIG-IP LTM SnatTranslation configuration.
 type SnatTranslation struct {
 	Kind                  string `json:"kind,omitempty"`
 	Name                  string `json:"name,omitempty"`
@@ -39,12 +40,12 @@ type SnatTranslation struct {
 	Unit           int    `json:"unit,omitempty"`
 }
 
-// SnatTranslationstateResource provides an API to manage SnatTranslationstate object.
+// SnatTranslationResource provides an API to manage SnatTranslation object.
 type SnatTranslationResource struct {
 	b *bigip.BigIP
 }
 
-// SnatTranslationstateEndpoint represents the REST resource for managing SnatTranslationstate.
+// SnatTranslationEndpoint represents the REST resource for managing SnatTranslation.
 const SnatTranslationEndpoint = "snat-translation"
 
 // List all the SnatTranslationstate instances.
@@ -62,7 +63,7 @@ func (str *SnatTranslationResource) List() (*SnatTranslationList, error) {
 	return &items, nil
 }
 
-// Get a single SnatTranslationstate identified by name.
+// Get a single SnatTranslation identified by name.
 func (str *SnatTranslationResource) Get(fullPathName string) (*SnatTranslation, error) {
 	res, err := str.b.RestClient.Get().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(SnatTranslationEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
@@ -77,7 +78,7 @@ func (str *SnatTranslationResource) Get(fullPathName string) (*SnatTranslation, 
 	return &item, nil
 }
 
-// Create a new SnatTranslationstate instance.
+// Create a new SnatTranslation instance.
 func (str *SnatTranslationResource) Create(item SnatTranslation) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -92,7 +93,7 @@ func (str *SnatTranslationResource) Create(item SnatTranslation) error {
 	return nil
 }
 
-// Update a SnatTranslationstate instance identified by name.
+// Update a SnatTranslation instance identified by name.
 func (str *SnatTranslationResource) Update(fullPathName string, item SnatTranslation) error {
 	jsonData, err := json.Marshal(item)
 	if err != nil {
@@ -107,7 +108,7 @@ func (str *SnatTranslationResource) Update(fullPathName string, item SnatTransla
 	return nil
 }
 
-// Delete a single SnatTranslationstate instance identified by name.
+// Delete a single SnatTranslation instance identified by name.
 func (str *SnatTranslationResource) Delete(fullPathName string) error {
 	_, err := str.b.RestClient.Delete().Prefix(bigip.GetBaseResource()).ResourceCategory(bigip.GetTMResource()).ManagerName(LtmManager).
 		Resource(SnatTranslationEndpoint).ResourceInstance(fullPathName).DoRaw(context.Background())
@@ -117,7 +118,7 @@ func (str *SnatTranslationResource) Delete(fullPathName string) error {
 	return nil
 }
 
-// Enabling a virtual server item identified by the virtual server name.
+// Enabling a SnatTranslation item identified by the SnatTranslation name.
 func (str *SnatTranslationResource) Enable(name string) error {
 	item := SnatTranslation{Enabled: true}
 	jsonData, err := json.Marshal(item)
@@ -133,10 +134,9 @@ func (str *SnatTranslationResource) Enable(name string) error {
 	return nil
 }
 
-// Disabling a virtual server item identified by the virtual server name.
+// Disabling a SnatTranslation item identified by the SnatTranslationname.
 func (str *SnatTranslationResource) Disable(name string) error {
 	item := SnatTranslation{Disabled: true}
-
 	jsonData, err := json.Marshal(item)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON data: %w", err)

@@ -31,7 +31,7 @@ type CertificateAuthority struct {
 	UpdateCrl         string `json:"updateCrl,omitempty"`
 }
 
-const CertificateAuthorityEndpoint = "certificateauthority"
+const CertificateAuthorityEndpoint = "certificate-authority"
 
 type CertificateAuthorityResource struct {
 	b *bigip.BigIP
