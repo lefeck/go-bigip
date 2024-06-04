@@ -43,7 +43,6 @@ type HTTP2Resource struct {
 	b *bigip.BigIP
 }
 
-// 把下面这段代码中HTTP都改成HTTP2， 代码如下：
 // List retrieves a list of HTTP2 resources.
 func (cr *HTTP2Resource) List() (*HTTP2List, error) {
 	var items HTTP2List

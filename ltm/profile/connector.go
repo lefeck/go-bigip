@@ -15,17 +15,17 @@ type ConnectorList struct {
 }
 
 type Connector struct {
-	Kind               string `json:"kind"`
-	Name               string `json:"name"`
-	Partition          string `json:"partition"`
-	FullPath           string `json:"fullPath"`
-	Generation         int    `json:"generation"`
-	SelfLink           string `json:"selfLink"`
-	AppService         string `json:"appService"`
-	ConnectOnData      string `json:"connectOnData"`
-	ConnectionTimeout  int    `json:"connectionTimeout"`
-	EntryVirtualServer string `json:"entryVirtualServer"`
-	ServiceDownAction  string `json:"serviceDownAction"`
+	Kind               string `json:"kind,omitempty"`
+	Name               string `json:"name,omitempty"`
+	Partition          string `json:"partition,omitempty"`
+	FullPath           string `json:"fullPath,omitempty"`
+	Generation         int    `json:"generation,omitempty"`
+	SelfLink           string `json:"selfLink,omitempty"`
+	AppService         string `json:"appService,omitempty"`
+	ConnectOnData      string `json:"connectOnData,omitempty"`
+	ConnectionTimeout  int    `json:"connectionTimeout,omitempty"`
+	EntryVirtualServer string `json:"entryVirtualServer,omitempty"`
+	ServiceDownAction  string `json:"serviceDownAction,omitempty"`
 }
 
 const ConnectorEndpoint = "connector"
