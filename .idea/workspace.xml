@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="" />
+    <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/gtm.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/gtm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/pool/pool.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_a.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool_a.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_aaaa.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool_aaaa.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_cname.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool_cname.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_mx.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool_mx.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_naptr.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool_naptr.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_srv.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool_srv.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/wideip/wideip.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_a.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/wideip/wideip_a.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_aaaa.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/wideip/wideip_aaaa.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_cname.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/wideip/wideip_cname.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_mx.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/wideip/wideip_mx.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_naptr.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/wideip/wideip_naptr.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_srv.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/wideip/wideip_srv.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

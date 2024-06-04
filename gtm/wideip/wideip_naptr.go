@@ -1,4 +1,4 @@
-package gtm
+package wideip
 
 import (
 	"context"
@@ -8,8 +8,6 @@ import (
 	"github.com/lefeck/go-bigip"
 	"strings"
 )
-
-// WideipNaptrEndpoint represents the REST resource for managing WideipNaptr.
 
 // NAPTREndpoint represents the REST resource for managing NAPTR.
 const NAPTREndpoint = "naptr"

@@ -1,4 +1,4 @@
-package gtm
+package pool
 
 import "github.com/lefeck/go-bigip"
 

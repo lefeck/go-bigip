@@ -1,4 +1,4 @@
-package gtm
+package wideip
 
 import (
 	"context"

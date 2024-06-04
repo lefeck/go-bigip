@@ -1,8 +1,4 @@
-// Copyright e-Xpert Solutions SA. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
-package gtm
+package wideip
 
 import (
 	"context"
@@ -126,7 +122,6 @@ func (r *AResource) Delete(name string) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
