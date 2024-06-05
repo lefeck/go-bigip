@@ -2,48 +2,58 @@ package pool
 
 import "github.com/lefeck/go-bigip"
 
+// PoolEndpoint is the REST resource for managing pool in BigIP
 const PoolEndpoint = "pool"
 const GTMManager = "gtm"
 
+// PoolResource struct is a container for different pool types
 type PoolResource struct {
-	poolA    PoolAResource
-	poolAAAA PoolAAAAResource
-	cname    PoolCNAMEResource
-	mx       PoolMXResource
-	naptr    PoolNAPTRResource
-	srv      SRVResource
+	a     AResource
+	aaaa  AAAAResource
+	cname CNAMEResource
+	mx    MXResource
+	naptr NAPTRResource
+	srv   SRVResource
 }
 
+// NewPoolResource constructs a new instance of PoolResource with a given bigip.BigIP instance
 func NewPoolResource(b *bigip.BigIP) PoolResource {
 	return PoolResource{
-		poolA:    PoolAResource{b: b},
-		poolAAAA: PoolAAAAResource{b: b},
-		cname:    PoolCNAMEResource{b: b},
-		mx:       PoolMXResource{b: b},
-		naptr:    PoolNAPTRResource{b: b},
-		srv:      SRVResource{b: b},
+		a:     AResource{b: b},
+		aaaa:  AAAAResource{b: b},
+		cname: CNAMEResource{b: b},
+		mx:    MXResource{b: b},
+		naptr: NAPTRResource{b: b},
+		srv:   SRVResource{b: b},
 	}
 }
 
-func (p *PoolResource) A() *PoolAResource {
-	return &p.poolA
+// A returns a reference to the AResource instance
+func (p *PoolResource) A() *AResource {
+	return &p.a
 }
 
-func (p *PoolResource) AAAA() *PoolAAAAResource {
-	return &p.poolAAAA
+// AAAA returns a reference to the AAAAResource instance
+func (p *PoolResource) AAAA() *AAAAResource {
+	return &p.aaaa
 }
 
-func (p *PoolResource) CNAME() *PoolCNAMEResource {
+// CNAME returns a reference to the CNAMEResource instance
+func (p *PoolResource) CNAME() *CNAMEResource {
 	return &p.cname
 }
 
-func (p *PoolResource) MX() *PoolMXResource {
+// MX returns a reference to the MXResource instance
+func (p *PoolResource) MX() *MXResource {
 	return &p.mx
 }
 
-func (p *PoolResource) NAPTR() *PoolNAPTRResource {
+// NAPTR returns a reference to the NAPTRResource instance
+func (p *PoolResource) NAPTR() *NAPTRResource {
 	return &p.naptr
 }
+
+// SRV returns a reference to the SRVResource instance
 func (p *PoolResource) SRV() *SRVResource {
 	return &p.srv
 }

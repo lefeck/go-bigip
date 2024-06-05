@@ -85,7 +85,7 @@ type MemoryStats struct {
 }
 
 // MemoryStatsEndpoint represents the REST resource for managing MemoryStats.
-const MemoryStatsEndpoint = "/memory"
+const MemoryStatsEndpoint = "memory"
 
 // MemoryStatsResource provides an API to manage MemoryStats entries.
 type MemoryStatsResource struct {

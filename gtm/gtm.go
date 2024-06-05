@@ -5,6 +5,7 @@ import (
 	global_settings "github.com/lefeck/go-bigip/gtm/global-settings"
 	"github.com/lefeck/go-bigip/gtm/pool"
 	"github.com/lefeck/go-bigip/gtm/wideip"
+	"github.com/lefeck/go-bigip/ltm/monitor"
 )
 
 const GTMManager = "gtm"
@@ -25,6 +26,7 @@ type GTM struct {
 	server           ServerResource
 	topology         TopologyResource
 	wideip           wideip.WideipResource
+	monitor          monitor.MonitorResource
 }
 
 // New creates a new GTM client.
@@ -46,6 +48,7 @@ func New(b *bigip.BigIP) GTM {
 		globalSettings: global_settings.NewGlobalSettings(b),
 		wideip:         wideip.NewWideip(b),
 		pool:           pool.NewPoolResource(b),
+		monitor:        monitor.NewMonitor(b),
 	}
 }
 
@@ -107,4 +110,9 @@ func (gtm GTM) WideipA() *wideip.WideipResource {
 // Pool returns a configured PoolResource.
 func (gtm GTM) PoolA() *pool.PoolResource {
 	return &gtm.pool
+}
+
+// Monitor returns a configured MonitorResource.
+func (gtm GTM) Monitor() *monitor.MonitorResource {
+	return &gtm.monitor
 }
