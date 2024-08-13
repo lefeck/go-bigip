@@ -499,7 +499,7 @@ func (bs *bigipTest) useUtil() {
 
 func (bs *bigipTest) listUser() {
 	bga := auth.NewAuth(bs.bigIP)
-	user, _ := bga.Users().List()
+	user, _ := bga.User().List()
 	fmt.Println(user)
 }
 func removePort(address string) string {

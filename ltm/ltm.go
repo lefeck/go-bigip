@@ -84,6 +84,10 @@ func (ltm LTM) Pool() *PoolResource {
 	return &ltm.pool
 }
 
+func (ltm LTM) Node() *NodeResource {
+	return &ltm.node
+}
+
 func (ltm LTM) SnatPool() *SnatPoolResource {
 	return &ltm.snatPool
 }
