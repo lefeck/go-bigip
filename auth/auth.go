@@ -4,19 +4,25 @@ import (
 	"github.com/lefeck/go-bigip"
 )
 
-type Authz struct {
-	users UsersResource
+// AuthzManager is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
+const AuthManager = "auth"
+
+type Auth struct {
+	user      UsersResource
+	partition PartitionResource
 }
 
-func NewAuth(b *bigip.BigIP) Authz {
-	return Authz{
-		users: UsersResource{b: b},
+func NewAuth(b *bigip.BigIP) Auth {
+	return Auth{
+		user:      UsersResource{b: b},
+		partition: PartitionResource{b: b},
 	}
 }
 
-func (auth Authz) Users() *UsersResource {
-	return &auth.users
+func (auth Auth) User() *UsersResource {
+	return &auth.user
 }
 
-// AuthzManager is a commonly used bigip.GetBaseResource(), providing a large number of api resource types
-const AuthzManager = "authz"
+func (auth Auth) Partition() *PartitionResource {
+	return &auth.partition
+}

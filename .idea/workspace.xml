@@ -5,26 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb63b436-4fdc-444a-8a32-af5c36f0004d" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/example/creat.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth/partition_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth/patition.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth/user_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/gtm.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/gtm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/pool/pool.go" beforeDir="false" afterPath="$PROJECT_DIR$/gtm/pool/pool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_a.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_aaaa.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_cname.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_mx.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_naptr.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/pool/pool_srv.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_a.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_aaaa.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_cname.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_mx.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_naptr.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gtm/wideip/wideip_srv.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/license.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/license.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/memory_stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/memory_stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/ntp.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/ntp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys/sys.go" beforeDir="false" afterPath="$PROJECT_DIR$/sys/sys.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/users.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +117,7 @@
       <recent name="$PROJECT_DIR$/gtm/global-settings" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 测试.github.com/lefeck/go-bigip/gtm 中的 TestServerResource">
+  <component name="RunManager" selected="Go 测试.github.com/lefeck/go-bigip/auth 中的 TestPartitionResource">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bigip" />
       <working_directory value="$PROJECT_DIR$" />
@@ -147,6 +135,30 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <configuration name="github.com/lefeck/go-bigip/auth 中的 TestPartitionResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$/auth" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/go-bigip/auth" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestPartitionResource\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="github.com/lefeck/go-bigip/auth 中的 TestUsersResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="go-bigip" />
+      <working_directory value="$PROJECT_DIR$/auth" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/lefeck/go-bigip/auth" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestUsersResource\E$" />
       <method v="2" />
     </configuration>
     <configuration name="github.com/lefeck/go-bigip/gtm 中的 TestCRUDDatacenter" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -173,49 +185,24 @@
       <pattern value="^\QTestServerResource\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestSnatTranslationstateResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="user_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$/ltm" />
+      <working_directory value="$PROJECT_DIR$/auth" />
       <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/go-bigip/ltm" />
+      <kind value="FILE" />
+      <package value="github.com/lefeck/go-bigip" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/auth/user_test.go" />
       <framework value="gotest" />
-      <pattern value="^\QTestSnatTranslationstateResource\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestVirtualAddressResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$/ltm" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/go-bigip/ltm" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestVirtualAddressResource\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="github.com/lefeck/go-bigip/ltm 中的 TestVirtualResource" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="go-bigip" />
-      <working_directory value="$PROJECT_DIR$/ltm" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/lefeck/go-bigip/ltm" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestVirtualResource\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/auth 中的 TestPartitionResource" />
+        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/auth 中的 TestUsersResource" />
+        <item itemvalue="Go 测试.user_test.go" />
         <item itemvalue="Go 测试.github.com/lefeck/go-bigip/gtm 中的 TestServerResource" />
         <item itemvalue="Go 测试.github.com/lefeck/go-bigip/gtm 中的 TestCRUDDatacenter" />
-        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestVirtualAddressResource" />
-        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestVirtualResource" />
-        <item itemvalue="Go 测试.github.com/lefeck/go-bigip/ltm 中的 TestSnatTranslationstateResource" />
       </list>
     </recent_temporary>
   </component>
@@ -251,7 +238,8 @@
     <MESSAGE value="adding token login function" />
     <MESSAGE value="adding sys module function" />
     <MESSAGE value="adding gtm module function" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding gtm module function" />
+    <MESSAGE value="adding gtm monitor module function" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding gtm monitor module function" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -263,6 +251,11 @@
           <url>file://$PROJECT_DIR$/example/test/main.go</url>
           <line>575</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/auth/user_test.go</url>
+          <line>10</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
